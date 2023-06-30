@@ -10,11 +10,11 @@ const resolvers = {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate('savedBooks');
       }
-      throw new AuthenticationError('You need to be logged in!');
-    },
-  },
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+  }, 
 
-  Mutation: {
+  Mutation: { 
     // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
@@ -58,28 +58,28 @@ const resolvers = {
           { new: true }
         );
 
-        return updatedUser;
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
-    removeBook: async (parent, { bookId }, context) => {
-      if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { savedBooks: { bookId: bookId } } },
-          { new: true }
-        );
+        return updatedUser; 
+      } 
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+    removeBook: async (parent, { bookId }, context) => { 
+      if (context.user) { 
+        const updatedUser = await User.findOneAndUpdate( 
+          { _id: context.user._id }, 
+          { $pull: { savedBooks: { bookId: bookId } } }, 
+          { new: true } 
+        ); 
 
-        if (!updatedUser) {
-          throw new Error("Couldn't find user with this id!");
-        }
+        if (!updatedUser) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
 
-        return updatedUser;
-      }
+        return updatedUser; 
+      } 
       
-      throw new AuthenticationError('You need to be logged in!');
-    },
-  },
-};
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+  }, 
+}; 
 
 module.exports = resolvers;
