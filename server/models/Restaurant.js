@@ -12,6 +12,7 @@ const restaurantSchema = new Schema({
   },
   comment: {
     type: String,
+    default: '',
   },
 });
 
