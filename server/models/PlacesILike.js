@@ -7,7 +7,7 @@ const placesILikeSchema = new Schema ({
       ref: 'User',
       required: true,
     },
-    restaurant: [{
+    restaurants: [{
       type: Schema.Types.ObjectId,
       ref: 'Restaurant',
     }],

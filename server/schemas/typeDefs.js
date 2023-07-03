@@ -17,19 +17,19 @@ const typeDefs = gql`
   type PlacesToGo {
     _id: ID!
     user: User!
-    restaurant: [Restaurant]
+    restaurants: [Restaurant]
   }
 
   type PlacesILike {
     _id: ID!
     user: User!
-    restaurant: [Restaurant]
+    restaurants: [Restaurant]
   }
 
   type PlacesIDontLike {
     _id: ID!
     user: User!
-    restaurant: [Restaurant]
+    restaurants: [Restaurant]
   }
 
   type Auth {
