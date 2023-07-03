@@ -1,9 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-// import User model
-const User = require('./User');
-// import Restaurant model
-const Restaurant = require('./Restaurant');
 
 const placesILikeSchema = new Schema ({
     user: {
