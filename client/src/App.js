@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlacesIlike from './pages/PlacesILike';
 import PlacesIDontlike from './pages/PlacesIDontLike';
 import PlacesToGo from './pages/PlacesToGo';
+import Search from './pages/Search';
 import Navbar from './components/Navbar';
 
 // Construct our main GraphQL API endpoint
@@ -54,6 +55,10 @@ function App() {
             <Route 
               path='/PlacesIDontLike' 
               element={<PlacesIDontlike />} 
+            />
+            <Route 
+              path='/Search' 
+              element={<Search />} 
             />
             <Route 
               path='*'
