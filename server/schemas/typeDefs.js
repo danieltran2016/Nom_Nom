@@ -2,21 +2,35 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
-    _id: ID
-    username: String
-    email: String
-    bookCount: Int
-    savedBooks: [Book]!
+    _id: ID!
+    username: String!
+    email: String!
   } 
 
-  type Restaurant { 
-    bookId: String 
-    authors: [String] 
-    description: String 
-    title: String 
-    image: String 
-    link: String 
-  } 
+  type Restaurant {
+    _id: ID!
+    name: String!
+    address: String!
+    comment: String 
+  }
+
+  type PlacesToGo {
+    _id: ID!
+    user: User!
+    restaurant: [Restaurant]
+  }
+
+  type PlacesILike {
+    _id: ID!
+    user: User!
+    restaurant: [Restaurant]
+  }
+
+  type PlacesIDontLike {
+    _id: ID!
+    user: User!
+    restaurant: [Restaurant]
+  }
 
   type Auth {
     token: ID!
@@ -24,14 +38,29 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
+    me: User!
+    getPlacesToGo: [Restaurant]
+    getPlacesILike: [Restaurant]
+    getPlacesIDontLike: [Restaurant]
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    saveBook(authors: [String]!, description: String!, title: String!, bookId: String!, image: String, link: String): User
-    removeBook(bookId: String!): User
+
+    addToPlacesToGo(name: String!, address: String!, comment: String): PlacesToGo
+    removeFromPlacesToGo(restaurantId: ID!): PlacesToGo
+
+    addToPlacesILike(name: String!, address: String!, comment: String): PlacesILike
+    removeFromPlacesILike(restaurantId: ID!): PlacesILike
+    updateCommentInPlacesILike(restaurantId: ID!, comment: String!): PlacesILike
+
+    addToPlacesIDontLike(name: String!, address: String!, comment: String): PlacesIDontLike
+    removeFromPlacesIDontLike(restaurantId: ID!): PlacesIDontLike
+    updateCommentInPlacesIDontLike(restaurantId: ID!, comment: String!): PlacesIDontLike
+
+    moveRestaurantToPlacesILike(restaurantId: ID!): PlacesToGo
+    moveRestaurantToPlacesIDontLike(restaurantId: ID!): PlacesToGo
   }
 `;
 
