@@ -6,9 +6,21 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    getPlacesToGo: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return PlacesToGo.findOne({ user: context.user._id }).populate('restaurant');
+      }
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+    getPlacesILike: async (parent, args, context) => {
+      if (context.user) {
+        return PlacesILike.findOne({ user: context.user._id }).populate('restaurant');
+      }
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+    getPlacesIDontLike: async (parent, args, context) => {
+      if (context.user) {
+        return PlacesIDontLike.findOne({ user: context.user._id }).populate('restaurant');
       }
       throw new AuthenticationError('You need to be logged in!'); 
     }, 

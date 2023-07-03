@@ -38,7 +38,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User!
     getPlacesToGo: [Restaurant]
     getPlacesILike: [Restaurant]
     getPlacesIDontLike: [Restaurant]
