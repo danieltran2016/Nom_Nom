@@ -202,7 +202,7 @@ const resolvers = {
           throw new Error("Restaurant not found.");
         }
 
-        // Create a new RestaurantWithComment object
+        // Create a new RestaurantWithComment object with an initial empty comment
         const restaurantWithComment = {
           restaurant: restaurant,
           comment: "",
@@ -210,7 +210,7 @@ const resolvers = {
 
         // Add the restaurant to PlacesILike
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
-          { user: context.user._id },
+          { user: { _id: context.user._id } },
           { $push: { restaurants: restaurantWithComment } },
           { new: true }
         );
@@ -221,7 +221,7 @@ const resolvers = {
 
         // Remove the restaurant from PlacesToGo
         await PlacesToGo.findOneAndUpdate(
-          { user: context.user._id },
+          { user: { _id: context.user._id } },
           { $pull: { restaurants: restaurant } }
         );
 
@@ -246,7 +246,7 @@ const resolvers = {
 
         // Add the restaurant to PlacesIDontLike
         const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
-          { user: context.user._id },
+          { user: { _id: context.user._id } },
           { $push: { restaurants: restaurantWithComment } },
           { new: true }
         );
@@ -257,7 +257,7 @@ const resolvers = {
 
         // Remove the restaurant from PlacesToGo
         await PlacesToGo.findOneAndUpdate(
-          { user: context.user._id },
+          { user: { _id: context.user._id } },
           { $pull: { restaurants: restaurant } }
         );
 
