@@ -7,10 +7,18 @@ const placesIDontLikeSchema = new Schema ({
       ref: 'User',
       required: true,
     },
-    restaurant: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Restaurant',
-    }],
+    restaurants: [
+      {
+        restaurant: {
+          type: Schema.Types.ObjectId,
+          ref: 'Restaurant',
+        },
+        comment: {
+          type: String,
+          default: '',
+        },
+      }
+    ],
 });
 
 const PlacesIDontLike = model ('PlacesIDontLike', placesIDontLikeSchema);

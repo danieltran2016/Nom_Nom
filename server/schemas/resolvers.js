@@ -6,9 +6,21 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    getPlacesToGo: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return PlacesToGo.findOne({ user: { _id: context.user._id } }).populate('restaurants');
+      }
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+    getPlacesILike: async (parent, args, context) => {
+      if (context.user) {
+        return PlacesILike.findOne({ user: { _id: context.user._id } }).populate('restaurants');
+      }
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+    getPlacesIDontLike: async (parent, args, context) => {
+      if (context.user) {
+        return PlacesIDontLike.findOne({ user: { _id: context.user._id } }).populate('restaurants');
       }
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
@@ -39,47 +51,223 @@ const resolvers = {
 
       return { token, user };
     },
-  // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
-  // user comes from `req.user` created in the auth middleware function
-    saveBook: async (parent, { bookId, authors, description, title, image, link }, context) => {
+
+    // user comes from `req.user` created in the auth middleware function
+    addToPlacesToGo: async (parent, { name, address }, context) => {
       if (context.user) {
-        const book = {
-          bookId,
-          authors,
-          description,
-          title,
-          image,
-          link
+        const restaurant = {
+          name,
+          address,
         };
 
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedBooks: book } },
+        const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $addToSet: { restaurants: restaurant } },
           { new: true }
         );
 
-        return updatedUser; 
+        return updatedPlacesToGo; 
       } 
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
-    removeBook: async (parent, { bookId }, context) => { 
+    removeFromPlacesToGo: async (parent, { restaurantId }, context) => { 
       if (context.user) { 
-        const updatedUser = await User.findOneAndUpdate( 
-          { _id: context.user._id }, 
-          { $pull: { savedBooks: { bookId: bookId } } }, 
+        const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate( 
+          { user: { _id: context.user._id } }, 
+          { $pull: { restaurants: { _id: restaurantId } } }, 
           { new: true } 
         ); 
 
-        if (!updatedUser) { 
+        if (!updatedPlacesToGo) { 
           throw new Error("Couldn't find user with this id!"); 
         } 
 
-        return updatedUser; 
+        return updatedPlacesToGo; 
       } 
       
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
+
+    addToPlacesILike: async (parent, { name, address, comment }, context) => {
+      if (context.user) {
+        const restaurant = {
+          name,
+          address,
+          comment,
+        };
+
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $addToSet: { restaurants: restaurant } },
+          { new: true }
+        );
+
+        return updatedPlacesILike; 
+      } 
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+    removeFromPlacesILike: async (parent, { restaurantId }, context) => { 
+      if (context.user) { 
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate( 
+          { user: { _id: context.user._id } }, 
+          { $pull: { restaurants: { _id: restaurantId } } }, 
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesILike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesILike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+    updateCommentInPlacesILike: async (parent, { restaurantId, comment }, context) => { 
+      if (context.user) { 
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate( 
+          { user: { _id: context.user._id }, 'restaurants.restaurant._id': restaurantId}, 
+          { $set: { 'restaurants.$.comment': comment } },
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesILike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesILike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+
+    addToPlacesIDontLike: async (parent, { name, address, comment }, context) => {
+      if (context.user) {
+        const restaurant = {
+          name,
+          address,
+          comment,
+        };
+
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $addToSet: { restaurants: restaurant } },
+          { new: true }
+        );
+
+        return updatedPlacesIDontLike; 
+      } 
+      throw new AuthenticationError('You need to be logged in!'); 
+    }, 
+    removeFromPlacesIDontLike: async (parent, { restaurantId }, context) => { 
+      if (context.user) { 
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate( 
+          { user: { _id: context.user._id } }, 
+          { $pull: { restaurants: { _id: restaurantId } } }, 
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesIDontLike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesIDontLike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+    updateCommentInPlacesIDontLike: async (parent, { restaurantId, comment }, context) => { 
+      if (context.user) { 
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate( 
+          { user: { _id: context.user._id }, 'restaurants.restaurant._id': restaurantId}, 
+          { $set: { 'restaurants.$.comment': comment } },
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesIDontLike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesIDontLike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+
+    moveRestaurantToPlacesILike: async (parent, { restaurantId }, context) => {
+      if (context.user) {
+        // Find the restaurant in PlacesToGo
+        const restaurant = await Restaurant.findOne({ _id: restaurantId });
+        if (!restaurant) {
+          throw new Error("Restaurant not found.");
+        }
+
+        // Create a new RestaurantWithComment object with an initial empty comment
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment: "",
+        };
+
+        // Add the restaurant to PlacesILike
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $push: { restaurants: restaurantWithComment } },
+          { new: true }
+        );
+
+        if (!updatedPlacesILike) {
+          throw new Error("Couldn't find user with this id!");
+        }
+
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $pull: { restaurants: restaurant } }
+        );
+
+        return updatedPlacesILike;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    moveRestaurantToPlacesIDontLike: async (parent, { restaurantId }, context) => {
+      if (context.user) {
+        // Find the restaurant in PlacesToGo
+        const restaurant = await Restaurant.findOne({ _id: restaurantId });
+        if (!restaurant) {
+          throw new Error("Restaurant not found.");
+        }
+
+        // Create a new RestaurantWithComment object
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment: "",
+        };
+
+        // Add the restaurant to PlacesIDontLike
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $push: { restaurants: restaurantWithComment } },
+          { new: true }
+        );
+
+        if (!updatedPlacesIDontLike) {
+          throw new Error("Couldn't find user with this id!");
+        }
+
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $pull: { restaurants: restaurant } }
+        );
+
+        return updatedPlacesIDontLike;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
   }, 
-}; 
+};
+
 
 module.exports = resolvers;
