@@ -8,19 +8,19 @@ const resolvers = {
   Query: {
     getPlacesToGo: async (parent, args, context) => {
       if (context.user) {
-        return PlacesToGo.findOne({ user: context.user._id }).populate('restaurants');
+        return PlacesToGo.findOne({ user: { _id: context.user._id } }).populate('restaurants');
       }
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
     getPlacesILike: async (parent, args, context) => {
       if (context.user) {
-        return PlacesILike.findOne({ user: context.user._id }).populate('restaurants');
+        return PlacesILike.findOne({ user: { _id: context.user._id } }).populate('restaurants');
       }
       throw new AuthenticationError('You need to be logged in!'); 
     },
     getPlacesIDontLike: async (parent, args, context) => {
       if (context.user) {
-        return PlacesIDontLike.findOne({ user: context.user._id }).populate('restaurants');
+        return PlacesIDontLike.findOne({ user: { _id: context.user._id } }).populate('restaurants');
       }
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
@@ -53,16 +53,15 @@ const resolvers = {
     },
 
     // user comes from `req.user` created in the auth middleware function
-    addToPlacesToGo: async (parent, { name, address, comment }, context) => {
+    addToPlacesToGo: async (parent, { name, address }, context) => {
       if (context.user) {
         const restaurant = {
           name,
           address,
-          comment,
         };
 
         const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-          { user: context.user._id },
+          { user: { _id: context.user._id } },
           { $addToSet: { restaurants: restaurant } },
           { new: true }
         );
@@ -74,7 +73,7 @@ const resolvers = {
     removeFromPlacesToGo: async (parent, { restaurantId }, context) => { 
       if (context.user) { 
         const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate( 
-          { user: context.user._id }, 
+          { user: { _id: context.user._id } }, 
           { $pull: { restaurants: { _id: restaurantId } } }, 
           { new: true } 
         ); 
@@ -98,8 +97,8 @@ const resolvers = {
         };
 
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
-          { user: context.user._id },
-          { $addToSet: { restaurant: restaurant } },
+          { user: { _id: context.user._id } },
+          { $addToSet: { restaurants: restaurant } },
           { new: true }
         );
 
@@ -110,8 +109,8 @@ const resolvers = {
     removeFromPlacesILike: async (parent, { restaurantId }, context) => { 
       if (context.user) { 
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate( 
-          { user: context.user._id }, 
-          { $pull: { restaurant: { _id: restaurantId } } }, 
+          { user: { _id: context.user._id } }, 
+          { $pull: { restaurants: { _id: restaurantId } } }, 
           { new: true } 
         ); 
 
@@ -123,8 +122,81 @@ const resolvers = {
       } 
       
       throw new AuthenticationError('You need to be logged in!'); 
+    },
+    updateCommentInPlacesILike: async (parent, { restaurantId, comment }, context) => { 
+      if (context.user) { 
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate( 
+          { user: { _id: context.user._id }, 'restaurants.restaurant._id': restaurantId}, 
+          { $set: { 'restaurants.$.comment': comment } },
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesILike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesILike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+
+    addToPlacesIDontLike: async (parent, { name, address, comment }, context) => {
+      if (context.user) {
+        const restaurant = {
+          name,
+          address,
+          comment,
+        };
+
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
+          { user: { _id: context.user._id } },
+          { $addToSet: { restaurants: restaurant } },
+          { new: true }
+        );
+
+        return updatedPlacesIDontLike; 
+      } 
+      throw new AuthenticationError('You need to be logged in!'); 
     }, 
+    removeFromPlacesIDontLike: async (parent, { restaurantId }, context) => { 
+      if (context.user) { 
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate( 
+          { user: { _id: context.user._id } }, 
+          { $pull: { restaurants: { _id: restaurantId } } }, 
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesIDontLike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesIDontLike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+    updateCommentInPlacesIDontLike: async (parent, { restaurantId, comment }, context) => { 
+      if (context.user) { 
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate( 
+          { user: { _id: context.user._id }, 'restaurants.restaurant._id': restaurantId}, 
+          { $set: { 'restaurants.$.comment': comment } },
+          { new: true } 
+        ); 
+
+        if (!updatedPlacesIDontLike) { 
+          throw new Error("Couldn't find user with this id!"); 
+        } 
+
+        return updatedPlacesIDontLike; 
+      } 
+      
+      throw new AuthenticationError('You need to be logged in!'); 
+    },
+
+
   }, 
-}; 
+};
+
 
 module.exports = resolvers;
