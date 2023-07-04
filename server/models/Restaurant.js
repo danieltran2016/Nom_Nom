@@ -10,10 +10,6 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
-  comment: {
-    type: String,
-    default: '',
-  },
 });
 
 const Restaurant = model('Restaurant', restaurantSchema);

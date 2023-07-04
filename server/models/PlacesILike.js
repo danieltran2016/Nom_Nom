@@ -7,10 +7,18 @@ const placesILikeSchema = new Schema ({
       ref: 'User',
       required: true,
     },
-    restaurants: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Restaurant',
-    }],
+    restaurants: [
+      {
+        restaurant: {
+          type: Schema.Types.ObjectId,
+          ref: 'Restaurant',
+        },
+        comment: {
+          type: String,
+          default: '',
+        },
+      }
+    ],
 });
 
 const PlacesILike = model ('PlacesILike', placesILikeSchema);
