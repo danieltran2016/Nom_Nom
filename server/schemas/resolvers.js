@@ -194,7 +194,78 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!'); 
     },
 
+    moveRestaurantToPlacesILike: async (parent, { restaurantId }, context) => {
+      if (context.user) {
+        // Find the restaurant in PlacesToGo
+        const restaurant = await Restaurant.findOne({ _id: restaurantId });
+        if (!restaurant) {
+          throw new Error("Restaurant not found.");
+        }
 
+        // Create a new RestaurantWithComment object
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment: "",
+        };
+
+        // Add the restaurant to PlacesILike
+        const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
+          { user: context.user._id },
+          { $push: { restaurants: restaurantWithComment } },
+          { new: true }
+        );
+
+        if (!updatedPlacesILike) {
+          throw new Error("Couldn't find user with this id!");
+        }
+
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: context.user._id },
+          { $pull: { restaurants: restaurant } }
+        );
+
+        return updatedPlacesILike;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    moveRestaurantToPlacesIDontLike: async (parent, { restaurantId }, context) => {
+      if (context.user) {
+        // Find the restaurant in PlacesToGo
+        const restaurant = await Restaurant.findOne({ _id: restaurantId });
+        if (!restaurant) {
+          throw new Error("Restaurant not found.");
+        }
+
+        // Create a new RestaurantWithComment object
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment: "",
+        };
+
+        // Add the restaurant to PlacesIDontLike
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
+          { user: context.user._id },
+          { $push: { restaurants: restaurantWithComment } },
+          { new: true }
+        );
+
+        if (!updatedPlacesIDontLike) {
+          throw new Error("Couldn't find user with this id!");
+        }
+
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: context.user._id },
+          { $pull: { restaurants: restaurant } }
+        );
+
+        return updatedPlacesIDontLike;
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
   }, 
 };
 
