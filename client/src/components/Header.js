@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
-const AppNavbar = () => {
+const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
@@ -74,4 +74,4 @@ const AppNavbar = () => {
   );
 };
 
-export default AppNavbar;
+export default Header;
