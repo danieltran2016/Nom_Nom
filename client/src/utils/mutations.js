@@ -104,9 +104,9 @@ export const REMOVEFROM_PLACESILIKE = gql`
   }
 `;
 
-export const REMOVEFROM_PLACESILIKE = gql`
-  mutation removeFromPlacesILike($restaurantId: ID!) {
-    removeFromPlacesILike(restaurantId: $restaurantId) {
+export const UPDATE_COMMENTINPLACESILIKE = gql`
+  mutation updateCommentInPlacesILike($restaurantId: ID!, $comment: String) {
+    updateCommentInPlacesILike(restaurantId: $restaurantId, comment: $comment) {
       _id
       restaurants {
         restaurant {
@@ -125,3 +125,86 @@ export const REMOVEFROM_PLACESILIKE = gql`
   }
 `;
 
+export const ADDTO_PLACESIDONTLIKE = gql`
+  mutation addToPlacesIDontLike($name: String!, $address: String!) {
+    addToPlacesIDontLike(name: $name, address: $address) {
+      _id
+      restaurants {
+        restaurant {
+          _id
+          address
+          name
+        }
+        comment
+      }
+      user {
+        _id
+        email
+        username
+      }
+    }
+  }
+`;
+
+export const REMOVEFROM_PLACESIDONTLIKE = gql`
+  mutation removeFromPlacesIDontLike($restaurantId: ID!) {
+    removeFromPlacesIDontLike(restaurantId: $restaurantId) {
+      _id
+      restaurants {
+        restaurant {
+          _id
+          address
+          name
+        }
+        comment
+      }
+      user {
+        _id
+        email
+        username
+      }
+    }
+  }
+`;
+
+export const UPDATE_COMMENTINPLACESIDONTLIKE = gql`
+  mutation updateCommentInPlacesIDontLike($restaurantId: ID!, $comment: String) {
+    updateCommentInPlacesIDontLike(restaurantId: $restaurantId, comment: $comment) {
+      _id
+      restaurants {
+        restaurant {
+          _id
+          address
+          name
+        }
+        comment
+      }
+      user {
+        _id
+        email
+        username
+      }
+    }
+  }
+`;
+
+export const UPDATE_COMMENTINPLACESIDONTLIKE = gql`
+  mutation updateCommentInPlacesIDontLike($restaurantId: ID!, $comment: String) {
+    updateCommentInPlacesIDontLike(restaurantId: $restaurantId, comment: $comment) {
+      _id
+      restaurants {
+        restaurant {
+          _id
+          address
+          name
+        }
+        comment
+      }
+      user {
+        _id
+        email
+        username
+      }
+    }
+  }
+`;

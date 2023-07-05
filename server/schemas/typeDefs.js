@@ -62,8 +62,18 @@ const typeDefs = gql`
     removeFromPlacesIDontLike(restaurantId: ID!): PlacesIDontLike
     updateCommentInPlacesIDontLike(restaurantId: ID!, comment: String): PlacesIDontLike
 
-    moveRestaurantToPlacesILike(restaurantId: ID!): PlacesToGo
-    moveRestaurantToPlacesIDontLike(restaurantId: ID!): PlacesToGo
+    moveRestaurantToPlacesILike(restaurantId: ID!): MoveRestaurantToPlacesILikeResponse
+    moveRestaurantToPlacesIDontLike(restaurantId: ID!): MoveRestaurantToPlacesIDontLikeResponse
+  }
+
+  type MoveRestaurantToPlacesILikeResponse {
+    placesToGo: PlacesToGo
+    placesILike: PlacesILike
+  }
+
+  type MoveRestaurantToPlacesIDontLikeResponse {
+    placesToGo: PlacesToGo
+    placesIDontLike: PlacesIDontLike
   }
 `;
 
