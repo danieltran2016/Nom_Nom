@@ -188,22 +188,73 @@ export const UPDATE_COMMENTINPLACESIDONTLIKE = gql`
   }
 `;
 
-export const UPDATE_COMMENTINPLACESIDONTLIKE = gql`
-  mutation updateCommentInPlacesIDontLike($restaurantId: ID!, $comment: String) {
-    updateCommentInPlacesIDontLike(restaurantId: $restaurantId, comment: $comment) {
-      _id
-      restaurants {
-        restaurant {
+export const MOVE_RESTAURANTTOPLACESILIKE = gql`
+  mutation moveRestaurantToPlacesILike($restaurantId: ID!) {
+    moveRestaurantToPlacesILike(restaurantId: $restaurantId) {
+      placesToGo {
+        _id
+        restaurants {
           _id
           address
           name
         }
-        comment
+        user {
+          _id
+          email
+          username
+        }
       }
-      user {
+      placesILike {
         _id
-        email
-        username
+        restaurants {
+          restaurant {
+            _id
+            address
+            name
+          }
+          comment
+        }
+        user {
+          _id
+          email
+          username
+        }
+      }
+    }
+  }
+`;
+
+export const MOVE_RESTAURANTTOPLACESIDONTLIKE = gql`
+  mutation moveRestaurantToPlacesIDontLike($restaurantId: ID!) {
+    moveRestaurantToPlacesIDontLike(restaurantId: $restaurantId) {
+      placesToGo {
+        _id
+        restaurants {
+          _id
+          address
+          name
+        }
+        user {
+          _id
+          email
+          username
+        }
+      }
+      placesIDontLike {
+        _id
+        restaurants {
+          restaurant {
+            _id
+            address
+            name
+          }
+          comment
+        }
+        user {
+          _id
+          email
+          username
+        }
       }
     }
   }

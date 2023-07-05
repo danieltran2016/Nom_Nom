@@ -233,12 +233,15 @@ const resolvers = {
         }
 
         // Remove the restaurant from PlacesToGo
-        await PlacesToGo.findOneAndUpdate(
+        const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
           { user: { _id: context.user._id } },
           { $pull: { restaurants: restaurant } }
         );
 
-        return updatedPlacesILike;
+        return {
+          placesToGo: updatedPlacesToGo,
+          placesILike: updatedPlacesILike
+        };
       }
 
       throw new AuthenticationError("You need to be logged in!");
@@ -269,12 +272,15 @@ const resolvers = {
         }
 
         // Remove the restaurant from PlacesToGo
-        await PlacesToGo.findOneAndUpdate(
+        const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
           { user: { _id: context.user._id } },
           { $pull: { restaurants: restaurant } }
         );
 
-        return updatedPlacesIDontLike;
+        return {
+          placesToGo: updatedPlacesToGo,
+          placesILike: updatedPlacesIDontLike
+        };
       }
 
       throw new AuthenticationError("You need to be logged in!");
