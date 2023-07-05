@@ -88,17 +88,27 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!'); 
     }, 
 
-    addToPlacesILike: async (parent, { name, address, comment }, context) => {
+    addToPlacesILike: async (parent, { name, address }, context) => {
       if (context.user) {
+        // const restaurantWithComment = {
+        //   restaurant: {
+        //     name,
+        //     address,
+        //   },
+        //   comment:'',
+        // };
         const restaurant = {
           name,
           address,
-          comment,
+        };
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment:'',
         };
 
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
           { user: { _id: context.user._id } },
-          { $addToSet: { restaurants: restaurant } },
+          { $addToSet: { restaurants: restaurantWithComment } },
           { new: true }
         );
 
@@ -141,17 +151,20 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!'); 
     },
 
-    addToPlacesIDontLike: async (parent, { name, address, comment }, context) => {
+    addToPlacesIDontLike: async (parent, { name, address }, context) => {
       if (context.user) {
         const restaurant = {
           name,
           address,
-          comment,
+        };
+        const restaurantWithComment = {
+          restaurant: restaurant,
+          comment:'',
         };
 
         const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
           { user: { _id: context.user._id } },
-          { $addToSet: { restaurants: restaurant } },
+          { $addToSet: { restaurants: restaurantWithComment } },
           { new: true }
         );
 
@@ -205,13 +218,13 @@ const resolvers = {
         // Create a new RestaurantWithComment object with an initial empty comment
         const restaurantWithComment = {
           restaurant: restaurant,
-          comment: "",
+          comment: '',
         };
 
         // Add the restaurant to PlacesILike
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
           { user: { _id: context.user._id } },
-          { $push: { restaurants: restaurantWithComment } },
+          { $addToSet: { restaurants: restaurantWithComment } },
           { new: true }
         );
 
@@ -241,13 +254,13 @@ const resolvers = {
         // Create a new RestaurantWithComment object
         const restaurantWithComment = {
           restaurant: restaurant,
-          comment: "",
+          comment: '',
         };
 
         // Add the restaurant to PlacesIDontLike
         const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
           { user: { _id: context.user._id } },
-          { $push: { restaurants: restaurantWithComment } },
+          { $addToSet: { restaurants: restaurantWithComment } },
           { new: true }
         );
 
