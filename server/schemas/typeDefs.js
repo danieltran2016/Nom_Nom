@@ -54,11 +54,11 @@ const typeDefs = gql`
     addToPlacesToGo(name: String!, address: String!): PlacesToGo
     removeFromPlacesToGo(restaurantId: ID!): PlacesToGo
 
-    addToPlacesILike(name: String!, address: String!, comment: String): PlacesILike
+    addToPlacesILike(name: String!, address: String!): PlacesILike
     removeFromPlacesILike(restaurantId: ID!): PlacesILike
     updateCommentInPlacesILike(restaurantId: ID!, comment: String): PlacesILike
 
-    addToPlacesIDontLike(name: String!, address: String!, comment: String): PlacesIDontLike
+    addToPlacesIDontLike(name: String!, address: String!): PlacesIDontLike
     removeFromPlacesIDontLike(restaurantId: ID!): PlacesIDontLike
     updateCommentInPlacesIDontLike(restaurantId: ID!, comment: String): PlacesIDontLike
 
