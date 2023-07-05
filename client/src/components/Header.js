@@ -1,43 +1,48 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import { Nav, Form, Col, Row, Button, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
-const AppNavbar = () => {
+const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
-        <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-            Google Books Search
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
-          <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
-            <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                Search For Books
-              </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
-              {Auth.loggedIn() ? (
-                <>
-                  <Nav.Link as={Link} to='/saved'>
-                    See Your Books
-                  </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
-                </>
-              ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <header className="bg-primary text-light mb-4 py-3 flex-row align-center">
+        <div className="container flex-row justify-space-between-lg justify-center align-center">
+          <h1>Nom Nom</h1>
+          <Form onSubmit={handleFormSubmit}>
+            <Row>
+              <Col xs={12} md={8}>
+                <Form.Control
+                  name='searchInput'
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  type='text'
+                  size='lg'
+                  placeholder='Search for a book'
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <Button type='submit' variant='success' size='lg'>
+                  Submit Search
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+          {Auth.loggedIn() ? (
+            <>
+              <Link onClick={Auth.logout}>Logout</Link>
+            </>
+          ) : (
+            <Link onClick={() => setShowModal(true)}>Login/Sign Up</Link>
+          )}
+        </div>
+      </header>
       {/* set modal data up */}
       <Modal
         size='lg'
@@ -74,4 +79,4 @@ const AppNavbar = () => {
   );
 };
 
-export default AppNavbar;
+export default Header;

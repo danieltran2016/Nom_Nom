@@ -10,8 +10,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlacesIlike from './pages/PlacesILike';
 import PlacesIDontlike from './pages/PlacesIDontLike';
 import PlacesToGo from './pages/PlacesToGo';
-import Search from './pages/Search';
-import Navbar from './components/Navbar';
+import SearchPlaces from './pages/SearchPlaces';
+import Header from './components/Header';
+import SideNavbar from './components/SideNavbar';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
@@ -42,7 +43,8 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <>
-          <Navbar />
+          <Header />
+          <SideNavbar />
           <Routes>
             <Route 
               path='/' 
@@ -57,8 +59,8 @@ function App() {
               element={<PlacesIDontlike />} 
             />
             <Route 
-              path='/Search' 
-              element={<Search />} 
+              path='/SearchPlaces' 
+              element={<SearchPlaces />} 
             />
             <Route 
               path='*'
