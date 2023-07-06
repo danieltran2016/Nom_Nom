@@ -1,4 +1,5 @@
 import React from 'react';
+import { RiDeleteBin2Line } from 'react-icons/fa';
 
 const PlaceCardsWithComments = ({ getPlacesILike }) => {
   const { restaurants } = getPlacesILike;
@@ -21,7 +22,7 @@ const PlaceCardsWithComments = ({ getPlacesILike }) => {
               style={{ position: 'absolute', top: '5px', right: '5px' }}
               onClick={() => handleDelete(restaurant.restaurant._id)}
             >
-              X
+            <RiDeleteBin2Line />
             </button>
           </div>
           <div className="card-body bg-light p-2">
