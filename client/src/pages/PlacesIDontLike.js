@@ -1,10 +1,47 @@
 import React from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import {  Container,  Card,  Button,  Row,  Col} from 'react-bootstrap';
+import { useQuery } from '@apollo/client';
+
+import {PlaceIDontLikeCardsWithComments} from '../components/PlaceCardsWithComments';
+
+import { GET_PLACESIDONTLIKE } from '../utils/queries'
 
 const PlacesIDontLike = () => {
+  // const { loading, data } = useQuery(GET_PLACESIDONTLIKE);
+  // const restaurants = data?.getPlacesIDontLike.restaurants || [];
+  const restaurants = [
+    {
+      restaurant: {
+        name: 'Starbuck',
+        address: '123',
+      },
+      comment: 'It is awful'
+    },
+    {
+      restaurant: {
+        name: 'Starbuck',
+        address: '456',
+      },
+      comment: 'It is awful'
+    },
+    {
+      restaurant: {
+        name: 'Starbuck',
+        address: '789',
+      },
+      comment: 'It is awful'
+    },
+  ];
+
   return (
-    <h1>PlacesIDontLike_Testing</h1>
+    <main>
+      {/* {loading ? (
+        <div>Loading...</div>
+      ) : ( */}
+        <PlaceIDontLikeCardsWithComments
+          restaurants={restaurants}
+        />
+      {/* )} */}
+    </main>
   );
 };
 
