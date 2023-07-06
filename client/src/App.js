@@ -44,7 +44,7 @@ function App() {
       <Router>
         <>
           <Header />
-          <SideNavbar />
+          {/* <SideNavbar />
           <Routes>
             <Route 
               path='/' 
@@ -59,14 +59,14 @@ function App() {
               element={<PlacesIDontlike />} 
             />
             <Route 
-              path='/SearchPlaces' 
+              path='/Search' 
               element={<SearchPlaces />} 
             />
             <Route 
               path='*'
               element={<h1 className='display-2'>Wrong page!</h1>}
             />
-           </Routes>
+           </Routes> */}
         </>
       </Router>
     </ApolloProvider>
