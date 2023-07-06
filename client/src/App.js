@@ -44,29 +44,37 @@ function App() {
       <Router>
         <>
           <Header />
-          <SideNavbar />
-          <Routes>
-            <Route 
-              path='/' 
-              element={<PlacesToGo />} 
-            />
-            <Route 
-              path='/PlacesILike' 
-              element={<PlacesIlike />} 
-            />
-            <Route 
-              path='/PlacesIDontLike' 
-              element={<PlacesIDontlike />} 
-            />
-            <Route 
-              path='/Search' 
-              element={<SearchPlaces />} 
-            />
-            <Route 
-              path='*'
-              element={<h1 className='display-2'>Wrong page!</h1>}
-            />
-           </Routes>
+          <div class='container-fluid'>
+            <div class='row'>
+              <div class='col-3 bg-dark'>
+                <SideNavbar />
+              </div>
+              <div class='col-9'>
+                <Routes>
+                  <Route 
+                    path='/' 
+                    element={<PlacesToGo />} 
+                  />
+                  <Route 
+                    path='/PlacesILike' 
+                    element={<PlacesIlike />} 
+                  />
+                  <Route 
+                    path='/PlacesIDontLike' 
+                    element={<PlacesIDontlike />} 
+                  />
+                  <Route 
+                    path='/Search' 
+                    element={<SearchPlaces />} 
+                  />
+                  <Route 
+                    path='*'
+                    element={<h1 className='display-2'>Wrong page!</h1>}
+                  />
+                </Routes>
+              </div>
+            </div>
+          </div>
         </>
       </Router>
     </ApolloProvider>

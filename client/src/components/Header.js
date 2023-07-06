@@ -46,33 +46,39 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-dark text-light mb-4 py-3 flex-row align-center">
-        <div className="container flex-row justify-space-between-lg justify-center align-center">
-          <h1 className="text-warning">Nom Nom</h1>
-          <Form onSubmit={handleFormSubmit}>
-            <Row>
-              <Col xs={12} md={8}>
-                <Form.Control
-                  name='searchInput'
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a restaurant'
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button className="bg-secondary" type='submit' variant='success' size='lg'>
-                  Submit Search
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-          {Auth.loggedIn() ? (
-            <Link class="text-warning" onClick={Auth.logout}>Logout</Link>
-          ) : (
-            <Link class="text-warning" onClick={() => setShowModal(true)}>Login/Sign Up</Link>
-          )}
+      <header class="bg-dark text-light mb-4 py-3 flex-row align-center">
+        <div class='container-fluid'>
+          <div class="row justify-space-between-lg justify-center align-center">
+            <h1 class="text-warning col-3">Nom Nom</h1>
+            <div class='col-7'>
+              <Form onSubmit={handleFormSubmit}>
+                <Row>
+                  <Col xs={12} md={8}>
+                    <Form.Control
+                      name='searchInput'
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      type='text'
+                      size='lg'
+                      placeholder='Search for a restaurant'
+                    />
+                  </Col>
+                  <Col xs={12} md={4}>
+                    <Button className="bg-secondary" type='submit' variant='success' size='lg'>
+                      Submit Search
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </div>
+            <div class='col-2'>
+              {Auth.loggedIn() ? (
+                <Link class="text-warning" onClick={Auth.logout}>Logout</Link>
+              ) : (
+                <Link class="text-warning" onClick={() => setShowModal(true)}>Login/Sign Up</Link>
+              )}
+            </div>
+          </div>
         </div>
       </header>
       {/* set modal data up */}
