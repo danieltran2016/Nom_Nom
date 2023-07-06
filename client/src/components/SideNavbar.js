@@ -1,12 +1,12 @@
 import React from 'react';
 // Import Link component for all internal application hyperlinks
 import { Link } from 'react-router-dom';
-import PlacesToGoForm from './SideAddForm';
+import { PlacesToGoForm, PlacesILikeForm, PlacesIDontLikeForm } from './SideAddForm';
 
 const SideNavbar = () => {
   return (
     <>
-      <div class="container">
+      <div class="container pb-5">
         <Link
           className="text-warning"
           to={`/`}
@@ -15,21 +15,23 @@ const SideNavbar = () => {
         </Link>
         <PlacesToGoForm />
       </div>
-      <div class="container">
+      <div class="container pb-5">
         <Link
           className="text-warning"
           to={`/PlacesILike`}
         >
           Places I Like
         </Link>
+        <PlacesILikeForm />
       </div>
-      <div class="container">
+      <div class="container pb-5">
         <Link
           className="text-warning"
           to={`/PlacesIDontLike`}
         >
           Places I Dont Like
         </Link>
+        <PlacesIDontLikeForm />
       </div>
     </>
   );
