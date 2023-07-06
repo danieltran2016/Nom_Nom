@@ -44,12 +44,12 @@ function App() {
       <Router>
         <>
           <Header />
-          <div class='container-fluid'>
-            <div class='row'>
-              <div class='col-3 bg-dark'>
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-3 bg-dark'>
                 <SideNavbar />
               </div>
-              <div class='col-9'>
+              <div className='col-9'>
                 <Routes>
                   <Route 
                     path='/' 
