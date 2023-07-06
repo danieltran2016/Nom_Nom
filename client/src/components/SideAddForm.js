@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 
-import { ADDTO_PLACESTOGO } from '../../utils/mutations';
+import { ADDTO_PLACESTOGO } from '../utils/mutations';
 
-const PlaceCardsWithoutComments = () => {
+const PlacesToGoForm = () => {
   const [formState, setFormState] = useState({
-    // thoughtText: '',
-    // thoughtAuthor: '',
     name: '',
     address: '',
   });
-  const [characterCount, setCharacterCount] = useState(0);
 
   // Set up our mutation with an option to handle errors
   const [addToPlacesToGo, { error }] = useMutation(ADDTO_PLACESTOGO);
@@ -19,7 +16,6 @@ const PlaceCardsWithoutComments = () => {
     event.preventDefault();
 
     // On form submit, perform mutation and pass in form data object as arguments
-    // It is important that the object fields are match the defined parameters in `ADD_THOUGHT` mutation
     try {
       const { data } = addToPlacesToGo({
         variables: { ...formState },
@@ -33,52 +29,36 @@ const PlaceCardsWithoutComments = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
-    if (name === 'restaurantName' && value.length <= 280) {
-      setFormState({ ...formState, [name]: value });
-      setCharacterCount(value.length);
-    } else if (name !== 'restaurantName') {
-      setFormState({ ...formState, [name]: value });
-    }
+    setFormState({ ...formState, [name]: value });
   };
 
   return (
     <div>
-      <h3>Add Restaurant</h3> 
-
-      <p 
-        className={`m-0 ${ 
-          characterCount === 280 || error ? 'text-danger' : '' 
-        }`} 
-      > 
-        Character Count: {characterCount}/280
-        {error && <span className="ml-2">Something went wrong...</span>}
-      </p> 
       <form 
         className="flex-row justify-center justify-space-between-md align-center" 
         onSubmit={handleFormSubmit} 
-      > 
-        <div className="col-12"> 
-          <textarea
-            name="restaurantName" 
-            placeholder="Restaurant Name"
-            value={formState.name}
-            className="form-input w-100"
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <div className="col-12 col-lg-9">
+      >
+        <div className="col-12">
           <input
-            name="restaurantAddress"
-            placeholder="Restaurant Address"
-            value={formState.address}
+            name="name" 
+            placeholder="Restaurant Name..."
+            value={formState.name}
             className="form-input w-100"
             onChange={handleChange}
           />
         </div>
+        <div className="col-12"> 
+          <textarea
+            name="address"
+            placeholder="Restaurant Address..."
+            value={formState.address}
+            className="form-input w-100"
+            onChange={handleChange}
+          ></textarea>
+        </div>
 
-        <div className="col-12 col-lg-3">
-          <button className="btn btn-primary btn-block py-3" type="submit">
+        <div className="col-12">
+          <button className="btn btn-warning" type="submit">
             Add
           </button>
         </div>
@@ -92,4 +72,4 @@ const PlaceCardsWithoutComments = () => {
   );
 };
 
-export default PlaceCardsWithoutComments;
+export default PlacesToGoForm;
