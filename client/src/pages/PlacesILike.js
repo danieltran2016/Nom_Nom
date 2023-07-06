@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 
-import PlaceCardsWithComments from '../components/PlaceCardsWithComments';
+import {PlaceILikeCardsWithComments} from '../components/PlaceCardsWithComments';
 
 import { GET_PLACESILIKE } from '../utils/queries'
 
 const PlacesILike = () => {
   // const { loading, data } = useQuery(GET_PLACESILIKE);
-  // const restaurants = data?.getPlacesToGo.restaurants || [];
+  // const restaurants = data?.getPlacesILike.restaurants || [];
   const restaurants = [
     {
       restaurant: {
@@ -37,7 +37,7 @@ const PlacesILike = () => {
       {/* {loading ? (
         <div>Loading...</div>
       ) : ( */}
-        <PlaceCardsWithComments
+        <PlaceILikeCardsWithComments
           restaurants={restaurants}
         />
       {/* )} */}
