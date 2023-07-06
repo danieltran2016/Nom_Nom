@@ -7,8 +7,8 @@ const PlaceCardsWithoutComments = () => {
   const [formState, setFormState] = useState({
     // thoughtText: '',
     // thoughtAuthor: '',
-    restaurantName: '',
-    restaurantAddress: '',
+    name: '',
+    address: '',
   });
   const [characterCount, setCharacterCount] = useState(0);
 
@@ -62,7 +62,7 @@ const PlaceCardsWithoutComments = () => {
           <textarea
             name="restaurantName" 
             placeholder="Restaurant Name"
-            value={formState.restaurantName}
+            value={formState.name}
             className="form-input w-100"
             onChange={handleChange}
           ></textarea>
@@ -71,7 +71,7 @@ const PlaceCardsWithoutComments = () => {
           <input
             name="restaurantAddress"
             placeholder="Restaurant Address"
-            value={formState.restaurantAddress}
+            value={formState.address}
             className="form-input w-100"
             onChange={handleChange}
           />
