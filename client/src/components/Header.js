@@ -7,14 +7,48 @@ import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
 
 const Header = () => {
+  // create state for holding our search field data
+  const [searchInput, setSearchInput] = useState('');
+  
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  // create method to search for restaurants and set state on form submit
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!searchInput) {
+      return false;
+    }
+
+    try {
+      // const response = await searchGoogleBooks(searchInput);
+
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
+
+      // const { items } = await response.json();
+
+      // const restaurantData = items.map((book) => ({
+      //   bookId: book.id,
+      //   authors: book.volumeInfo.authors || ['No author to display'],
+      //   title: book.volumeInfo.title,
+      //   description: book.volumeInfo.description,
+      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
+      // }));
+
+      setSearchInput('');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
-      <header className="bg-primary text-light mb-4 py-3 flex-row align-center">
+      <header className="bg-dark text-light mb-4 py-3 flex-row align-center">
         <div className="container flex-row justify-space-between-lg justify-center align-center">
-          <h1>Nom Nom</h1>
+          <h1 className="text-warning">Nom Nom</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -24,22 +58,20 @@ const Header = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
+                  placeholder='Search for a restaurant'
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button className="bg-secondary" type='submit' variant='success' size='lg'>
                   Submit Search
                 </Button>
               </Col>
             </Row>
           </Form>
           {Auth.loggedIn() ? (
-            <>
-              <Link onClick={Auth.logout}>Logout</Link>
-            </>
+            <Link class="text-warning" onClick={Auth.logout}>Logout</Link>
           ) : (
-            <Link onClick={() => setShowModal(true)}>Login/Sign Up</Link>
+            <Link class="text-warning" onClick={() => setShowModal(true)}>Login/Sign Up</Link>
           )}
         </div>
       </header>
