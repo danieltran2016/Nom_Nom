@@ -1,24 +1,39 @@
 import React from 'react';
+// Import Link component for all internal application hyperlinks
+import { Link } from 'react-router-dom';
+import { PlacesToGoForm, PlacesILikeForm, PlacesIDontLikeForm } from './SideAddForm';
 
 const SideNavbar = () => {
   return (
-    <div className="sidebar">
-      <ul>
-        <li></li>
-
-        <li>Places I Like </li>
-
-        <li>Places I Dont Like</li>
+    <>
+      <div class="container pb-5">
         <Link
-                  className="btn btn-block btn-squared btn-light text-dark"
-                  to={`/`}
-                >
-                  Places To Go
-                </Link>
-                
-        
-      </ul>
-    </div>
+          className="text-warning"
+          to={`/`}
+        >
+          Places To Go
+        </Link>
+        <PlacesToGoForm />
+      </div>
+      <div class="container pb-5">
+        <Link
+          className="text-warning"
+          to={`/PlacesILike`}
+        >
+          Places I Like
+        </Link>
+        <PlacesILikeForm />
+      </div>
+      <div class="container pb-5">
+        <Link
+          className="text-warning"
+          to={`/PlacesIDontLike`}
+        >
+          Places I Dont Like
+        </Link>
+        <PlacesIDontLikeForm />
+      </div>
+    </>
   );
 };
 
