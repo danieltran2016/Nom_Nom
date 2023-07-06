@@ -1,10 +1,24 @@
 import React from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import {  Container,  Card,  Button,  Row,  Col} from 'react-bootstrap';
+import { useQuery } from '@apollo/client';
+
+import PlaceCardsWithoutComments from '../components/PlaceCardsWithoutComments';
+
+import { GET_PLACESTOGO } from '../utils/queries'
 
 const PlacesToGo = () => {
+  const { loading, data } = useQuery(GET_PLACESTOGO);
+  const placesToGo = data?.getPlacesToGo.restaurants || [];
+
   return (
-    <h1>PlacesToGo_Testing</h1>
+    <main>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <PlaceCardsWithoutComments
+          placesToGo={placesToGo}
+        />
+      )}
+    </main>
   );
 };
 
