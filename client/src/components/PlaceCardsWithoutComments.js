@@ -7,41 +7,58 @@ import {
   REMOVEFROM_PLACESTOGO
 } from '../utils/mutations';
 
-const PlaceCardsWithoutComments = ({ getPlacesToGo }) => {
-  const { restaurants } = getPlacesToGo;
+import Auth from '../utils/auth';
+
+const PlaceCardsWithoutComments = ({ restaurants }) => {
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;
   }
 
   const [menuVisible, setMenuVisible] = useState(false);
-  const [addToPlacesILike] = useMutation(MOVE_RESTAURANTTOPLACESILIKE);
-  const [addToPlacesIDontLike] = useMutation(MOVE_RESTAURANTTOPLACESIDONTLIKE);
+  const [moveRestaurantToPlacesILike] = useMutation(MOVE_RESTAURANTTOPLACESILIKE);
+  const [moveRestaurantToPlacesIDontLike] = useMutation(MOVE_RESTAURANTTOPLACESIDONTLIKE);
   const [removeFromPlacesToGo] = useMutation(REMOVEFROM_PLACESTOGO);
 
   const handleMenuToggle = (index) => {
     setMenuVisible((prev) => (prev === index ? false : index));
   };
 
-  const handleAddToPlacesILike = (restaurant) => {
-    addToPlacesILike({
-      variables: {
-        name: restaurant.name,
-        address: restaurant.address,
-      },
-      update(cache, { data: { addToPlacesILike } }) {
-      },
-    })
-      .then(({ data }) => {
-        console.log('Restaurant added to Places I Like:', data.addToPlacesILike);
-      })
-      .catch((error) => {
-        console.error('Error adding restaurant to Places I Like:', error);
+  const handleMoveRestaurantToPlacesILike = async (restaurantId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await moveRestaurantToPlacesILike ({
+        variables: {restaurantId}
       });
+      console.log('Restaurant moved to Places I Like');
+      window.location.reload();
+    } catch (err) {
+      console.error('Error moving restaurant:', err.message);
+    }
+
+    // moveRestaurantToPlacesILike({
+    //   variables: {
+    //     name: restaurant.name,
+    //     address: restaurant.address,
+    //   },
+    //   update(cache, { data: { addToPlacesILike } }) {
+    //   },
+    // })
+    //   .then(({ data }) => {
+    //     console.log('Restaurant added to Places I Like:', data.addToPlacesILike);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error adding restaurant to Places I Like:', error);
+    //   });
   };
 
-  const handleAddToPlacesIDontLike = (restaurant) => {
-    addToPlacesIDontLike({
+  const handleMoveRestaurantToPlacesIDontLike = (restaurant) => {
+    moveRestaurantToPlacesIDontLike({
       variables: {
         name: restaurant.name,
         address: restaurant.address,
@@ -94,10 +111,10 @@ const PlaceCardsWithoutComments = ({ getPlacesToGo }) => {
             {menuVisible === index&& (
               <div className="menu-container">
                 <div className="menu-links">
-                  <button onClick={() => handleAddToPlacesILike(restaurant)}>
+                  <button onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
                     Add to Places I Like
                   </button>
-                  <button onClick={() => handleAddToPlacesIDontLike(restaurant)}>
+                  <button onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
                     Add to Places I Don't Like
                   </button>
                   <button onClick={() => handleDelete(restaurant._id)}>

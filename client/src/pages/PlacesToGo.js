@@ -7,7 +7,7 @@ import { GET_PLACESTOGO } from '../utils/queries'
 
 const PlacesToGo = () => {
   const { loading, data } = useQuery(GET_PLACESTOGO);
-  const placesToGo = data?.getPlacesToGo.restaurants || [];
+  const restaurants = data?.getPlacesToGo.restaurants || [];
 
   return (
     <main>
@@ -15,7 +15,7 @@ const PlacesToGo = () => {
         <div>Loading...</div>
       ) : (
         <PlaceCardsWithoutComments
-          placesToGo={placesToGo}
+          restaurants={restaurants}
         />
       )}
     </main>
