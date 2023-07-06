@@ -55,3 +55,15 @@ export const deleteBook = (bookId, token) => {
 export const searchGoogleBooks = (query) => {
   return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
 };
+
+export const searchGooglePlaces = (location, query, radius) => {
+  return fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json
+  ?location=${location}
+  &query=${query}
+  &radius=${radius}
+  &key=YOUR_API_KEY`);
+};
+
+export const searchGeolocation = (address) => {
+  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=YOUR_API_KEY`);
+};
