@@ -97,12 +97,12 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
                 <div className="menu-links">
                   <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
                     Add to Places I Like
-                  </Button>
+                  </Button> {' '}
                   <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
                     Add to Places I Don't Like
-                  </Button>
+                  </Button> {' '}
                   <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
-                    Delete
+                    Delete {' '}
                   </Button>
                 </div>
               </div>
