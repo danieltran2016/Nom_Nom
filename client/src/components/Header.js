@@ -8,7 +8,10 @@ import Auth from '../utils/auth';
 
 const Header = () => {
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  const [formState, setFormState] = useState({
+    name: '',
+    zipcode: '',
+  });
   
   // set modal display state
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +20,7 @@ const Header = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    if (!searchInput) {
+    if (!formState) {
       return false;
     }
 
@@ -38,10 +41,15 @@ const Header = () => {
       //   image: book.volumeInfo.imageLinks?.thumbnail || '',
       // }));
 
-      setSearchInput('');
+      setFormState('');
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
   };
 
   return (
@@ -55,12 +63,20 @@ const Header = () => {
                 <Row>
                   <Col xs={12} md={8}>
                     <Form.Control
-                      name='searchInput'
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
+                      name='name'
+                      value={formState.name}
+                      onChange={handleChange}
                       type='text'
                       size='lg'
-                      placeholder='Search for a restaurant'
+                      placeholder='Name...'
+                    />
+                    <Form.Control
+                      name='zipcode'
+                      value={formState.zipcode}
+                      onChange={handleChange}
+                      type='text'
+                      size='lg'
+                      placeholder='Zipcode...'
                     />
                   </Col>
                   <Col xs={12} md={4}>
