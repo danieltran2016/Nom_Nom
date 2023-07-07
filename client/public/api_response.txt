@@ -1,0 +1,362 @@
+export const searchGeolocation = (address) => {
+  return fetch(`https://maps.googleapis.com/maps/api/geocode/json
+  ?address=${address}
+  &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
+};
+
+address = 25311 baneberry san antonio texas
+
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "25311",
+               "short_name" : "25311",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Baneberry",
+               "short_name" : "Baneberry",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Far North Central",
+               "short_name" : "Far North Central",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "San Antonio",
+               "short_name" : "San Antonio",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Bexar County",
+               "short_name" : "Bexar County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Texas",
+               "short_name" : "TX",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "78260",
+               "short_name" : "78260",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "7815",
+               "short_name" : "7815",
+               "types" : [ "postal_code_suffix" ]
+            }
+         ],
+         "formatted_address" : "25311 Baneberry, San Antonio, TX 78260, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 29.6765168,
+                  "lng" : -98.4796391
+               },
+               "southwest" : {
+                  "lat" : 29.6763446,
+                  "lng" : -98.4798749
+               }
+            },
+            "location" : {
+               "lat" : 29.6764278,
+               "lng" : -98.4797664
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 29.6777796802915,
+                  "lng" : -98.4783409197085
+               },
+               "southwest" : {
+                  "lat" : 29.6750817197085,
+                  "lng" : -98.48103888029151
+               }
+            }
+         },
+         "partial_match" : true,
+         "place_id" : "ChIJZZblnSGIXIYRrLsnoRGE8ts",
+         "types" : [ "premise" ]
+      }
+   ],
+   "status" : "OK"
+}
+
+const response = {
+  // The JSON response you provided
+};
+
+// Access the first result in the "results" array
+const result = response.results[0];
+
+// Extract latitude and longitude from the "geometry" object
+const latitude = result.geometry.location.lat;
+const longitude = result.geometry.location.lng;
+
+console.log("Latitude:", latitude);
+console.log("Longitude:", longitude);
+
+////////////////////////////////////////////////////////////////
+
+
+export const searchGooglePlaces = (location, query, radius) => {
+  return fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json
+  ?location=29.6777796802915%2c-98.4783409197085
+  &query=subway
+  &radius=3000
+  &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
+};
+
+// 20230706185527
+// https://maps.googleapis.com/maps/api/place/textsearch/json?location=29.6777796802915%2c-98.4783409197085&query=subway&radius=3000&key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ
+
+{
+  "html_attributions": [
+    
+  ],
+  "next_page_token": "Aaw_FcK98auLqqkRzPLzxnKmQV0Qip43KWQOO45wqzAZ-1rNmvhtwXHineSEtDhJfe1SzfUAIeKbuxFtcyjZJ_X4uVHS4yCBCdTRrD8iHm67xV-iXbcx3afbt9q817fJXbX2LlS_d7QsmkGQTcfuSH2kIs59WGcODIwLLyZMLD_Qp2FIoBMXVi_3pC4CEb55F0NooUNZ4AW54Bv3ZC7YBOvRntdh7CHAoVEmV_3NW63hLpvYLu6LWV5C0Qaml816CJ_12eMbxJIhWQ899syiEdcJYstWT2jKnAtVyYKEpnZC8DsY7Brxxd5MGWghm4LNxNOy9FQhLRnKmysOmdpqKiC2wTJXTyB87rcoA6SU1mfUrgmXjCVnJ5fIsJDzfLVOgIvGGomD0YsRivMyUt2bO-LTvLh8SobWYz3LluGstT5jw77WY3nky_dsAWAqPI42pw",
+  "results": [
+    {
+      "business_status": "OPERATIONAL",
+      "formatted_address": "2606 TPC Pkwy Suite 114, Unit #100, San Antonio, TX 78259, United States",
+      "geometry": {
+        "location": {
+          "lat": 29.6516328,
+          "lng": -98.4445259
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 29.65306427989272,
+            "lng": -98.44323037010729
+          },
+          "southwest": {
+            "lat": 29.65036462010728,
+            "lng": -98.44593002989274
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Subway",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 918,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/110344926442722874175\">SUBWAY® Restaurants</a>"
+          ],
+          "photo_reference": "Aaw_FcKB5wvShpYhUyaKPX9gOtdReo1vKA_PU6SogA4NmTeNVOWL9f1sPcEk_Yu8SXFeavsVb4gTXtaZPhW1CHb1QUAtwVWD4KLRaqhIA6MIZNJX29jNl24TQLi9qR8mfSx3CyZ95Mcl4T_WVGyG8tv1CVLJnOWBIxOM0Ams2SbVSs4hZ_si",
+          "width": 918
+        }
+      ],
+      "place_id": "ChIJKeEjRamJXIYRFfIJ8NNKQMA",
+      "plus_code": {
+        "compound_code": "MH24+M5 San Antonio, Texas",
+        "global_code": "76X3MH24+M5"
+      },
+      "price_level": 1,
+      "rating": 3.6,
+      "reference": "ChIJKeEjRamJXIYRFfIJ8NNKQMA",
+      "types": [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 171
+    },
+    ///////////////////////////////////////////
+    {
+      "business_status": "OPERATIONAL",
+      "formatted_address": "20079 Stone Oak Pkwy #1100, San Antonio, TX 78258, United States",
+      "geometry": {
+        "location": {
+          "lat": 29.6426058,
+          "lng": -98.48907729999999
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 29.64387227989272,
+            "lng": -98.48771372010728
+          },
+          "southwest": {
+            "lat": 29.64117262010727,
+            "lng": -98.49041337989273
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Subway",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 918,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/106827455496925959447\">SUBWAY® Restaurants</a>"
+          ],
+          "photo_reference": "Aaw_FcLcop8OlTqc_4Q6UL1kAJ7IfMYpAtE1Y-6_GD7SGngK8Mh2_h4s68tu8ThdT4Jhj_K1Tr7iIDItXkmYjgAnux9QpwISQ1TsCllsdPo-IAelDaljfJwzOhnwTPYDN517F0RTnO0pANT-e_uD8lrVz8I-ZFnWYLjKeNG64-ya5GGUDv8u",
+          "width": 918
+        }
+      ],
+      "place_id": "ChIJDUhkQHdiXIYRnx2KxipS3kE",
+      "plus_code": {
+        "compound_code": "JGV6+29 San Antonio, Texas",
+        "global_code": "76X3JGV6+29"
+      },
+      "price_level": 1,
+      "rating": 3.7,
+      "reference": "ChIJDUhkQHdiXIYRnx2KxipS3kE",
+      "types": [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 176
+    },
+     ///////////////////////////////////////////
+    {
+      "business_status": "OPERATIONAL",
+      "formatted_address": "2339 Evans Rd Suite 114, San Antonio, TX 78259, United States",
+      "geometry": {
+        "location": {
+          "lat": 29.6360075,
+          "lng": -98.4521577
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 29.63727097989272,
+            "lng": -98.45084057010727
+          },
+          "southwest": {
+            "lat": 29.63457132010727,
+            "lng": -98.45354022989272
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Subway",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 2992,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/114030546911550788430\">Casey Dawson</a>"
+          ],
+          "photo_reference": "Aaw_FcJJ9Gas_OcIrarYABGLyeJDGFvbO7y1oK8FyVsLZTfonVLl5WRst3Myt2LVjJQubZk_Z-V-Vd8Tq-7l5aw5FPQmOJFCMuyD44qKxZbDTHDE3R-AoKoImtqTQhaF7DuKVnoPEP5tTxwH4BNWpLy_pdDoLcLRM4Xi47XvhgW7OTVB74nb",
+          "width": 2992
+        }
+      ],
+      "place_id": "ChIJq4RaoxCJXIYRVgTWgDBE-lg",
+      "plus_code": {
+        "compound_code": "JGPX+C4 San Antonio, Texas",
+        "global_code": "76X3JGPX+C4"
+      },
+      "price_level": 1,
+      "rating": 3.4,
+      "reference": "ChIJq4RaoxCJXIYRVgTWgDBE-lg",
+      "types": [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 177
+    },
+     ///////////////////////////////////////////
+    {
+      "business_status": "OPERATIONAL",
+      "formatted_address": "18410 U.S. Hwy 281 N Suite 107, San Antonio, TX 78259, United States",
+      "geometry": {
+        "location": {
+          "lat": 29.6116163,
+          "lng": -98.4664272
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 29.61284032989273,
+            "lng": -98.46519697010729
+          },
+          "southwest": {
+            "lat": 29.61014067010728,
+            "lng": -98.46789662989273
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+      "icon_background_color": "#FF9E67",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+      "name": "Subway",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 4096,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/113016002151945949438\">salvador perez</a>"
+          ],
+          "photo_reference": "Aaw_FcIOrvS4bH97AkZvI1sEVhDhuYlk3DCws3Fln24231JzJ11BOkf3BUEjLL6mePUi77EWxNBvthdnNbsD6jq8wb2WoZ43yljSw-ny3uOBuHXHNAIuXDl7_so9XJWggVAhLO3GQJU06gMJjtVPh00WRkXjY9HUzr9woBHEwBr72Bi0Zow",
+          "width": 2048
+        }
+      ],
+      "place_id": "ChIJmVQIm_WJXIYRTCu7xr4ZrtI",
+      "plus_code": {
+        "compound_code": "JG6M+JC San Antonio, Texas",
+        "global_code": "76X3JG6M+JC"
+      },
+      "price_level": 1,
+      "rating": 3.7,
+      "reference": "ChIJmVQIm_WJXIYRTCu7xr4ZrtI",
+      "types": [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 122
+    }
+//////////////////////////////////////////////////////////////
+const response = {
+  "results": [
+    {
+      "business_status": "OPERATIONAL",
+      "formatted_address": "2606 TPC Pkwy Suite 114, Unit #100, San Antonio, TX 78259, United States",
+      "name": "Subway",
+      // ... rest of the response data
+    }
+  ]
+};
+
+// Extracting the name
+const name = response.results[0].name;
+const name = response.results[0].formatted_address;
+const name = response.results[0].opening_hours.open_now;
+const name = response.results[0].rating;
+
+console.log(name);
