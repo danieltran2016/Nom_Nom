@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { VscKebabVertical } from 'react-icons/vsc';
+import { Button, Card } from 'react-bootstrap';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
   MOVE_RESTAURANTTOPLACESIDONTLIKE,
@@ -84,41 +85,40 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
   return (
     <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {restaurants.map((restaurant) => (
-        <div
+        <Card
           key={restaurant._id}
           className="card mb-3"
           style={{ width: '50%' }}
         >
-          <div className="card-header bg-warning text-dark p-2">
+          <Card.Header className="bg-warning text-dark p-2">
             <h3>{restaurant.name}</h3>
             {selectedRestaurant === restaurant._id && (
               <div className="menu-container">
                 <div className="menu-links">
-                  <button className="bg-dark text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
+                  <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
                     Add to Places I Like
-                  </button>
-                  <button className="bg-dark text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
+                  </Button>
+                  <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
                     Add to Places I Don't Like
-                  </button>
-                  <button className="bg-dark text-warning" onClick={() => handleDelete(restaurant._id)}>
+                  </Button>
+                  <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
-          </div>
-          <div className="card-body bg-light p-2">
+          </Card.Header>
+          <Card.Body className="bg-light p-2">
             <p>{restaurant.address}</p>
-          </div>
+          </Card.Body>
           <div className="menu-icon" onClick={() => handleMenuToggle(restaurant._id)}>
             <VscKebabVertical />
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );
 };
 
 export default PlaceCardsWithoutComments;
-
 
