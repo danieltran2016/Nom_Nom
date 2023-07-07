@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-//*VscKebabVertical icon available in the react-icons/vsc package
 import { VscKebabVertical } from 'react-icons/vsc';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
@@ -11,7 +10,7 @@ import {
 import Auth from '../utils/auth';
 
 const PlaceCardsWithoutComments = ({ restaurants }) => {
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [moveRestaurantToPlacesILike] = useMutation(MOVE_RESTAURANTTOPLACESILIKE);
   const [moveRestaurantToPlacesIDontLike] = useMutation(MOVE_RESTAURANTTOPLACESIDONTLIKE);
   const [removeFromPlacesToGo] = useMutation(REMOVEFROM_PLACESTOGO);
@@ -20,8 +19,12 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     return <h3>No restaurants found</h3>;
   }
 
-  const handleMenuToggle = (index) => {
-    setMenuVisible((prev) => (prev === index ? false : index));
+  const handleMenuToggle = (restaurantId) => {
+    if (selectedRestaurant === restaurantId) {
+      setSelectedRestaurant(null);
+    } else {
+      setSelectedRestaurant(restaurantId);
+    }
   };
 
   const handleMoveRestaurantToPlacesILike = async (restaurantId) => {
@@ -32,8 +35,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     }
 
     try {
-      const { data } = await moveRestaurantToPlacesILike ({
-        variables: {restaurantId}
+      const { data } = await moveRestaurantToPlacesILike({
+        variables: { restaurantId }
       });
       console.log('Restaurant moved to Places I Like');
       window.location.reload();
@@ -50,8 +53,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     }
 
     try {
-      const { data } = await moveRestaurantToPlacesIDontLike ({
-        variables: {restaurantId}
+      const { data } = await moveRestaurantToPlacesIDontLike({
+        variables: { restaurantId }
       });
       console.log('Restaurant moved to Places I Dont Like');
       window.location.reload();
@@ -68,8 +71,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     }
 
     try {
-      const { data } = await removeFromPlacesToGo ({
-        variables: {restaurantId}
+      const { data } = await removeFromPlacesToGo({
+        variables: { restaurantId }
       });
       console.log('Restaurant removed from Places To Go');
       window.location.reload();
@@ -80,16 +83,14 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 
   return (
     <div>
-      {restaurants.map((restaurant, index) => (
+      {restaurants.map((restaurant) => (
         <div
           key={restaurant._id}
           className="card mb-3"
-          onMouseEnter={() => handleMenuToggle(index)}
-          onMouseLeave={() => handleMenuToggle(false)}
         >
           <div className="card-header bg-white text-dark p-2">
             <h3>{restaurant.name}</h3>
-            {menuVisible === index&& (
+            {selectedRestaurant === restaurant._id && (
               <div className="menu-container">
                 <div className="menu-links">
                   <button className="bg-dark text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
@@ -108,11 +109,9 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           <div className="card-body bg-light p-2">
             <p>{restaurant.address}</p>
           </div>
-          {menuVisible === index && (
-            <div className="menu-icon">
-              <VscKebabVertical />
-            </div>
-          )}
+          <div className="menu-icon" onClick={() => handleMenuToggle(restaurant._id)}>
+            <VscKebabVertical />
+          </div>
         </div>
       ))}
     </div>
@@ -120,6 +119,5 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 };
 
 export default PlaceCardsWithoutComments;
-
 
 
