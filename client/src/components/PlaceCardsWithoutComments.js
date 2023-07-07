@@ -82,13 +82,14 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
   };
 
   return (
-    <div>
+    <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {restaurants.map((restaurant) => (
         <div
           key={restaurant._id}
           className="card mb-3"
+          style={{ width: '50%' }}
         >
-          <div className="card-header bg-white text-dark p-2">
+          <div className="card-header bg-warning text-dark p-2">
             <h3>{restaurant.name}</h3>
             {selectedRestaurant === restaurant._id && (
               <div className="menu-container">
