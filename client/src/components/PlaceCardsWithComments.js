@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { RiDeleteBin2Line } from 'react-icons/ri';
+import { Button, Card } from 'react-bootstrap';
 import { REMOVEFROM_PLACESILIKE, REMOVEFROM_PLACESIDONTLIKE } from '../utils/mutations';
 
 import Auth from '../utils/auth';
@@ -12,7 +13,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
     return <h3>No restaurants found</h3>;
   }
 
-  const handleDelete = async(restaurantId) => {
+  const handleDelete = async (restaurantId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -20,8 +21,8 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
     }
 
     try {
-      const { data } = await removeFromPlacesILike ({
-        variables: {restaurantId}
+      const { data } = await removeFromPlacesILike({
+        variables: { restaurantId }
       });
       console.log('Restaurant removed from Places I Like');
       window.location.reload();
@@ -31,28 +32,33 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
   };
 
   return (
-    <div>
+    <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {restaurants.map((restaurant) => (
-        <div key={restaurant.restaurant._id} className="card mb-3">
-          <div className="card-header bg-white text-dark p-2">
+        <Card
+          key={restaurant.restaurant._id}
+          className="card mb-3"
+          style={{ width: '50%' }}
+        >
+          <Card.Header className="bg-warning text-dark p-2">
             <h3>{restaurant.restaurant.name}</h3>
-            <button
-              className="btn btn-warning btn-sm"
+            <Button
+              variant="dark"
+              className="btn-sm"
               style={{ position: 'absolute', top: '5px', right: '5px' }}
               onClick={() => handleDelete(restaurant.restaurant._id)}
             >
               <RiDeleteBin2Line />
-            </button>
-          </div>
-          <div className="card-body bg-light p-2">
+            </Button>
+          </Card.Header>
+          <Card.Body className="bg-light p-2">
             <p>{restaurant.restaurant.address}</p>
-              <div className="card mb-3">
-                <div className="card-body bg-light-emphasis p-2">
-                  <p>{restaurant.comment}</p>
-                </div>
-              </div>
-          </div>
-        </div>
+            <Card className="mb-3">
+              <Card.Body className="bg-light-emphasis p-2">
+                <p>{restaurant.comment}</p>
+              </Card.Body>
+            </Card>
+          </Card.Body>
+        </Card>
       ))}
     </div>
   );
@@ -65,7 +71,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
     return <h3>No restaurants found</h3>;
   }
 
-  const handleDelete = async(restaurantId) => {
+  const handleDelete = async (restaurantId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -73,8 +79,8 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
     }
 
     try {
-      const { data } = await removeFromPlacesIDontLike ({
-        variables: {restaurantId}
+      const { data } = await removeFromPlacesIDontLike({
+        variables: { restaurantId }
       });
       console.log('Restaurant removed from Places I Dont Like');
       window.location.reload();
@@ -84,31 +90,36 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   };
 
   return (
-    <div>
+    <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {restaurants.map((restaurant) => (
-        <div key={restaurant.restaurant._id} className="card mb-3">
-          <div className="card-header bg-white text-dark p-2">
+        <Card
+          key={restaurant.restaurant._id}
+          className="card mb-3"
+          style={{ width: '50%' }}
+        >
+          <Card.Header className="bg-warning text-dark p-2">
             <h3>{restaurant.restaurant.name}</h3>
-            <button
-              className="btn btn-warning btn-sm"
+            <Button
+              variant="dark"
+              className="btn-sm"
               style={{ position: 'absolute', top: '5px', right: '5px' }}
               onClick={() => handleDelete(restaurant.restaurant._id)}
             >
               <RiDeleteBin2Line />
-            </button>
-          </div>
-          <div className="card-body bg-light p-2">
+            </Button>
+          </Card.Header>
+          <Card.Body className="bg-light p-2">
             <p>{restaurant.restaurant.address}</p>
-              <div className="card mb-3">
-                <div className="card-body bg-light-emphasis p-2">
-                  <p>{restaurant.comment}</p>
-                </div>
-              </div>
-          </div>
-        </div>
+            <Card className="mb-3">
+              <Card.Body className="bg-light-emphasis p-2">
+                <p>{restaurant.comment}</p>
+              </Card.Body>
+            </Card>
+          </Card.Body>
+        </Card>
       ))}
     </div>
   );
 };
 
-export {PlaceILikeCardsWithComments, PlaceIDontLikeCardsWithComments};
+export { PlaceILikeCardsWithComments, PlaceIDontLikeCardsWithComments };
