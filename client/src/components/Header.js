@@ -6,46 +6,58 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
+import { searchGooglePlaces, searchGeolocation } from '../utils/API';
+
+
 const Header = () => {
   // create state for holding our search field data
   const [formState, setFormState] = useState({
     name: '',
     zipcode: '',
   });
+
+  const [restaurantName, setrestaurantName] = useState('');
+  const [restaurantAddress, setrestaurantAddress] = useState('');
+  const [restuarantRating, setrestuarantRating] = useState('');
   
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  //const [searchedZip, setSearchedZip] = useState('');//initialize it as a string 
+
   // create method to search for restaurants and set state on form submit
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (event) => { 
+    event.preventDefault(); 
 
-    if (!formState) {
-      return false;
-    }
-
+    if (!formState.zipcode) { 
+      return false; 
+    } 
+ 
     try {
-      // const response = await searchGoogleBooks(searchInput);
+      const response = await searchGeolocation(formState.zipcode);
 
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
 
-      // const { items } = await response.json();
+      const { results } = await response.json();
 
-      // const restaurantData = items.map((book) => ({
-      //   bookId: book.id,
-      //   authors: book.volumeInfo.authors || ['No author to display'],
-      //   title: book.volumeInfo.title,
-      //   description: book.volumeInfo.description,
-      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
-      // }));
+      //searchgoogleplaces here
 
-      setFormState('');
+      const googleResponse = await searchGooglePlaces(
+        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`, formState.name)
+
+        const data = await googleResponse.json();
+
+      setrestaurantName = data.results[0].name;
+      setrestaurantAddress = data.results[0].formatted_address;
+      setrestuarantRating = data.results[0].rating;
+
     } catch (err) {
       console.error(err);
     }
   };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
