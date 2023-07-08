@@ -13,6 +13,7 @@ import PlacesToGo from './pages/PlacesToGo';
 import SearchPlaces from './pages/SearchPlaces';
 import Header from './components/Header';
 import SideNavbar from './components/SideNavbar';
+import Home from './pages/SearchPlaces';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
@@ -51,8 +52,12 @@ function App() {
               </div>
               <div className='col-9'>
                 <Routes>
-                  <Route 
+                <Route 
                     path='/' 
+                    element={<Home />} 
+                  />          
+                  <Route 
+                    path='/PlacesToGo' 
                     element={<PlacesToGo />} 
                   />
                   <Route 

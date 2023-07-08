@@ -53,64 +53,50 @@ const resolvers = {
     },
 
     // user comes from `req.user` created in the auth middleware function
-    addToPlacesToGo: async (parent, { name, address }, context) => {
-       if (context.user) {
-        const restaurant = {
-          name,
-          address,
-        };
-
-        const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-          { user: { _id: context.user._id } },
-          { $addToSet: { restaurants: restaurant } },
-          { new: true }
-        );
-
-        return updatedPlacesToGo; 
-      } 
-      throw new AuthenticationError('You need to be logged in!'); 
-    },
-  //   addToPlacesToGo: async (parent, { name, address }, context) => {
-  //      const restaurant = {
-  //        name,
-  //        address,
-  //      };
-
-  //      const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-  //        {},
-  //        { $addToSet: { restaurants: restaurant } },
-  //        { new: true }
-  //      );
-
-  //      return updatedPlacesToGo; 
-  //    } 
-  //  },
     // addToPlacesToGo: async (parent, { name, address }, context) => {
-    //   if (context.user) {
-    //    const restaurant = {
-    //      name,
-    //      address,
-    //    };
+    //    if (context.user) {
+    //     const restaurant = {
+    //       name,
+    //       address,
+    //     };
 
-    //    let placesToGo = await PlacesToGo.findOne({ user: { _id: context.user._id } });
+    //     const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
+    //       { user: { _id: context.user._id } },
+    //       { $addToSet: { restaurants: restaurant } },
+    //       { new: true }
+    //     );
 
-    //    if (!placesToGo) {
-    //     // If PlacesToGo document doesn't exist, create a new one
-    //     placesToGo = new PlacesToGo({
-    //       user: { _id: context.user._id },
-    //       restaurants: [restaurant],
-    //     });
-    //    } else {
-    //     // If PlacesToGo document exists, add the restaurant to the existing array
-    //     placesToGo.restaurants.push(restaurant);
-    //    }
+    //     return updatedPlacesToGo; 
+    //   } 
+    //   throw new AuthenticationError('You need to be logged in!'); 
+    // },
 
-    //    const updatedPlacesToGo = await PlacesToGo.save();
+    addToPlacesToGo: async (parent, { name, address }, context) => {
+      if (context.user) {
+       const restaurant = {
+         name,
+         address,
+       };
 
-    //    return updatedPlacesToGo; 
-    //  } 
-    //  throw new AuthenticationError('You need to be logged in!'); 
-    // }, 
+       let placesToGo = await PlacesToGo.findOne({ user: { _id: context.user._id } });
+
+       if (!placesToGo) {
+        // If PlacesToGo document doesn't exist, create a new one
+        placesToGo = new PlacesToGo({
+          user: { _id: context.user._id },
+          restaurants: [restaurant],
+        });
+       } else {
+        // If PlacesToGo document exists, add the restaurant to the existing array
+        placesToGo.restaurants.push(restaurant);
+       }
+
+       const updatedPlacesToGo = await placesToGo.save();
+
+       return updatedPlacesToGo; 
+     } 
+     throw new AuthenticationError('You need to be logged in!'); 
+    }, 
     removeFromPlacesToGo: async (parent, { restaurantId }, context) => { 
       if (context.user) { 
         const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate( 

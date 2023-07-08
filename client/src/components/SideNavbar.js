@@ -9,7 +9,7 @@ const SideNavbar = () => {
       <div class="container pb-5">
         <Link
           className="text-warning"
-          to={`/`}
+          to={`/PlacesToGo`}
         >
           Places To Go
         </Link>
