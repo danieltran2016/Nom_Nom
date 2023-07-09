@@ -13,7 +13,7 @@ import PlacesToGo from './pages/PlacesToGo';
 import SearchPlaces from './pages/SearchPlaces';
 import Header from './components/Header';
 import SideNavbar from './components/SideNavbar';
-import Home from './pages/SearchPlaces';
+import Home from './pages/Home';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
