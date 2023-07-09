@@ -17,6 +17,7 @@ const resolvers = {
         const placesToGo = await PlacesToGo.findOne({ user: context.user._id }).populate(
           "restaurants"
         );
+        console.log(placesToGo);
         return placesToGo;
       }
       throw new AuthenticationError("You need to be logged in!");
