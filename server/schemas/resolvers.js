@@ -45,7 +45,15 @@ const resolvers = {
         return PlacesIDontLike.findOne({
           user: context.user._id,
         })
-          .populate("restaurants")
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
           .populate("user");
       }
       throw new AuthenticationError("You need to be logged in!");
@@ -223,6 +231,7 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
+
     updateCommentInPlacesILike: async (
       parent,
       { restaurantId, comment },
@@ -254,28 +263,68 @@ const resolvers = {
           name,
           address,
         };
-        const restaurantWithComment = {
-          restaurant: restaurant,
-          comment: "",
-        };
 
-        const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
-          { user: { _id: context.user._id } },
-          { $addToSet: { restaurants: restaurantWithComment } },
-          { new: true }
-        );
+        const existingRestaurant = await Restaurant.findOne({ address });
 
-        return updatedPlacesIDontLike;
+        if (!existingRestaurant) {
+          const newRestaurant = await Restaurant.create(restaurant);
+          const existingPlacesIDontLike = await PlacesIDontLike.findOne({
+            user: context.user._id,
+          });
+          if (!existingPlacesIDontLike) {
+            const newPlacesIDontLike = await PlacesIDontLike.create({
+              user: context.user._id,
+              restaurants: { restaurant: newRestaurant._id, comment: "" },
+            });
+            return newPlacesIDontLike;
+          } else {
+            existingPlacesIDontLike.restaurants.push({
+              restaurant: newRestaurant._id,
+              comment: "",
+            });
+            existingPlacesIDontLike.save();
+            return existingPlacesIDontLike;
+          }
+        } else {
+          const existingPlacesIDontLike = await PlacesIDontLike.findOne({
+            user: context.user._id,
+          });
+          if (!existingPlacesIDontLike) {
+            const newPlacesIDontLike = await PlacesIDontLike.create({
+              user: context_user._id,
+              restaurants: { restaurant: existingRestaurant._id, comment: "" },
+            });
+            return newPlacesIDontLike;
+          } else {
+            existingPlacesIDontLike.restaurants.push({
+              restaurant: existingRestaurant._id,
+              comment: "",
+            });
+            existingPlacesIDontLike.save();
+            return existingPlacesIDontLike;
+          }
+        }
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
     removeFromPlacesIDontLike: async (parent, { restaurantId }, context) => {
       if (context.user) {
         const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
-          { user: { _id: context.user._id } },
-          { $pull: { restaurants: { _id: restaurantId } } },
+          { user: context.user._id },
+          { $pull: { restaurants: { restaurant: restaurantId } } },
           { new: true }
-        );
+        )
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
 
         if (!updatedPlacesIDontLike) {
           throw new Error("Couldn't find user with this id!");
@@ -286,6 +335,7 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
+
     updateCommentInPlacesIDontLike: async (
       parent,
       { restaurantId, comment },
