@@ -67,11 +67,10 @@ const Header = () => {
                   </Col>
                   <Col xs={4} md={3}>
                     <Button
-                      className="w-100 bg-secondary text-warning text-truncate"
+                      className="w-100 bg-warning text-dark text-truncate"
                       type="submit"
                       variant="warning"
-                      size="lg"
-                    >
+                      size="lg">
                       Search
                     </Button>
                   </Col>

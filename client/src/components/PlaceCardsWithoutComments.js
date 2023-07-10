@@ -130,7 +130,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       </div>
       <div className="randomizer-container" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
-        <Button className="bg-secondary text-warning"
+        <Button className="bg-warning text-dark"
                 variant="warning"
                 onClick={randomizeRestaurant}>
           Select Random Restaurant
@@ -144,7 +144,9 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </Card>
         )}
         {selectedRestaurant && (
-          <Button variant="warning" onClick={clearSelectedRestaurant}>
+          <Button className="bg-dark text-warning" 
+                  variant=""
+                  onClick={clearSelectedRestaurant}>
             Clear Selection
           </Button>
         )}
