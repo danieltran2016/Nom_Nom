@@ -58,7 +58,7 @@ export const searchGoogleBooks = (query) => {
 
 export const searchGooglePlaces = (location, query) => {
   return fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json
-  ?location=${location}
+  ?location=${location}121.2121%2c12.21
   &query=${query}
   &radius=1610
   &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);

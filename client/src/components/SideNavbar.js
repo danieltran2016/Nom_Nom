@@ -1,39 +1,30 @@
 import React from 'react';
-// Import Link component for all internal application hyperlinks
+import { Nav, Container} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PlacesToGoForm, PlacesILikeForm, PlacesIDontLikeForm } from './SideAddForm';
 
 const SideNavbar = () => {
   return (
-    <>
-      <div class="container pb-5">
-        <Link
-          className="text-warning"
-          to={`/PlacesToGo`}
-        >
+    <div>
+      <Container className="pb-5 pt-3">
+        <Nav.Link as={Link} to={`/PlacesToGo`} className="text-warning">
           Places To Go
-        </Link>
+        </Nav.Link>
         <PlacesToGoForm />
-      </div>
-      <div class="container pb-5">
-        <Link
-          className="text-warning"
-          to={`/PlacesILike`}
-        >
+      </Container>
+      <Container className="pb-5">
+        <Nav.Link as={Link} to={`/PlacesILike`} className="text-warning">
           Places I Like
-        </Link>
+        </Nav.Link>
         <PlacesILikeForm />
-      </div>
-      <div class="container pb-5">
-        <Link
-          className="text-warning"
-          to={`/PlacesIDontLike`}
-        >
-          Places I Dont Like
-        </Link>
+      </Container>
+      <Container className="pb-5">
+        <Nav.Link as={Link} to={`/PlacesIDontLike`} className="text-warning">
+          Places I Don't Like
+        </Nav.Link>
         <PlacesIDontLikeForm />
-      </div>
-    </>
+      </Container>
+    </div>
   );
 };
 

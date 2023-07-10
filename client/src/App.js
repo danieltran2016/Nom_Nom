@@ -15,6 +15,7 @@ import Header from './components/Header';
 import SideNavbar from './components/SideNavbar';
 import Home from './pages/Home';
 
+import backgroundImage from '../src/image/background.jpeg';
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
   uri: '/graphql', 
@@ -45,12 +46,20 @@ function App() {
       <Router>
         <>
           <Header />
-          <div className='container-fluid'>
-            <div className='row'>
-              <div className='col-3 bg-dark'>
+          <div
+            className="container-fluid"
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              minHeight: '100vh',
+            }}
+          >
+            <div className="row">
+              <div className="col-3 bg-dark">
                 <SideNavbar />
               </div>
-              <div className='col-9'>
+              <div className="col-9">
                 <Routes>
                 <Route 
                     path='/' 
@@ -68,13 +77,10 @@ function App() {
                     path='/PlacesIDontLike' 
                     element={<PlacesIDontlike />} 
                   />
-                  <Route 
-                    path='/Search' 
-                    element={<SearchPlaces />} 
-                  />
-                  <Route 
-                    path='*'
-                    element={<h1 className='display-2'>Wrong page!</h1>}
+                  <Route path="/Search" element={<SearchPlaces />} />
+                  <Route
+                    path="*"
+                    element={<h1 className="display-2">Wrong page!</h1>}
                   />
                 </Routes>
               </div>

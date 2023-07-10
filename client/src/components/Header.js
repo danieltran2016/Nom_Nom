@@ -6,42 +6,53 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
+import { searchGooglePlaces, searchGeolocation } from '../utils/API';
+
+
 const Header = () => {
   // create state for holding our search field data
   const [formState, setFormState] = useState({
     name: '',
     zipcode: '',
   });
-  
+
+  const [restaurantName, setrestaurantName] = useState('');
+  const [restaurantAddress, setrestaurantAddress] = useState('');
+  const [restuarantRating, setrestuarantRating] = useState('');
+
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  //const [searchedZip, setSearchedZip] = useState('');//initialize it as a string 
+
   // create method to search for restaurants and set state on form submit
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (event) => { 
+    event.preventDefault(); 
 
-    if (!formState) {
-      return false;
-    }
-
+    if (!formState.zipcode) { 
+      return false; 
+    } 
+ 
     try {
-      // const response = await searchGoogleBooks(searchInput);
+      const response = await searchGeolocation(formState.zipcode);
 
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
 
-      // const { items } = await response.json();
+      const { results } = await response.json();
 
-      // const restaurantData = items.map((book) => ({
-      //   bookId: book.id,
-      //   authors: book.volumeInfo.authors || ['No author to display'],
-      //   title: book.volumeInfo.title,
-      //   description: book.volumeInfo.description,
-      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
-      // }));
+      //searchgoogleplaces here
 
-      setFormState('');
+      const googleResponse = await searchGooglePlaces(
+        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`, formState.name)
+
+        const data = await googleResponse.json();
+
+      setrestaurantName = data.results[0].name;
+      setrestaurantAddress = data.results[0].formatted_address;
+      setrestuarantRating = data.results[0].rating;
+      
     } catch (err) {
       console.error(err);
     }
@@ -54,14 +65,16 @@ const Header = () => {
 
   return (
     <>
-      <header class="bg-dark text-light mb-4 py-3 flex-row align-center">
-        <div class='container-fluid'>
-          <div class="row justify-space-between-lg justify-center align-center">
-            <h1 class="text-warning col-3">Nom Nom</h1>
-            <div class='col-7'>
+      <header className='bg-dark text-light mb-1 py-4 flex-row align-items-center'>
+        <div className='container-fluid'>
+          <div className='row justify-space-between-lg justify-center align-items-center'>
+            <div className='col-3'>
+              <h1 className='text-warning'>Nom Nom?</h1>
+            </div>
+            <div className='col-9'>
               <Form onSubmit={handleFormSubmit}>
-                <Row>
-                  <Col xs={12} md={8}>
+                <Row className='align-items-center'>
+                  <Col xs={12} md={6}>
                     <Form.Control
                       name='name'
                       value={formState.name}
@@ -70,6 +83,8 @@ const Header = () => {
                       size='lg'
                       placeholder='Name...'
                     />
+                  </Col>
+                  <Col xs={12} md={3}>
                     <Form.Control
                       name='zipcode'
                       value={formState.zipcode}
@@ -79,20 +94,32 @@ const Header = () => {
                       placeholder='Zipcode...'
                     />
                   </Col>
-                  <Col xs={12} md={4}>
-                    <Button className="bg-secondary" type='submit' variant='success' size='lg'>
-                      Submit Search
+                  <Col xs={12} md={2} className='text-center'>
+                    <Button
+                      className='w-100 bg-warning text-dark text-truncate'
+                      type='submit'
+                      variant='warning'
+                      size='lg'
+                    >
+                      Search
                     </Button>
+                  </Col>
+                  <Col xs={12} md={3} className='text-md-right mt-3 mt-md-0'>
+                    {Auth.loggedIn() ? (
+                      <Link className='text-warning' onClick={Auth.logout}>
+                        Logout
+                      </Link>
+                    ) : (
+                      <Link
+                        className='text-warning'
+                        onClick={() => setShowModal(true)}
+                      >
+                        Login/Sign Up
+                      </Link>
+                    )}
                   </Col>
                 </Row>
               </Form>
-            </div>
-            <div class='col-2'>
-              {Auth.loggedIn() ? (
-                <Link class="text-warning" onClick={Auth.logout}>Logout</Link>
-              ) : (
-                <Link class="text-warning" onClick={() => setShowModal(true)}>Login/Sign Up</Link>
-              )}
             </div>
           </div>
         </div>
@@ -102,17 +129,22 @@ const Header = () => {
         size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
-        aria-labelledby='signup-modal'>
+        aria-labelledby='signup-modal'
+      >
         {/* tab container to do either signup or login component */}
         <Tab.Container defaultActiveKey='login'>
-          <Modal.Header closeButton>
+          <Modal.Header className='bg-warning' closeButton>
             <Modal.Title id='signup-modal'>
-              <Nav variant='pills'>
+              <Nav variant='tabs'>
                 <Nav.Item>
-                  <Nav.Link eventKey='login'>Login</Nav.Link>
+                  <Nav.Link eventKey='login' className='text-dark'>
+                    Login
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
+                  <Nav.Link eventKey='signup' className='text-dark'>
+                    Sign Up
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
