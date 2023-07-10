@@ -67,9 +67,11 @@ const Header = () => {
       <header className='bg-dark text-light mb-1 py-4 flex-row align-items-center'>
         <div className='container-fluid'>
           <div className='row justify-space-between-lg justify-center align-items-center'>
-            <h1 className='text-warning col-3'>Nom Nom?</h1>
-            <div className='col-7'>
-              <Row>
+            <div className='col-3'>
+              <h1 className='text-warning'>Nom Nom?</h1>
+            </div>
+            <div className='col-9'>
+              <Row className='align-items-center'>
                 <Col xs={12} md={6}>
                   <Form.Control
                     name='name'
@@ -90,7 +92,7 @@ const Header = () => {
                     placeholder='Zipcode...'
                   />
                 </Col>
-                <Col xs={12} md={3} className='text-center'>
+                <Col xs={12} md={2} className='text-center'>
                   <Button
                     className='w-100 bg-warning text-dark text-truncate'
                     type='submit'
@@ -100,21 +102,21 @@ const Header = () => {
                     Search
                   </Button>
                 </Col>
+                <Col xs={12} md={3} className='text-md-right mt-3 mt-md-0'>
+                  {Auth.loggedIn() ? (
+                    <Link className='text-warning' onClick={Auth.logout}>
+                      Logout
+                    </Link>
+                  ) : (
+                    <Link
+                      className='text-warning'
+                      onClick={() => setShowModal(true)}
+                    >
+                      Login/Sign Up
+                    </Link>
+                  )}
+                </Col>
               </Row>
-            </div>
-            <div className='col-2'>
-              {Auth.loggedIn() ? (
-                <Link className='text-warning' onClick={Auth.logout}>
-                  Logout
-                </Link>
-              ) : (
-                <Link
-                  className='text-warning'
-                  onClick={() => setShowModal(true)}
-                >
-                  Login/Sign Up
-                </Link>
-              )}
             </div>
           </div>
         </div>
