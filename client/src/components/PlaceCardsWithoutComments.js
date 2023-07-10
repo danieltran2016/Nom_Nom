@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { VscKebabVertical } from 'react-icons/vsc';
+import { IoFastFoodOutline } from 'react-icons/io5';
 import { Button, Card } from 'react-bootstrap';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
@@ -93,54 +93,60 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
   };
 
   return (
-    <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {restaurants.map((restaurant) => (
-        <Card
-          key={restaurant._id}
-          className="card mb-3"
-          style={{ width: '50%' }}
-        >
-          <Card.Header className="bg-warning text-dark p-2">
-            <h3>{restaurant.name}</h3>
-            {selectedRestaurant === restaurant._id && (
-              <div className="menu-container">
-                <div className="menu-links">
-                  <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
-                    Add to Places I Like
-                  </Button> {' '}
-                  <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
-                    Add to Places I Don't Like
-                  </Button> {' '}
-                  <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
-                    Delete {' '}
-                  </Button>
+    <div>
+      <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {restaurants.map((restaurant) => (
+          <Card
+            key={restaurant._id}
+            className="card mb-3"
+            style={{ width: '50%' }}
+          >
+            <Card.Header className="bg-warning text-dark p-2">
+              <h3>{restaurant.name}</h3>
+              {selectedRestaurant === restaurant._id && (
+                <div className="menu-container">
+                  <div className="menu-links">
+                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
+                      Add to Places I Like
+                    </Button>{' '}
+                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
+                      Add to Places I Don't Like
+                    </Button>{' '}
+                    <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
+                      Delete{' '}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </Card.Header>
-          <Card.Body className="bg-light p-2">
-            <p>{restaurant.address}</p>
-          </Card.Body>
-          <div className="menu-icon" onClick={() => handleMenuToggle(restaurant._id)}>
-            <VscKebabVertical />
-          </div>
-        </Card>
-      ))}
-      <div>
-        <h3>Random Restaurant Selector</h3>
-        <Button variant="secondary" onClick={randomizeRestaurant}>
+              )}
+            </Card.Header>
+            <Card.Body className="bg-light p-2">
+              <p>{restaurant.address}</p>
+            </Card.Body>
+            <div className="menu-icon" onClick={() => handleMenuToggle(restaurant._id)}>
+              <IoFastFoodOutline />
+            </div>
+          </Card>
+        ))}
+      </div>
+      <div className="randomizer-container" style={{ width: '50%' }}>
+        <h3>Let Fate Decide</h3>
+        <Button className="bg-warning text-dark"
+                variant="warning"
+                onClick={randomizeRestaurant}>
           Select Random Restaurant
         </Button>
         {selectedRestaurant && (
           <Card className="card mt-3">
             <Card.Body>
-              <h5>Selected Restaurant:</h5>
+              <h5>You Will Nom Nom at:</h5>
               <p>{selectedRestaurant}</p>
             </Card.Body>
           </Card>
         )}
         {selectedRestaurant && (
-          <Button variant="warning" onClick={clearSelectedRestaurant}>
+          <Button className="bg-dark text-warning" 
+                  variant=""
+                  onClick={clearSelectedRestaurant}>
             Clear Selection
           </Button>
         )}
@@ -150,4 +156,3 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 };
 
 export default PlaceCardsWithoutComments;
-
