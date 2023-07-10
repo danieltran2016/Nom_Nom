@@ -15,7 +15,7 @@ import Header from './components/Header';
 import SideNavbar from './components/SideNavbar';
 import Home from './pages/Home';
 
-import backgroundImage from '../src/image/background.jpeg';
+import backgroundImage from '../src/image/background.jpg';
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({ 
   uri: '/graphql', 
