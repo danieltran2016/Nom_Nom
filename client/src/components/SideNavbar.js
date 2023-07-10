@@ -7,7 +7,7 @@ const SideNavbar = () => {
   return (
     <div>
       <Container className="pb-5 pt-3">
-        <Nav.Link as={Link} to={`/`} className="text-warning">
+        <Nav.Link as={Link} to={`/PlacesToGo`} className="text-warning">
           Places To Go
         </Nav.Link>
         <PlacesToGoForm />

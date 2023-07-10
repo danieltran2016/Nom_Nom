@@ -13,6 +13,7 @@ import PlacesToGo from './pages/PlacesToGo';
 import SearchPlaces from './pages/SearchPlaces';
 import Header from './components/Header';
 import SideNavbar from './components/SideNavbar';
+import Home from './pages/Home';
 
 import backgroundImage from '../src/image/background.jpeg';
 // Construct our main GraphQL API endpoint
@@ -60,11 +61,21 @@ function App() {
               </div>
               <div className="col-9">
                 <Routes>
-                  <Route path="/" element={<PlacesToGo />} />
-                  <Route path="/PlacesILike" element={<PlacesIlike />} />
-                  <Route
-                    path="/PlacesIDontLike"
-                    element={<PlacesIDontlike />}
+                <Route 
+                    path='/' 
+                    element={<Home />} 
+                  />          
+                  <Route 
+                    path='/PlacesToGo' 
+                    element={<PlacesToGo />} 
+                  />
+                  <Route 
+                    path='/PlacesILike' 
+                    element={<PlacesIlike />} 
+                  />
+                  <Route 
+                    path='/PlacesIDontLike' 
+                    element={<PlacesIDontlike />} 
                   />
                   <Route path="/Search" element={<SearchPlaces />} />
                   <Route

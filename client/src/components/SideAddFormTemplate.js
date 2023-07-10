@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 
-const FormTemplate = ({ mutation }) => {
+import Auth from '../utils/auth';
+
+const FormTemplate = ({mutation}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
@@ -13,6 +15,13 @@ const FormTemplate = ({ mutation }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
 
     // On form submit, perform mutation and pass in form data object as arguments
     try {

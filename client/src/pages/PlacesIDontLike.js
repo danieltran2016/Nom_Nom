@@ -1,46 +1,21 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React from "react";
+import { useQuery } from "@apollo/client";
 
-import {PlaceIDontLikeCardsWithComments} from '../components/PlaceCardsWithComments';
+import { PlaceIDontLikeCardsWithComments } from "../components/PlaceCardsWithComments";
 
-import { GET_PLACESIDONTLIKE } from '../utils/queries'
+import { GET_PLACESIDONTLIKE } from "../utils/queries";
 
 const PlacesIDontLike = () => {
-  // const { loading, data } = useQuery(GET_PLACESIDONTLIKE);
-  // const restaurants = data?.getPlacesIDontLike.restaurants || [];
-  const restaurants = [
-    {
-      restaurant: {
-        name: 'Starbuck',
-        address: '123',
-      },
-      comment: 'It is awful'
-    },
-    {
-      restaurant: {
-        name: 'Starbuck',
-        address: '456',
-      },
-      comment: 'It is awful'
-    },
-    {
-      restaurant: {
-        name: 'Starbuck',
-        address: '789',
-      },
-      comment: 'It is awful'
-    },
-  ];
+  const { loading, data } = useQuery(GET_PLACESIDONTLIKE);
+  const restaurants = data?.getPlacesIDontLike.restaurants || [];
 
   return (
     <main>
-      {/* {loading ? (
+      {loading ? (
         <div>Loading...</div>
-      ) : ( */}
-        <PlaceIDontLikeCardsWithComments
-          restaurants={restaurants}
-        />
-      {/* )} */}
+      ) : (
+        <PlaceIDontLikeCardsWithComments restaurants={restaurants} />
+      )}
     </main>
   );
 };

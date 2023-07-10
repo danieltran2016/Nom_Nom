@@ -1,46 +1,21 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React from "react";
+import { useQuery } from "@apollo/client";
 
-import {PlaceILikeCardsWithComments} from '../components/PlaceCardsWithComments';
+import { PlaceILikeCardsWithComments } from "../components/PlaceCardsWithComments";
 
-import { GET_PLACESILIKE } from '../utils/queries'
+import { GET_PLACESILIKE } from "../utils/queries";
 
 const PlacesILike = () => {
-  // const { loading, data } = useQuery(GET_PLACESILIKE);
-  // const restaurants = data?.getPlacesILike.restaurants || [];
-  const restaurants = [
-    {
-      restaurant: {
-        name: 'McDonalds',
-        address: '123',
-      },
-      comment: 'It is great'
-    },
-    {
-      restaurant: {
-        name: 'Taco Bell',
-        address: '456',
-      },
-      comment: 'It is great'
-    },
-    {
-      restaurant: {
-        name: 'Whataburger',
-        address: '789',
-      },
-      comment: 'It is great'
-    },
-  ];
+  const { loading, data } = useQuery(GET_PLACESILIKE);
+  const restaurants = data?.getPlacesILike.restaurants || [];
 
   return (
     <main>
-      {/* {loading ? (
+      {loading ? (
         <div>Loading...</div>
-      ) : ( */}
-        <PlaceILikeCardsWithComments
-          restaurants={restaurants}
-        />
-      {/* )} */}
+      ) : (
+        <PlaceILikeCardsWithComments restaurants={restaurants} />
+      )}
     </main>
   );
 };

@@ -6,32 +6,18 @@ import PlaceCardsWithoutComments from '../components/PlaceCardsWithoutComments';
 import { GET_PLACESTOGO } from '../utils/queries'
 
 const PlacesToGo = () => {
-  // const { loading, data } = useQuery(GET_PLACESTOGO);
-  // const restaurants = data?.getPlacesToGo.restaurants || [];
-  const restaurants = [
-    {
-      name: 'Burgerking',
-      address: '123',
-    },
-    {
-      name: 'Curry Boys',
-      address: '456',
-    },
-    {
-      name: 'Wendys',
-      address: '789',
-    },
-  ];
+  const { loading, data } = useQuery(GET_PLACESTOGO);
+  const restaurants = data?.getPlacesToGo.restaurants || [];
 
   return (
     <main>
-      {/* {loading ? (
+      {loading ? (
         <div>Loading...</div>
-      ) : ( */}
+      ) : (
         <PlaceCardsWithoutComments
           restaurants={restaurants}
         />
-      {/* )} */}
+      )}
     </main>
   );
 };
