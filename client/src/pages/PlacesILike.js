@@ -1,9 +1,9 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React from "react";
+import { useQuery } from "@apollo/client";
 
-import {PlaceILikeCardsWithComments} from '../components/PlaceCardsWithComments';
+import { PlaceILikeCardsWithComments } from "../components/PlaceCardsWithComments";
 
-import { GET_PLACESILIKE } from '../utils/queries'
+import { GET_PLACESILIKE } from "../utils/queries";
 
 const PlacesILike = () => {
   const { loading, data } = useQuery(GET_PLACESILIKE);
@@ -14,9 +14,7 @@ const PlacesILike = () => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <PlaceILikeCardsWithComments
-          restaurants={restaurants}
-        />
+        <PlaceILikeCardsWithComments restaurants={restaurants} />
       )}
     </main>
   );

@@ -35,6 +35,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       const { data } = await moveRestaurantToPlacesILike ({
         variables: {restaurantId}
       });
+
       console.log('Restaurant moved to Places I Like');
       window.location.reload();
     } catch (err) {
