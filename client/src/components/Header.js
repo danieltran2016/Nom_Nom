@@ -6,9 +6,19 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
+import { searchGooglePlaces, searchGeolocation } from '../utils/API';
+
+
 const Header = () => {
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  const [formState, setFormState] = useState({
+    name: '',
+    zipcode: '',
+  });
+
+  const [restaurantName, setrestaurantName] = useState('');
+  const [restaurantAddress, setrestaurantAddress] = useState('');
+  const [restuarantRating, setrestuarantRating] = useState('');
 
   // set modal display state
   const [showModal, setShowModal] = useState(false);
@@ -17,74 +27,89 @@ const Header = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    if (!searchInput) {
+    if (!formState.zipcode) {
       return false;
     }
 
     try {
-      // const response = await searchGoogleBooks(searchInput);
+      const response = await searchGeolocation(formState.zipcode);
 
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
 
-      // const { items } = await response.json();
+      const { results } = await response.json();
 
-      // const restaurantData = items.map((book) => ({
-      //   bookId: book.id,
-      //   authors: book.volumeInfo.authors || ['No author to display'],
-      //   title: book.volumeInfo.title,
-      //   description: book.volumeInfo.description,
-      //   image: book.volumeInfo.imageLinks?.thumbnail || '',
-      // }));
+      // searchgoogleplaces here
 
-      setSearchInput('');
+      const googleResponse = await searchGooglePlaces(
+        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`,
+        formState.name
+      );
+
+      const data = await googleResponse.json();
+
+      setrestaurantName(data.results[0].name);
+      setrestaurantAddress(data.results[0].formatted_address);
+      setrestuarantRating(data.results[0].rating);
     } catch (err) {
       console.error(err);
     }
   };
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
   return (
     <>
-      <header className="bg-dark text-light mb-1 py-4 flex-row align-items-center">
-        <div className="container">
-          <div className="row justify-content-between align-items-center">
-            <div className="col-md-3 col-12">
-              <h1 className="text-warning">Nom Nom?</h1>
+      <header className='bg-dark text-light mb-1 py-4 flex-row align-items-center'>
+        <div className='container-fluid'>
+          <div className='row justify-space-between-lg justify-center align-items-center'>
+            <h1 className='text-warning col-3'>Nom Nom?</h1>
+            <div className='col-7'>
+              <Row>
+                <Col xs={12} md={6}>
+                  <Form.Control
+                    name='name'
+                    value={formState.name}
+                    onChange={handleChange}
+                    type='text'
+                    size='lg'
+                    placeholder='Name...'
+                  />
+                </Col>
+                <Col xs={12} md={3}>
+                  <Form.Control
+                    name='zipcode'
+                    value={formState.zipcode}
+                    onChange={handleChange}
+                    type='text'
+                    size='lg'
+                    placeholder='Zipcode...'
+                  />
+                </Col>
+                <Col xs={12} md={3} className='text-center'>
+                  <Button
+                    className='w-100 bg-warning text-dark text-truncate'
+                    type='submit'
+                    variant='warning'
+                    size='lg'
+                  >
+                    Search
+                  </Button>
+                </Col>
+              </Row>
             </div>
-            <div className="col-md-6 col-12 mt-3 mt-md-0">
-              <Form onSubmit={handleFormSubmit}>
-                <Row className="g-2">
-                  <Col xs={8} md={9}>
-                    <Form.Control
-                      name="searchInput"
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
-                      type="text"
-                      size="lg"
-                      placeholder="Search for a restaurant"
-                    />
-                  </Col>
-                  <Col xs={4} md={3}>
-                    <Button
-                      className="w-100 bg-warning text-dark text-truncate"
-                      type="submit"
-                      variant="warning"
-                      size="lg">
-                      Search
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
-            </div>
-            <div className="col-md-3 col-12 mt-3 mt-md-0 text-end">
+            <div className='col-2'>
               {Auth.loggedIn() ? (
-                <Link className="text-warning" onClick={Auth.logout}>
+                <Link className='text-warning' onClick={Auth.logout}>
                   Logout
                 </Link>
               ) : (
                 <Link
-                  className="text-warning"
+                  className='text-warning'
                   onClick={() => setShowModal(true)}
                 >
                   Login/Sign Up
@@ -96,33 +121,35 @@ const Header = () => {
       </header>
       {/* set modal data up */}
       <Modal
-        size="lg"
+        size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
-        aria-labelledby="signup-modal"
+        aria-labelledby='signup-modal'
       >
         {/* tab container to do either signup or login component */}
-        <Tab.Container defaultActiveKey="login">
-          <Modal.Header className="bg-warning" closeButton>
-            <Modal.Title id="signup-modal">
-              <Nav variant="tabs"> 
+        <Tab.Container defaultActiveKey='login'>
+          <Modal.Header className='bg-warning' closeButton>
+            <Modal.Title id='signup-modal'>
+              <Nav variant='tabs'>
                 <Nav.Item>
-                  <Nav.Link eventKey="login" 
-                            className="text-dark">Login</Nav.Link>
+                  <Nav.Link eventKey='login' className='text-dark'>
+                    Login
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="signup" 
-                            className="text-dark">Sign Up</Nav.Link>
+                  <Nav.Link eventKey='signup' className='text-dark'>
+                    Sign Up
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Tab.Content>
-              <Tab.Pane eventKey="login">
+              <Tab.Pane eventKey='login'>
                 <LoginForm handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
-              <Tab.Pane eventKey="signup">
+              <Tab.Pane eventKey='signup'>
                 <SignUpForm handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
             </Tab.Content>
