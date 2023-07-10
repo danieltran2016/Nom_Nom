@@ -104,14 +104,16 @@ const Header = () => {
       >
         {/* tab container to do either signup or login component */}
         <Tab.Container defaultActiveKey="login">
-          <Modal.Header closeButton>
+          <Modal.Header className="bg-warning" closeButton>
             <Modal.Title id="signup-modal">
-              <Nav variant="pills">
+              <Nav variant="tabs"> 
                 <Nav.Item>
-                  <Nav.Link eventKey="login">Login</Nav.Link>
+                  <Nav.Link eventKey="login" 
+                            className="text-dark">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="signup">Sign Up</Nav.Link>
+                  <Nav.Link eventKey="signup" 
+                            className="text-dark">Sign Up</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
