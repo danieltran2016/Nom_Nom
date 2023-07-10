@@ -9,7 +9,7 @@ import Auth from '../utils/auth';
 const Header = () => {
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-  
+
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
@@ -46,36 +46,50 @@ const Header = () => {
 
   return (
     <>
-      <header class="bg-dark text-light mb-1 py-4 flex-row align-center">
-        <div class='container-fluid'>
-          <div class="row justify-space-between-lg justify-center align-center">
-            <h1 class="text-warning col-3">Nom Nom?</h1>
-            <div class='col-7'>
+      <header className="bg-dark text-light mb-1 py-4 flex-row align-items-center">
+        <div className="container">
+          <div className="row justify-content-between align-items-center">
+            <div className="col-md-3 col-12">
+              <h1 className="text-warning">Nom Nom?</h1>
+            </div>
+            <div className="col-md-6 col-12 mt-3 mt-md-0">
               <Form onSubmit={handleFormSubmit}>
-                <Row>
-                  <Col xs={12} md={8}>
+                <Row className="g-2">
+                  <Col xs={8} md={9}>
                     <Form.Control
-                      name='searchInput'
+                      name="searchInput"
                       value={searchInput}
                       onChange={(e) => setSearchInput(e.target.value)}
-                      type='text'
-                      size='lg'
-                      placeholder='Search for a restaurant'
+                      type="text"
+                      size="lg"
+                      placeholder="Search for a restaurant"
                     />
                   </Col>
-                  <Col xs={12} md={4}>
-                    <Button className="bg-secondary" type='submit' variant='success' size='lg'>
-                      Submit Search
+                  <Col xs={4} md={3}>
+                    <Button
+                      className="w-100 bg-secondary"
+                      type="submit"
+                      variant="warning"
+                      size="lg"
+                    >
+                      Search
                     </Button>
                   </Col>
                 </Row>
               </Form>
             </div>
-            <div class='col-2'>
+            <div className="col-md-3 col-12 mt-3 mt-md-0 text-end">
               {Auth.loggedIn() ? (
-                <Link class="text-warning" onClick={Auth.logout}>Logout</Link>
+                <Link className="text-warning" onClick={Auth.logout}>
+                  Logout
+                </Link>
               ) : (
-                <Link class="text-warning" onClick={() => setShowModal(true)}>Login/Sign Up</Link>
+                <Link
+                  className="text-warning"
+                  onClick={() => setShowModal(true)}
+                >
+                  Login/Sign Up
+                </Link>
               )}
             </div>
           </div>
@@ -83,30 +97,31 @@ const Header = () => {
       </header>
       {/* set modal data up */}
       <Modal
-        size='lg'
+        size="lg"
         show={showModal}
         onHide={() => setShowModal(false)}
-        aria-labelledby='signup-modal'>
+        aria-labelledby="signup-modal"
+      >
         {/* tab container to do either signup or login component */}
-        <Tab.Container defaultActiveKey='login'>
+        <Tab.Container defaultActiveKey="login">
           <Modal.Header closeButton>
-            <Modal.Title id='signup-modal'>
-              <Nav variant='pills'>
+            <Modal.Title id="signup-modal">
+              <Nav variant="pills">
                 <Nav.Item>
-                  <Nav.Link eventKey='login'>Login</Nav.Link>
+                  <Nav.Link eventKey="login">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
+                  <Nav.Link eventKey="signup">Sign Up</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Tab.Content>
-              <Tab.Pane eventKey='login'>
+              <Tab.Pane eventKey="login">
                 <LoginForm handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
-              <Tab.Pane eventKey='signup'>
+              <Tab.Pane eventKey="signup">
                 <SignUpForm handleModalClose={() => setShowModal(false)} />
               </Tab.Pane>
             </Tab.Content>
