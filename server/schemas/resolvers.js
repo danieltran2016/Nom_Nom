@@ -16,7 +16,7 @@ const resolvers = {
       if (context.user) {
         const placesToGo = await PlacesToGo.findOne({ user: context.user._id }).populate(
           "restaurants"
-        );
+        ).populate('user');
         console.log(placesToGo);
         return placesToGo;
       }
@@ -86,6 +86,7 @@ const resolvers = {
               restaurants: newRestaurant._id,
             });
             //console.log(newPlacesTogo);
+            return newPlacesTogo;
           } else {
             existingPlacesToGo.restaurants.push(newRestaurant._id);
             existingPlacesToGo.save();

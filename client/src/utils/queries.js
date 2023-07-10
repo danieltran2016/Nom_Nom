@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_PLACESTOGO = gql`
   query getPlacesToGo {
-
+    getPlacesToGo {
       _id
       restaurants {
         _id
@@ -14,7 +14,7 @@ export const GET_PLACESTOGO = gql`
         email
         username
       }
-
+    }
   }
 `;
 
