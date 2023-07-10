@@ -37,7 +37,6 @@ const resolvers = {
             path: "restaurants.comment",
           })
           .populate("user");
-        console.log(placesILike);
         return placesILike;
       }
       throw new AuthenticationError("You need to be logged in!");
@@ -173,7 +172,6 @@ const resolvers = {
               comment: "",
             });
             existingPlacesILike.save();
-            console.log(existingPlacesILike);
             return existingPlacesILike;
           }
         } else {
@@ -202,10 +200,21 @@ const resolvers = {
     removeFromPlacesILike: async (parent, { restaurantId }, context) => {
       if (context.user) {
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
-          { user: { _id: context.user._id } },
-          { $pull: { restaurants: { _id: restaurantId } } },
+          { user: context.user._id },
+          { $pull: { restaurants: { restaurant: restaurantId } } },
           { new: true }
-        );
+        )
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
+          console.log(updatedPlacesILike);
 
         if (!updatedPlacesILike) {
           throw new Error("Couldn't find user with this id!");
