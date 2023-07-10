@@ -130,7 +130,9 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       </div>
       <div className="randomizer-container" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
-        <Button variant="secondary" onClick={randomizeRestaurant}>
+        <Button className="bg-secondary text-warning"
+                variant="warning"
+                onClick={randomizeRestaurant}>
           Select Random Restaurant
         </Button>
         {selectedRestaurant && (
