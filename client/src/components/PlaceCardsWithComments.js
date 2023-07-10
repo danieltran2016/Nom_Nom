@@ -135,7 +135,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
           <Card.Header className="bg-warning text-dark p-2">
             <h3>{restaurant.restaurant.name}</h3>
             <Button
-              variant="dark"
+              variant="dark bg-dark text-warning"
               className="btn-sm"
               style={{ position: 'absolute', top: '5px', right: '5px' }}
               onClick={() => handleDelete(restaurant.restaurant._id)}

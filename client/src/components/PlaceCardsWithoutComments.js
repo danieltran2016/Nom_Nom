@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { VscKebabVertical } from 'react-icons/vsc';
+import { IoFastFoodOutline } from 'react-icons/io5';
 import { Button, Card } from 'react-bootstrap';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
@@ -123,7 +123,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
               <p>{restaurant.address}</p>
             </Card.Body>
             <div className="menu-icon" onClick={() => handleMenuToggle(restaurant._id)}>
-              <VscKebabVertical />
+              <IoFastFoodOutline />
             </div>
           </Card>
         ))}
