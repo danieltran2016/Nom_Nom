@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { Form, Button } from 'react-bootstrap';
 
-const FormTemplate = ({mutation}) => {
+const FormTemplate = ({ mutation }) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
@@ -15,7 +16,7 @@ const FormTemplate = ({mutation}) => {
 
     // On form submit, perform mutation and pass in form data object as arguments
     try {
-      const { data } = mutate({
+      const { data } = await mutate({
         variables: { ...formState },
       });
 
@@ -32,40 +33,34 @@ const FormTemplate = ({mutation}) => {
 
   return (
     <div>
-      <form 
-        className="flex-row justify-center justify-space-between-md align-center " 
-        onSubmit={handleFormSubmit} 
-      >
-        <div className="col-12">
-          <input
-            name="name" 
+      <Form onSubmit={handleFormSubmit}>
+        <Form.Group controlId="formName">
+          <Form.Control
+            type="text"
+            name="name"
             placeholder="Restaurant Name..."
             value={formState.name}
-            className="form-input w-100 rounded"
             onChange={handleChange}
           />
-        </div>
-        <div className="col-12"> 
-          <textarea
+        </Form.Group>
+        <Form.Group controlId="formAddress">
+          <Form.Control
+            as="textarea"
             name="address"
             placeholder="Restaurant Address..."
             value={formState.address}
-            className="form-input w-100 rounded"
             onChange={handleChange}
-          ></textarea>
-        </div>
-
-        <div className="col-12">
-          <button className="btn btn-warning" type="submit">
-            Add
-          </button>
-        </div>
+          />
+        </Form.Group>
+        <Button variant="warning" type="submit">
+          Add
+        </Button>
         {error && (
-          <div className="col-12 my-3 bg-danger text-white p-3">
+          <div className="my-3 bg-danger text-white p-3">
             Something went wrong...
           </div>
         )}
-      </form>
+      </Form>
     </div>
   );
 };
