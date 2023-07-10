@@ -56,14 +56,16 @@ export const searchGoogleBooks = (query) => {
   return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
 };
 
-export const searchGooglePlaces = (location, query, radius) => {
+export const searchGooglePlaces = (location, query) => {
   return fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json
-  ?location=${location}
+  ?location=${location}121.2121%2c12.21
   &query=${query}
-  &radius=${radius}
-  &key=YOUR_API_KEY`);
+  &radius=1610
+  &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
 };
 
-export const searchGeolocation = (address) => {
-  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=YOUR_API_KEY`);
+export const searchGeolocation = (zip) => {
+  return fetch(`https://maps.googleapis.com/maps/api/geocode/json
+  ?address=${zip}
+  &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
 };

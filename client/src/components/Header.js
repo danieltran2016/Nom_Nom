@@ -23,14 +23,16 @@ const Header = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  //const [searchedZip, setSearchedZip] = useState('');//initialize it as a string 
+
   // create method to search for restaurants and set state on form submit
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (event) => { 
+    event.preventDefault(); 
 
-    if (!formState.zipcode) {
-      return false;
-    }
-
+    if (!formState.zipcode) { 
+      return false; 
+    } 
+ 
     try {
       const response = await searchGeolocation(formState.zipcode);
 
@@ -40,18 +42,17 @@ const Header = () => {
 
       const { results } = await response.json();
 
-      // searchgoogleplaces here
+      //searchgoogleplaces here
 
       const googleResponse = await searchGooglePlaces(
-        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`,
-        formState.name
-      );
+        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`, formState.name)
 
-      const data = await googleResponse.json();
+        const data = await googleResponse.json();
 
-      setrestaurantName(data.results[0].name);
-      setrestaurantAddress(data.results[0].formatted_address);
-      setrestuarantRating(data.results[0].rating);
+      setrestaurantName = data.results[0].name;
+      setrestaurantAddress = data.results[0].formatted_address;
+      setrestuarantRating = data.results[0].rating;
+      
     } catch (err) {
       console.error(err);
     }
@@ -71,52 +72,54 @@ const Header = () => {
               <h1 className='text-warning'>Nom Nom?</h1>
             </div>
             <div className='col-9'>
-              <Row className='align-items-center'>
-                <Col xs={12} md={6}>
-                  <Form.Control
-                    name='name'
-                    value={formState.name}
-                    onChange={handleChange}
-                    type='text'
-                    size='lg'
-                    placeholder='Name...'
-                  />
-                </Col>
-                <Col xs={12} md={3}>
-                  <Form.Control
-                    name='zipcode'
-                    value={formState.zipcode}
-                    onChange={handleChange}
-                    type='text'
-                    size='lg'
-                    placeholder='Zipcode...'
-                  />
-                </Col>
-                <Col xs={12} md={2} className='text-center'>
-                  <Button
-                    className='w-100 bg-warning text-dark text-truncate'
-                    type='submit'
-                    variant='warning'
-                    size='lg'
-                  >
-                    Search
-                  </Button>
-                </Col>
-                <Col xs={12} md={3} className='text-md-right mt-3 mt-md-0'>
-                  {Auth.loggedIn() ? (
-                    <Link className='text-warning' onClick={Auth.logout}>
-                      Logout
-                    </Link>
-                  ) : (
-                    <Link
-                      className='text-warning'
-                      onClick={() => setShowModal(true)}
+              <Form onSubmit={handleFormSubmit}>
+                <Row className='align-items-center'>
+                  <Col xs={12} md={6}>
+                    <Form.Control
+                      name='name'
+                      value={formState.name}
+                      onChange={handleChange}
+                      type='text'
+                      size='lg'
+                      placeholder='Name...'
+                    />
+                  </Col>
+                  <Col xs={12} md={3}>
+                    <Form.Control
+                      name='zipcode'
+                      value={formState.zipcode}
+                      onChange={handleChange}
+                      type='text'
+                      size='lg'
+                      placeholder='Zipcode...'
+                    />
+                  </Col>
+                  <Col xs={12} md={2} className='text-center'>
+                    <Button
+                      className='w-100 bg-warning text-dark text-truncate'
+                      type='submit'
+                      variant='warning'
+                      size='lg'
                     >
-                      Login/Sign Up
-                    </Link>
-                  )}
-                </Col>
-              </Row>
+                      Search
+                    </Button>
+                  </Col>
+                  <Col xs={12} md={3} className='text-md-right mt-3 mt-md-0'>
+                    {Auth.loggedIn() ? (
+                      <Link className='text-warning' onClick={Auth.logout}>
+                        Logout
+                      </Link>
+                    ) : (
+                      <Link
+                        className='text-warning'
+                        onClick={() => setShowModal(true)}
+                      >
+                        Login/Sign Up
+                      </Link>
+                    )}
+                  </Col>
+                </Row>
+              </Form>
             </div>
           </div>
         </div>
@@ -161,5 +164,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;
