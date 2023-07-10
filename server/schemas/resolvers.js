@@ -24,7 +24,7 @@ const resolvers = {
     },
     getPlacesILike: async (parent, args, context) => {
       if (context.user) {
-        const placesILike = await PlacesILike.findOne({
+        return PlacesILike.findOne({
           user: context.user._id,
         })
           .populate({
@@ -37,7 +37,6 @@ const resolvers = {
             path: "restaurants.comment",
           })
           .populate("user");
-        return placesILike;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -214,7 +213,6 @@ const resolvers = {
             path: "restaurants.comment",
           })
           .populate("user");
-          console.log(updatedPlacesILike);
 
         if (!updatedPlacesILike) {
           throw new Error("Couldn't find user with this id!");
@@ -233,8 +231,8 @@ const resolvers = {
       if (context.user) {
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
           {
-            user: { _id: context.user._id },
-            "restaurants.restaurant._id": restaurantId,
+            user: context.user._id,
+            "restaurants.restaurant": restaurantId,
           },
           { $set: { "restaurants.$.comment": comment } },
           { new: true }
@@ -296,8 +294,8 @@ const resolvers = {
       if (context.user) {
         const updatedPlacesIDontLike = await PlacesIDontLike.findOneAndUpdate(
           {
-            user: { _id: context.user._id },
-            "restaurants.restaurant._id": restaurantId,
+            user: context.user._id,
+            "restaurants.restaurant": restaurantId,
           },
           { $set: { "restaurants.$.comment": comment } },
           { new: true }
