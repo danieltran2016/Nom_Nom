@@ -24,11 +24,21 @@ const resolvers = {
     },
     getPlacesILike: async (parent, args, context) => {
       if (context.user) {
-        return PlacesILike.findOne({
+        const placesILike = await PlacesILike.findOne({
           user: context.user._id,
         })
-          .populate("restaurants")
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
           .populate("user");
+        console.log(placesILike);
+        return placesILike;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -143,21 +153,52 @@ const resolvers = {
           name,
           address,
         };
-        const restaurantWithComment = {
-          restaurant: restaurant,
-          comment: "",
-        };
 
-        const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
-          { user: { _id: context.user._id } },
-          { $addToSet: { restaurants: restaurantWithComment } },
-          { new: true }
-        );
+        const existingRestaurant = await Restaurant.findOne({ address });
 
-        return updatedPlacesILike;
+        if (!existingRestaurant) {
+          const newRestaurant = await Restaurant.create(restaurant);
+          const existingPlacesILike = await PlacesILike.findOne({
+            user: context.user._id,
+          });
+          if (!existingPlacesILike) {
+            const newPlacesILike = await PlacesILike.create({
+              user: context.user._id,
+              restaurants: { restaurant: newRestaurant._id, comment: "" },
+            });
+            return newPlacesILike;
+          } else {
+            existingPlacesILike.restaurants.push({
+              restaurant: newRestaurant._id,
+              comment: "",
+            });
+            existingPlacesILike.save();
+            console.log(existingPlacesILike);
+            return existingPlacesILike;
+          }
+        } else {
+          const existingPlacesILike = await PlacesILike.findOne({
+            user: context.user._id,
+          });
+          if (!existingPlacesILike) {
+            const newPlacesILike = await PlacesILike.create({
+              user: context_user._id,
+              restaurants: { restaurant: existingRestaurant._id, comment: "" },
+            });
+            return newPlacesILike;
+          } else {
+            existingPlacesILike.restaurants.push({
+              restaurant: existingRestaurant._id,
+              comment: "",
+            });
+            existingPlacesILike.save();
+            return existingPlacesILike;
+          }
+        }
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
     removeFromPlacesILike: async (parent, { restaurantId }, context) => {
       if (context.user) {
         const updatedPlacesILike = await PlacesILike.findOneAndUpdate(
