@@ -82,6 +82,16 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     }
   };
 
+  const randomizeRestaurant = () => {
+    const randomIndex = Math.floor(Math.random() * restaurants.length);
+    const randomRestaurant = restaurants[randomIndex].name;
+    setSelectedRestaurant(randomRestaurant);
+  };
+
+  const clearSelectedRestaurant = () => {
+    setSelectedRestaurant(null);
+  };
+
   return (
     <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
       {restaurants.map((restaurant) => (
@@ -116,6 +126,25 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </div>
         </Card>
       ))}
+      <div>
+        <h3>Random Restaurant Selector</h3>
+        <Button variant="secondary" onClick={randomizeRestaurant}>
+          Select Random Restaurant
+        </Button>
+        {selectedRestaurant && (
+          <Card className="card mt-3">
+            <Card.Body>
+              <h5>Selected Restaurant:</h5>
+              <p>{selectedRestaurant}</p>
+            </Card.Body>
+          </Card>
+        )}
+        {selectedRestaurant && (
+          <Button variant="warning" onClick={clearSelectedRestaurant}>
+            Clear Selection
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { PlacesToGoForm, PlacesILikeForm, PlacesIDontLikeForm } from './SideAddF
 
 const SideNavbar = () => {
   return (
-    <>
+    <div className="">
       <div class="container pb-5">
         <Link
           className="text-warning"
@@ -33,7 +33,7 @@ const SideNavbar = () => {
         </Link>
         <PlacesIDontLikeForm />
       </div>
-    </>
+    </div>
   );
 };
 

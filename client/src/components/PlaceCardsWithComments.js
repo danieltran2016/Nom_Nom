@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { RiDeleteBin2Line } from 'react-icons/ri';
 import { Button, Card } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import Auth from '../utils/auth';
 
 const PlaceILikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesILike] = useMutation(REMOVEFROM_PLACESILIKE);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;
@@ -29,6 +30,16 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
     } catch (err) {
       console.error('Error removing restaurant:', err.message);
     }
+  };
+
+  const randomizeRestaurant = () => {
+    const randomIndex = Math.floor(Math.random() * restaurants.length);
+    const randomRestaurant = restaurants[randomIndex].restaurant;
+    setSelectedRestaurant(randomRestaurant.name);
+  };
+
+  const clearSelectedRestaurant = () => {
+    setSelectedRestaurant(null);
   };
 
   return (
@@ -60,12 +71,32 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
           </Card.Body>
         </Card>
       ))}
+      <div>
+        <h3>Random Restaurant Selector</h3>
+        <Button variant="secondary" onClick={randomizeRestaurant}>
+          Select Random Restaurant
+        </Button>
+        {selectedRestaurant && (
+          <Card className="card mt-3">
+            <Card.Body>
+              <h5>Selected Restaurant:</h5>
+              <p>{selectedRestaurant}</p>
+            </Card.Body>
+          </Card>
+        )}
+        {selectedRestaurant && (
+          <Button variant="warning" onClick={clearSelectedRestaurant}>
+            Clear Selection
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
 
 const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesIDontLike] = useMutation(REMOVEFROM_PLACESIDONTLIKE);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;

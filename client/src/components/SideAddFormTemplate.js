@@ -33,7 +33,7 @@ const FormTemplate = ({mutation}) => {
   return (
     <div>
       <form 
-        className="flex-row justify-center justify-space-between-md align-center" 
+        className="flex-row justify-center justify-space-between-md align-center " 
         onSubmit={handleFormSubmit} 
       >
         <div className="col-12">
@@ -41,7 +41,7 @@ const FormTemplate = ({mutation}) => {
             name="name" 
             placeholder="Restaurant Name..."
             value={formState.name}
-            className="form-input w-100"
+            className="form-input w-100 rounded"
             onChange={handleChange}
           />
         </div>
@@ -50,7 +50,7 @@ const FormTemplate = ({mutation}) => {
             name="address"
             placeholder="Restaurant Address..."
             value={formState.address}
-            className="form-input w-100"
+            className="form-input w-100 rounded"
             onChange={handleChange}
           ></textarea>
         </div>
