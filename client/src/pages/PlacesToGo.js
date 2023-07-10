@@ -14,11 +14,11 @@ const PlacesToGo = () => {
       address: '123',
     },
     {
-      name: 'Burgerking',
+      name: 'Curry Boys',
       address: '456',
     },
     {
-      name: 'Burgerking',
+      name: 'Wendys',
       address: '789',
     },
   ];

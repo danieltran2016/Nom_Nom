@@ -11,7 +11,7 @@ const PlacesILike = () => {
   const restaurants = [
     {
       restaurant: {
-        name: 'Taco Bell',
+        name: 'McDonalds',
         address: '123',
       },
       comment: 'It is great'
@@ -25,7 +25,7 @@ const PlacesILike = () => {
     },
     {
       restaurant: {
-        name: 'Taco Bell',
+        name: 'Whataburger',
         address: '789',
       },
       comment: 'It is great'
