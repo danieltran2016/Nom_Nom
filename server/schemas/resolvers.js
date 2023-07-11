@@ -384,21 +384,13 @@ const resolvers = {
         const existingPlacesILike = await PlacesILike.findOne({
           user: context.user._id,
         });
+
         if (!existingPlacesILike) {
           // Add the restaurant to PlacesILike
-          const newPlacesILike = await PlacesILike.create({
+          await PlacesILike.create({
             user: context.user._id,
             restaurants: { restaurant: restaurantId, comment: "" },
           });
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesILike: newPlacesILike,
-          };
         } else {
           // Add the restaurant to PlacesILike
           existingPlacesILike.restaurants.push({
@@ -406,16 +398,37 @@ const resolvers = {
             comment: "",
           });
           existingPlacesILike.save();
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesILike: existingPlacesILike,
-          };
         }
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: context.user._id },
+          { $pull: { restaurants: restaurantId } }
+        );
+  
+        const updatedPlacesToGo = await PlacesToGo.findOne({
+          user: context.user._id,
+        })
+        .populate("restaurants")
+        .populate("user");
+
+        const updatedPlacesILike = await PlacesILike.findOne({
+          user: context.user._id,
+        })
+        .populate({
+          path: "restaurants",
+          populate: {
+            path: "restaurant",
+          },
+        })
+        .populate({
+          path: "restaurants.comment",
+        })
+        .populate("user");
+
+        return {
+          placesToGo: updatedPlacesToGo,
+          placesILike: updatedPlacesILike
+        };
       }
 
       throw new AuthenticationError("You need to be logged in!");
