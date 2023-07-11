@@ -7,7 +7,7 @@ import { GET_PLACESILIKE } from "../utils/queries";
 
 const PlacesILike = () => {
   const { loading, data } = useQuery(GET_PLACESILIKE);
-  const restaurants = data?.getPlacesILike.restaurants || [];
+  const restaurants = data?.getPlacesILike?.restaurants || [];
 
   return (
     <main>

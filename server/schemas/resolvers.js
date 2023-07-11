@@ -93,40 +93,37 @@ const resolvers = {
           address,
         };
         const existingRestaurant = await Restaurant.findOne({ address });
+        const existingPlacesToGo = await PlacesToGo.findOne({
+          user: context.user._id,
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-          const existingPlacesToGo = await PlacesToGo.findOne({
-            user: context.user._id,
-          });
           if (!existingPlacesToGo) {
-            const newPlacesTogo = await PlacesToGo.create({
+            await PlacesToGo.create({
               user: context.user._id,
               restaurants: newRestaurant._id,
             });
-            //console.log(newPlacesTogo);
-            return newPlacesTogo;
           } else {
             existingPlacesToGo.restaurants.push(newRestaurant._id);
             existingPlacesToGo.save();
-            return existingPlacesToGo;
           }
         } else {
-          const existingPlacesToGo = await PlacesToGo.findOne({
-            user: context.user._id,
-          });
           if (!existingPlacesToGo) {
-            const newPlacesTogo = await PlacesToGo.create({
-              user: context_user._id,
+            await PlacesToGo.create({
+              user: context.user._id,
               restaurants: existingRestaurant._id,
             });
-            return newPlacesTogo;
           } else {
             existingPlacesToGo.restaurants.push(existingRestaurant._id);
             existingPlacesToGo.save();
-            return existingPlacesToGo;
           }
         }
+        return PlacesToGo.findOne({
+          user: context.user._id,
+        })
+          .populate("restaurants")
+          .populate("user");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -157,47 +154,55 @@ const resolvers = {
           name,
           address,
         };
-
         const existingRestaurant = await Restaurant.findOne({ address });
+        const existingPlacesILike = await PlacesILike.findOne({
+          user: context.user._id,
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-          const existingPlacesILike = await PlacesILike.findOne({
-            user: context.user._id,
-          });
           if (!existingPlacesILike) {
-            const newPlacesILike = await PlacesILike.create({
+            await PlacesILike.create({
               user: context.user._id,
               restaurants: { restaurant: newRestaurant._id, comment: "" },
             });
-            return newPlacesILike;
           } else {
             existingPlacesILike.restaurants.push({
               restaurant: newRestaurant._id,
               comment: "",
             });
             existingPlacesILike.save();
-            return existingPlacesILike;
           }
         } else {
           const existingPlacesILike = await PlacesILike.findOne({
             user: context.user._id,
           });
           if (!existingPlacesILike) {
-            const newPlacesILike = await PlacesILike.create({
-              user: context_user._id,
+            await PlacesILike.create({
+              user: context.user._id,
               restaurants: { restaurant: existingRestaurant._id, comment: "" },
             });
-            return newPlacesILike;
           } else {
             existingPlacesILike.restaurants.push({
               restaurant: existingRestaurant._id,
               comment: "",
             });
             existingPlacesILike.save();
-            return existingPlacesILike;
           }
         }
+        return PlacesILike.findOne({
+          user: context.user._id,
+        })
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -263,45 +268,54 @@ const resolvers = {
         };
 
         const existingRestaurant = await Restaurant.findOne({ address });
+        const existingPlacesIDontLike = await PlacesIDontLike.findOne({
+          user: context.user._id,
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-          const existingPlacesIDontLike = await PlacesIDontLike.findOne({
-            user: context.user._id,
-          });
           if (!existingPlacesIDontLike) {
-            const newPlacesIDontLike = await PlacesIDontLike.create({
+            await PlacesIDontLike.create({
               user: context.user._id,
               restaurants: { restaurant: newRestaurant._id, comment: "" },
             });
-            return newPlacesIDontLike;
           } else {
             existingPlacesIDontLike.restaurants.push({
               restaurant: newRestaurant._id,
               comment: "",
             });
             existingPlacesIDontLike.save();
-            return existingPlacesIDontLike;
           }
         } else {
           const existingPlacesIDontLike = await PlacesIDontLike.findOne({
             user: context.user._id,
           });
           if (!existingPlacesIDontLike) {
-            const newPlacesIDontLike = await PlacesIDontLike.create({
-              user: context_user._id,
+            await PlacesIDontLike.create({
+              user: context.user._id,
               restaurants: { restaurant: existingRestaurant._id, comment: "" },
             });
-            return newPlacesIDontLike;
           } else {
             existingPlacesIDontLike.restaurants.push({
               restaurant: existingRestaurant._id,
               comment: "",
             });
             existingPlacesIDontLike.save();
-            return existingPlacesIDontLike;
           }
         }
+        return PlacesIDontLike.findOne({
+          user: context.user._id,
+        })
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -370,21 +384,13 @@ const resolvers = {
         const existingPlacesILike = await PlacesILike.findOne({
           user: context.user._id,
         });
+
         if (!existingPlacesILike) {
           // Add the restaurant to PlacesILike
-          const newPlacesILike = await PlacesILike.create({
+          await PlacesILike.create({
             user: context.user._id,
             restaurants: { restaurant: restaurantId, comment: "" },
           });
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesILike: newPlacesILike,
-          };
         } else {
           // Add the restaurant to PlacesILike
           existingPlacesILike.restaurants.push({
@@ -392,16 +398,37 @@ const resolvers = {
             comment: "",
           });
           existingPlacesILike.save();
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesILike: existingPlacesILike,
-          };
         }
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: context.user._id },
+          { $pull: { restaurants: restaurantId } }
+        );
+  
+        const updatedPlacesToGo = await PlacesToGo.findOne({
+          user: context.user._id,
+        })
+        .populate("restaurants")
+        .populate("user");
+
+        const updatedPlacesILike = await PlacesILike.findOne({
+          user: context.user._id,
+        })
+        .populate({
+          path: "restaurants",
+          populate: {
+            path: "restaurant",
+          },
+        })
+        .populate({
+          path: "restaurants.comment",
+        })
+        .populate("user");
+
+        return {
+          placesToGo: updatedPlacesToGo,
+          placesILike: updatedPlacesILike
+        };
       }
 
       throw new AuthenticationError("You need to be logged in!");
@@ -424,19 +451,10 @@ const resolvers = {
         });
         if (!existingPlacesIDontLike) {
           // Add the restaurant to PlacesIDontLike
-          const newPlacesIDontLike = await PlacesIDontLike.create({
+          await PlacesIDontLike.create({
             user: context.user._id,
             restaurants: { restaurant: restaurantId, comment: "" },
           });
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesIDontLike: newPlacesIDontLike,
-          };
         } else {
           // Add the restaurant to PlacesILike
           existingPlacesIDontLike.restaurants.push({
@@ -444,16 +462,37 @@ const resolvers = {
             comment: "",
           });
           existingPlacesIDontLike.save();
-          // Remove the restaurant from PlacesToGo
-          const updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
-            { user: context.user._id },
-            { $pull: { restaurants: restaurantId } }
-          );
-          return {
-            placesToGo: updatedPlacesToGo,
-            placesIDontLike: existingPlacesIDontLike,
-          };
         }
+        // Remove the restaurant from PlacesToGo
+        await PlacesToGo.findOneAndUpdate(
+          { user: context.user._id },
+          { $pull: { restaurants: restaurantId } }
+        );
+
+        const updatedPlacesToGo = await PlacesToGo.findOne({
+          user: context.user._id,
+        })
+        .populate("restaurants")
+        .populate("user");
+
+        const updatedPlacesIDontLike = await PlacesIDontLike.findOne({
+          user: context.user._id,
+        })
+        .populate({
+          path: "restaurants",
+          populate: {
+            path: "restaurant",
+          },
+        })
+        .populate({
+          path: "restaurants.comment",
+        })
+        .populate("user");
+
+        return {
+          placesToGo: updatedPlacesToGo,
+          placesIDontLike: updatedPlacesIDontLike,
+        };
       }
 
       throw new AuthenticationError("You need to be logged in!");

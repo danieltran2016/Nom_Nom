@@ -7,7 +7,7 @@ import { GET_PLACESIDONTLIKE } from "../utils/queries";
 
 const PlacesIDontLike = () => {
   const { loading, data } = useQuery(GET_PLACESIDONTLIKE);
-  const restaurants = data?.getPlacesIDontLike.restaurants || [];
+  const restaurants = data?.getPlacesIDontLike?.restaurants || [];
 
   return (
     <main>

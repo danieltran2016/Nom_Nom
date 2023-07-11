@@ -7,7 +7,9 @@ import { GET_PLACESTOGO } from '../utils/queries'
 
 const PlacesToGo = () => {
   const { loading, data } = useQuery(GET_PLACESTOGO);
-  const restaurants = data?.getPlacesToGo.restaurants || [];
+  //fix the "Cannot read properties of null (for restaurants)" problem
+  const restaurants = data?.getPlacesToGo?.restaurants || [];
+  
 
   return (
     <main>
