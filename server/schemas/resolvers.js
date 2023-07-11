@@ -99,7 +99,6 @@ const resolvers = {
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-
           if (!existingPlacesToGo) {
             await PlacesToGo.create({
               user: context.user._id,
@@ -120,14 +119,16 @@ const resolvers = {
               .populate("user");
           }
         } else {
-
-          //problem with newUser adding an existing restaurant
           if (!existingPlacesToGo) {
-            const newPlacesTogo = await PlacesToGo.create({
-              user: context_user._id,
+            await PlacesToGo.create({
+              user: context.user._id,
               restaurants: existingRestaurant._id,
             });
-            return newPlacesTogo;
+            return PlacesToGo.findOne({
+              user: context.user._id,
+            })
+              .populate("restaurants")
+              .populate("user");
           } else {
             existingPlacesToGo.restaurants.push(existingRestaurant._id);
             existingPlacesToGo.save();
