@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 
 import Auth from '../utils/auth';
 
-import { searchGooglePlaces, searchGeolocation } from '../utils/API';
+// import { searchGooglePlaces, searchGeolocation } from '../utils/API';
 
 
 const Header = () => {
@@ -16,9 +16,9 @@ const Header = () => {
     zipcode: '',
   });
 
-  const [restaurantName, setrestaurantName] = useState('');
-  const [restaurantAddress, setrestaurantAddress] = useState('');
-  const [restuarantRating, setrestuarantRating] = useState('');
+  // const [restaurantName, setrestaurantName] = useState('');
+  // const [restaurantAddress, setrestaurantAddress] = useState('');
+  // const [restuarantRating, setrestuarantRating] = useState('');
 
   // set modal display state
   const [showModal, setShowModal] = useState(false);
@@ -29,29 +29,33 @@ const Header = () => {
   const handleFormSubmit = async (event) => { 
     event.preventDefault(); 
 
+
     if (!formState.zipcode) { 
       return false; 
     } 
  
     try {
-      const response = await searchGeolocation(formState.zipcode);
+      console.log("handle form submit revieced")
+      console.log("name:",formState.name)
+      console.log("zip:", formState.zipcode)
+    //   const response = await searchGeolocation(formState.zipcode);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+    //   if (!response.ok) {
+    //     throw new Error('something went wrong!');
+    //   }
 
-      const { results } = await response.json();
+    //   const { results } = await response.json();
 
-      //searchgoogleplaces here
+    //   //searchgoogleplaces here
 
-      const googleResponse = await searchGooglePlaces(
-        `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`, formState.name)
+    //   const googleResponse = await searchGooglePlaces(
+    //     `${results[0].geometry.location.lat},${results[0].geometry.location.lng}`, formState.name)
 
-        const data = await googleResponse.json();
+    //     const data = await googleResponse.json();
 
-      setrestaurantName = data.results[0].name;
-      setrestaurantAddress = data.results[0].formatted_address;
-      setrestuarantRating = data.results[0].rating;
+    //   setrestaurantName = data.results[0].name;
+    //   setrestaurantAddress = data.results[0].formatted_address;
+    //   setrestuarantRating = data.results[0].rating;
       
     } catch (err) {
       console.error(err);
