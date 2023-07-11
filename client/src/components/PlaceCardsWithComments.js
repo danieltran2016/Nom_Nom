@@ -76,7 +76,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
           </Card>
         ))}
       </div>
-      <div className="randomizer-container" style={{ width: '50%' }}>
+      <div className="randomizer-container m-3" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
         <Button className="bg-warning text-dark"
                 variant="warning" 
