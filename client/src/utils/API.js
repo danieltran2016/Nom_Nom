@@ -48,7 +48,7 @@ export const deleteBook = (bookId, token) => {
       authorization: `Bearer ${token}`,
     },
   });
-};
+}; 
 
 // // make a search to google books api
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
@@ -70,4 +70,3 @@ export const deleteBook = (bookId, token) => {
 //   &key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
 // };
 // const zip = 78258;
-

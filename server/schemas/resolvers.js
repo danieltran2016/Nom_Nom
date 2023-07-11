@@ -91,18 +91,18 @@ const resolvers = {
     //       throw new Error('Failed to retrieve places data.');
     //     }
     
-    //     const data = await response.json();
-    //     const places = data.results;
+    //     const data = await response.json(); 
+    //     const places = data.results; 
     
-    //     return places;
-    //   } catch (error) {
-    //     throw new Error('Failed to retrieve places data.');
-    //   }
-    // },
+    //     return places; 
+    //   } catch (error) { 
+    //     throw new Error('Failed to retrieve places data.'); 
+    //   } 
+    // }, 
     
-  },
+  }, 
 
-  Mutation: {
+  Mutation: { 
     // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
