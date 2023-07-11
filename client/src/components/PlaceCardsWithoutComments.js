@@ -12,6 +12,7 @@ import Auth from '../utils/auth';
 
 const PlaceCardsWithoutComments = ({ restaurants }) => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [randomRestaurant, setRandomRestaurant] = useState(null); // New state variable for the randomizer
   const [moveRestaurantToPlacesILike] = useMutation(MOVE_RESTAURANTTOPLACESILIKE);
   const [moveRestaurantToPlacesIDontLike] = useMutation(MOVE_RESTAURANTTOPLACESIDONTLIKE);
   const [removeFromPlacesToGo] = useMutation(REMOVEFROM_PLACESTOGO);
@@ -86,7 +87,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
   const randomizeRestaurant = () => {
     const randomIndex = Math.floor(Math.random() * restaurants.length);
     const randomRestaurant = restaurants[randomIndex].name;
-    setSelectedRestaurant(randomRestaurant);
+    setSelectedRestaurant(null); // Clear the selected restaurant
+    setRandomRestaurant(randomRestaurant); // Set the random restaurant
   };
 
   const clearSelectedRestaurant = () => {
@@ -136,18 +138,18 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
                 onClick={randomizeRestaurant}>
           Select Random Restaurant
         </Button>
-        {selectedRestaurant && (
+        {randomRestaurant && (
           <Card className="card mt-3">
             <Card.Body>
               <h5>You Will Nom Nom at:</h5>
-              <p>{selectedRestaurant}</p>
+              <p>{randomRestaurant}</p>
             </Card.Body>
           </Card>
         )}
-        {selectedRestaurant && (
+        {randomRestaurant && (
           <Button className="bg-dark text-warning" 
                   variant=""
-                  onClick={clearSelectedRestaurant}>
+                  onClick={() => setRandomRestaurant(null)}>
             Clear Selection
           </Button>
         )}
