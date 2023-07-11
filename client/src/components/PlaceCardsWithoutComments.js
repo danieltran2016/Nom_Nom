@@ -105,7 +105,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
             style={{ width: '50%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
-              <h3>{restaurant.name}</h3>
+              <h3 className="restaurant-name">{restaurant.name}</h3>
               {selectedRestaurant === restaurant._id && (
                 <div className="menu-container">
                   <div className="menu-links">
@@ -154,6 +154,14 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </Button>
         )}
       </div>
+      {/* CSS Styling */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .restaurant-name {
+            font-size: 16px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
