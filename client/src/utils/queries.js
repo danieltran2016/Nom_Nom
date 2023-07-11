@@ -59,5 +59,3 @@ export const GET_PLACESIDONTLIKE = gql`
     }
   }
 `;
-
-
