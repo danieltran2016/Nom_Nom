@@ -101,8 +101,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
         {restaurants.map((restaurant) => (
           <Card
             key={restaurant._id}
-            className="card mb-3"
-            style={{ width: '50%' }}
+            className="card mb-3 mx-3"
+            style={{ width: '30%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
               <h3>{restaurant.name}</h3>

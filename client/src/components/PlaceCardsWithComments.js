@@ -48,8 +48,8 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
         {restaurants.map((restaurant) => (
           <Card
             key={restaurant.restaurant._id}
-            className="card mb-3"
-            style={{ width: '50%' }}
+            className="card mb-3 mx-3"
+            style={{ width: '30%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
               <h3>{restaurant.restaurant.name}</h3>
@@ -69,6 +69,9 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                   <p>{restaurant.comment}</p>
                 </Card.Body>
               </Card>
+              <div className = "d-flex justify-content-end">
+                <button className = "">Edit</button>               
+              </div>
             </Card.Body>
           </Card>
         ))}
@@ -102,7 +105,6 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
 
 const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesIDontLike] = useMutation(REMOVEFROM_PLACESIDONTLIKE);
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;
@@ -131,8 +133,8 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
       {restaurants.map((restaurant) => (
         <Card
           key={restaurant.restaurant._id}
-          className="card mb-3"
-          style={{ width: '50%' }}
+          className="card mb-3 mx-3"
+          style={{ width: '30%' }}
         >
           <Card.Header className="bg-warning text-dark p-2">
             <h3>{restaurant.restaurant.name}</h3>
