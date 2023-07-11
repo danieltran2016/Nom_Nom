@@ -122,12 +122,15 @@ const resolvers = {
           const existingPlacesToGo = await PlacesToGo.findOne({
             user: context.user._id,
           });
+          //problem with newUser adding an existing restaurant
           if (!existingPlacesToGo) {
-            const newPlacesToGo = await PlacesToGo.create({
+            const newPlacesTogo = await PlacesToGo.create({
               user: context_user._id,
-              restaurants: existingRestaurant._id,
+              //restaurants: existingRestaurant._id,
             });
-            return newPlacesToGo
+            newPlacesTogo.restaurants.push(existingRestaurant._id);
+            newPlacesTogo.save();
+            return newPlacesTogo;
           } else {
             existingPlacesToGo.restaurants.push(existingRestaurant._id);
             existingPlacesToGo.save();
