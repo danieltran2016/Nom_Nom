@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { RiDeleteBin2Line } from 'react-icons/ri';
 import { Button, Card } from 'react-bootstrap';
-import { REMOVEFROM_PLACESILIKE, REMOVEFROM_PLACESIDONTLIKE } from '../utils/mutations';
+import { REMOVEFROM_PLACESILIKE, REMOVEFROM_PLACESIDONTLIKE, UPDATE_COMMENTINPLACESILIKE } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
 const PlaceILikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesILike] = useMutation(REMOVEFROM_PLACESILIKE);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  //Edit Comment
+  const [updateCommentInPlacesILike] = useMutation(UPDATE_COMMENTINPLACESILIKE);
+  const [editable, setEditable] = useState(false);
+  //*should be restaurant.comment
+  const [editedComment, setEditedComment] = useState("");
+
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;
@@ -31,6 +37,35 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
       console.error('Error removing restaurant:', err.message);
     }
   };
+
+  //Edit Comment
+  const handleEdit = () => {
+    setEditable(true);
+  };
+
+  const handleChange = (event) => {
+    setEditedComment(event.target.value);
+  };
+
+  const handleSave = async(restaurantId, comment) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await updateCommentInPlacesILike({
+        variables: { restaurantId, comment }
+      });
+      console.log('Comment edited');
+      window.location.reload();
+    } catch (err) {
+      console.error('Error editing comment:', err.message);
+    }
+
+    setEditable(false);
+  }; 
 
   const randomizeRestaurant = () => {
     const randomIndex = Math.floor(Math.random() * restaurants.length);
@@ -64,14 +99,32 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
             </Card.Header>
             <Card.Body className="bg-light p-2">
               <p>{restaurant.restaurant.address}</p>
-              <Card className="mb-3">
-                <Card.Body className="bg-light-emphasis p-2">
-                  <p>{restaurant.comment}</p>
-                </Card.Body>
-              </Card>
-              <div className = "d-flex justify-content-end">
-                <button className = "">Edit</button>               
-              </div>
+
+              {editable? (
+                <>
+                  <Card className="mb-3">
+                    <Card.Body className="bg-light-emphasis p-2">
+                      <textarea value={editedComment} onChange={handleChange} />
+                    </Card.Body>
+                  </Card>
+                  <div className="d-flex justify-content-end">
+                    <button onClick={() => handleSave(restaurant.restaurant._id, editedComment)}>Save</button>               
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Card className="mb-3">
+                    <Card.Body className="bg-light-emphasis p-2">
+                      <p>{restaurant.comment}</p>
+                    </Card.Body>
+                  </Card>
+                  <div className="d-flex justify-content-end">
+                    <button onClick={handleEdit}>Edit</button>               
+                  </div>
+                </>
+              )}
+
+
             </Card.Body>
           </Card>
         ))}
