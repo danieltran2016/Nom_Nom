@@ -100,31 +100,42 @@ const resolvers = {
             user: context.user._id,
           });
           if (!existingPlacesToGo) {
-            const newPlacesTogo = await PlacesToGo.create({
+            await PlacesToGo.create({
               user: context.user._id,
               restaurants: newRestaurant._id,
             });
-            //console.log(newPlacesTogo);
-            return newPlacesTogo;
+            return PlacesToGo.findOne({
+              user: context.user._id,
+            })
+              .populate("restaurants")
+              .populate("user");
           } else {
             existingPlacesToGo.restaurants.push(newRestaurant._id);
             existingPlacesToGo.save();
-            return existingPlacesToGo;
+            return PlacesToGo.findOne({
+              user: context.user._id,
+            })
+              .populate("restaurants")
+              .populate("user");
           }
         } else {
           const existingPlacesToGo = await PlacesToGo.findOne({
             user: context.user._id,
           });
           if (!existingPlacesToGo) {
-            const newPlacesTogo = await PlacesToGo.create({
+            const newPlacesToGo = await PlacesToGo.create({
               user: context_user._id,
               restaurants: existingRestaurant._id,
             });
-            return newPlacesTogo;
+            return newPlacesToGo
           } else {
             existingPlacesToGo.restaurants.push(existingRestaurant._id);
             existingPlacesToGo.save();
-            return existingPlacesToGo;
+            return PlacesToGo.findOne({
+              user: context.user._id,
+            })
+              .populate("restaurants")
+              .populate("user");
           }
         }
       }

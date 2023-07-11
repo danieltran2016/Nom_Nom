@@ -8,6 +8,7 @@ import { GET_PLACESTOGO } from '../utils/queries'
 const PlacesToGo = () => {
   const { loading, data } = useQuery(GET_PLACESTOGO);
   const restaurants = data?.getPlacesToGo.restaurants || [];
+  
 
   return (
     <main>
