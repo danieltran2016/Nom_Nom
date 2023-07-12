@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Container} from 'react-bootstrap';
+import { Container} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PlacesToGoForm, PlacesILikeForm, PlacesIDontLikeForm } from './SideAddForm';
 
