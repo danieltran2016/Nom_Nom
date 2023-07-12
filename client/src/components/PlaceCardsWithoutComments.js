@@ -94,12 +94,11 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 
   return (
     <div>
-      <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div className="card-grid">
         {restaurants.map((restaurant) => (
           <Card
             key={restaurant._id}
             className="card mb-3 mx-3"
-            style={{ width: '30%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
               <h3 className="restaurant-name">{restaurant.name}</h3>
@@ -130,9 +129,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       </div>
       <div className="randomizer-container m-3" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
-        <Button className="bg-warning text-dark"
-                variant="warning"
-                onClick={randomizeRestaurant}>
+        <Button className="bg-warning text-dark" variant="warning" onClick={randomizeRestaurant}>
           Select Random Restaurant
         </Button>
         {randomRestaurant && (
@@ -144,18 +141,26 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </Card>
         )}
         {randomRestaurant && (
-          <Button className="bg-dark text-warning" 
-                  variant=""
-                  onClick={() => setRandomRestaurant(null)}>
+          <Button className="bg-dark text-warning" variant="" onClick={() => setRandomRestaurant(null)}>
             Clear Selection
           </Button>
         )}
       </div>
       {/* CSS Styling */}
       <style jsx>{`
-        @media (max-width: 768px) {
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+          grid-gap: 10px;
+        }
+
+        .restaurant-name {
+          font-size: 24px;
+        }
+
+        @media (max-width: 576px) {
           .restaurant-name {
-            font-size: 14px;
+            font-size: 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
