@@ -7,21 +7,21 @@ const SideNavbar = () => {
   return (
     <div>
       <Container className="pb-5 pt-3">
-        <Nav.Link as={Link} to={`/PlacesToGo`} className="text-warning">
+        <Link as={Link} to={`/PlacesToGo`} className="text-warning">
           Places To Go
-        </Nav.Link>
+        </Link>
         <PlacesToGoForm />
       </Container>
       <Container className="pb-5">
-        <Nav.Link as={Link} to={`/PlacesILike`} className="text-warning">
+        <Link as={Link} to={`/PlacesILike`} className="text-warning">
           Places I Like
-        </Nav.Link>
+        </Link>
         <PlacesILikeForm />
       </Container>
       <Container className="pb-5">
-        <Nav.Link as={Link} to={`/PlacesIDontLike`} className="text-warning">
+        <Link as={Link} to={`/PlacesIDontLike`} className="text-warning">
           Places I Don't Like
-        </Nav.Link>
+        </Link>
         <PlacesIDontLikeForm />
       </Container>
     </div>
