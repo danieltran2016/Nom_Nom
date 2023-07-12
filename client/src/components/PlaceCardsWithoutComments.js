@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { IoFastFoodOutline } from 'react-icons/io5';
+import { IoFastFoodOutline} from 'react-icons/io5';
+import { RiDeleteBin2Line } from 'react-icons/ri';
 import { Button, Card } from 'react-bootstrap';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
@@ -94,26 +95,25 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 
   return (
     <div>
-      <div className="card-grid" style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div className="card-grid">
         {restaurants.map((restaurant) => (
           <Card
             key={restaurant._id}
             className="card mb-3 mx-3"
-            style={{ width: '30%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
               <h3 className="restaurant-name">{restaurant.name}</h3>
               {selectedRestaurant === restaurant._id && (
                 <div className="menu-container">
                   <div className="menu-links">
-                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
                       Add to Places I Like
                     </Button>{' '}
-                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
                       Add to Places I Don't Like
                     </Button>{' '}
-                    <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
-                      Delete{' '}
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleDelete(restaurant._id)}>
+                    <RiDeleteBin2Line />
                     </Button>
                   </div>
                 </div>
@@ -130,9 +130,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       </div>
       <div className="randomizer-container m-3" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
-        <Button className="bg-warning text-dark"
-                variant="warning"
-                onClick={randomizeRestaurant}>
+        <Button className="bg-warning text-dark" variant="warning" onClick={randomizeRestaurant}>
           Select Random Restaurant
         </Button>
         {randomRestaurant && (
@@ -144,19 +142,35 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </Card>
         )}
         {randomRestaurant && (
-          <Button className="bg-dark text-warning" 
-                  variant=""
-                  onClick={() => setRandomRestaurant(null)}>
+          <Button className="bg-dark text-warning" variant="" onClick={() => setRandomRestaurant(null)}>
             Clear Selection
           </Button>
         )}
       </div>
       {/* CSS Styling */}
       <style jsx>{`
-        @media (max-width: 768px) {
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+        }
+
+        .restaurant-name {
+          font-size: 24px;
+        }
+
+        @media (max-width: 576px) {
           .restaurant-name {
-            font-size: 16px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
+
+          .menu-links button {
+            font-size: 12px;
+            padding: 0.2rem 0.5rem;
+          }
+
         }
       `}</style>
     </div>
