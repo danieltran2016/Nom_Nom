@@ -43,7 +43,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
       });
 
       console.log('Restaurant moved to Places I Like');
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error('Error moving restaurant:', err.message);
     }
@@ -61,7 +61,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
         variables: { restaurantId }
       });
       console.log('Restaurant moved to Places I Dont Like');
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error('Error moving restaurant:', err.message);
     }
@@ -79,7 +79,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
         variables: { restaurantId }
       });
       console.log('Restaurant removed from Places To Go');
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error('Error removing restaurant:', err.message);
     }
