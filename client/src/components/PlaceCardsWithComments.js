@@ -147,9 +147,16 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
         ))}
         {/* CSS Styling */}
       <style jsx>{`
+       .restaurant-name {
+        font-size: 24px;
+      }
+          
         @media (max-width: 768px) {
           .restaurant-name {
-            font-size: 16px;
+              font-size: 10px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
           }
         }
       `}</style>
@@ -308,9 +315,16 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
       ))}
       {/* CSS Styling */}
       <style jsx>{`
+        .restaurant-name {
+          font-size: 24px;
+        }
+
         @media (max-width: 768px) {
           .restaurant-name {
-            font-size: 16px;
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       `}</style>
