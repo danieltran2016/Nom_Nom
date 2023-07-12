@@ -38,7 +38,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
         variables: { restaurantId },
       });
       console.log("Restaurant removed from Places I Like");
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error removing restaurant:", err.message);
     }
@@ -72,7 +72,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
         variables: { restaurantId, comment },
       });
       console.log("Comment edited");
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error editing comment:", err.message);
     }
@@ -231,7 +231,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
         variables: { restaurantId },
       });
       console.log("Restaurant removed from Places I Dont Like");
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error removing restaurant:", err.message);
     }
@@ -265,7 +265,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
         variables: { restaurantId, comment },
       });
       console.log("Comment edited");
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.error("Error editing comment:", err.message);
     }

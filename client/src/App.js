@@ -68,6 +68,7 @@ function App() {
                   <Route path="/PlacesILike" element={<PlacesIlike />} />
                   <Route path="/PlacesIDontLike" element={<PlacesIDontlike />} />
                   <Route path="/Search" element={<SearchPlaces />} />
+                  <Route path="/SideNavbar" element={<SideNavbar />} />
                   <Route
                     path="*"
                     element={<h1 className="display-2">Wrong page!</h1>}

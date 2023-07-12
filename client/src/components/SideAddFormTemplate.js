@@ -29,7 +29,11 @@ const FormTemplate = ({mutation}) => {
         variables: { ...formState },
       });
 
-      window.location.reload();
+      // window.location.reload();
+      setFormState({
+        name: '',
+        address: '',
+      });
     } catch (err) {
       console.error(err);
     }
