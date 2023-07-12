@@ -91,9 +91,6 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     setRandomRestaurant(randomRestaurant); // Set the random restaurant
   };
 
-  const clearSelectedRestaurant = () => {
-    setSelectedRestaurant(null);
-  };
 
   return (
     <div>
