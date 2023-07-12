@@ -72,9 +72,9 @@ const Header = () => {
       <header className='bg-dark text-light mb-1 py-4 flex-row align-items-center'>
         <div className='container-fluid'>
           <div className='row justify-space-between-lg justify-center align-items-center'>
-            <div className='col-3'>
+            <Link className='col-3 text-decoration-none' to="/">
               <h1 className='text-warning'>Nom Nom?</h1>
-            </div>
+            </Link>
             <div className='col-9'>
               <Form onSubmit={handleFormSubmit}>
                 <Row className='align-items-center'>

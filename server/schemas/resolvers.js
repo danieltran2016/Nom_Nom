@@ -302,7 +302,19 @@ const resolvers = {
           throw new Error("Couldn't find user with this id!");
         }
 
-        return updatedPlacesILike;
+        return PlacesILike.findOne({
+          user: context.user._id,
+        })
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
       }
 
       throw new AuthenticationError("You need to be logged in!");
@@ -415,7 +427,19 @@ const resolvers = {
           throw new Error("Couldn't find user with this id!");
         }
 
-        return updatedPlacesIDontLike;
+        return PlacesIDontLike.findOne({
+          user: context.user._id,
+        })
+          .populate({
+            path: "restaurants",
+            populate: {
+              path: "restaurant",
+            },
+          })
+          .populate({
+            path: "restaurants.comment",
+          })
+          .populate("user");
       }
 
       throw new AuthenticationError("You need to be logged in!");

@@ -91,9 +91,6 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
     setRandomRestaurant(randomRestaurant); // Set the random restaurant
   };
 
-  const clearSelectedRestaurant = () => {
-    setSelectedRestaurant(null);
-  };
 
   return (
     <div>
@@ -101,8 +98,8 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
         {restaurants.map((restaurant) => (
           <Card
             key={restaurant._id}
-            className="card mb-3"
-            style={{ width: '50%' }}
+            className="card mb-3 mx-3"
+            style={{ width: '30%' }}
           >
             <Card.Header className="bg-warning text-dark p-2">
               <h3 className="restaurant-name">{restaurant.name}</h3>
@@ -131,7 +128,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
           </Card>
         ))}
       </div>
-      <div className="randomizer-container" style={{ width: '50%' }}>
+      <div className="randomizer-container m-3" style={{ width: '50%' }}>
         <h3>Let Fate Decide</h3>
         <Button className="bg-warning text-dark"
                 variant="warning"
