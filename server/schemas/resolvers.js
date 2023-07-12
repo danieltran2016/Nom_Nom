@@ -92,14 +92,19 @@ const resolvers = {
     //     }
     
     //     const data = await response.json(); 
-    //     const places = data.results; 
-    
-    //     return places; 
+    //     const restName = data.results[0].name; 
+    //     const restAddress = data.results[0].formatted_address; 
+    //     const restRating = data.results[0].rating; 
+
+    //     console.log("Name:",restName)
+    //     console.log("Address:",restAddress)
+    //     console.log("Rating:",restRating)
+
+    //     return restName, restAddress, restRating; 
     //   } catch (error) { 
     //     throw new Error('Failed to retrieve places data.'); 
     //   } 
     // }, 
-    
   }, 
 
   Mutation: { 
