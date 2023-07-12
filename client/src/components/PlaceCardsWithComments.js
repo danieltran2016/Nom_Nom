@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { BiCommentDetail } from "react-icons/bi";
 import { Button, Card, Form } from "react-bootstrap";
 import {
   REMOVEFROM_PLACESILIKE,
@@ -127,18 +128,17 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                   </div>
                 </>
               ) : (
-                <>
+              <>
                   <Card className="mb-3">
                     <Card.Body className="bg-light-emphasis p-2">
                       <p>{restaurant.comment}</p>
                     </Card.Body>
                   </Card>
-                  <div className="d-flex justify-content-end">
+                  <div className="comment-btn d-flex justify-content-end">
                     <Button
-                      variant="secondary"
-                      onClick={() => handleEdit(restaurant.restaurant._id)}
-                    >
-                      Edit
+                      variant="warning"
+                      onClick={() => handleEdit(restaurant.restaurant._id)}>
+                      <BiCommentDetail />
                     </Button>
                   </div>
                 </>
@@ -314,14 +314,13 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
                     <p>{restaurant.comment}</p>
                   </Card.Body>
                 </Card>
-                <div className="d-flex justify-content-end">
-                  <Button
-                    variant="secondary"
-                    onClick={() => handleEdit(restaurant.restaurant._id)}
-                  >
-                    Edit
-                  </Button>
-                </div>
+                <div className="comment-btn d-flex justify-content-end">
+                    <Button
+                      variant="warning"
+                      onClick={() => handleEdit(restaurant.restaurant._id)}>
+                      <BiCommentDetail />
+                    </Button>
+                  </div>
               </>
             )}
           </Card.Body>
