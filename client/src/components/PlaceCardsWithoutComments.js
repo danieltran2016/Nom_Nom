@@ -160,7 +160,7 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 
         @media (max-width: 576px) {
           .restaurant-name {
-            font-size: 10px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

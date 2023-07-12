@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { BiCommentDetail } from "react-icons/bi";
+import { MdSaveAlt } from "react-icons/md";
 import { Button, Card, Form } from "react-bootstrap";
 import {
   REMOVEFROM_PLACESILIKE,
@@ -96,7 +97,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
               <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
               <Button
                 variant="dark bg-dark text-warning"
-                className="btn-sm"
+                className="trash-btn btn-sm"
                 style={{ position: "absolute", top: "5px", right: "5px" }}
                 onClick={() => handleDelete(restaurant.restaurant._id)}
               >
@@ -117,13 +118,12 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                     </Card.Body>
                   </Card>
                   <div className="d-flex justify-content-end">
-                    <Button
-                      variant="primary"
+                  <Button
+                      className="save-btn"
+                      variant="secondary"
                       onClick={() =>
-                        handleSave(restaurant.restaurant._id, editedComment)
-                      }
-                    >
-                      Save
+                        handleSave(restaurant.restaurant._id, editedComment)}>
+                      <MdSaveAlt />
                     </Button>
                   </div>
                 </>
@@ -134,8 +134,9 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                       <p>{restaurant.comment}</p>
                     </Card.Body>
                   </Card>
-                  <div className="comment-btn d-flex justify-content-end">
+                  <div className="d-flex justify-content-end">
                     <Button
+                      className="comment-btn"
                       variant="warning"
                       onClick={() => handleEdit(restaurant.restaurant._id)}>
                       <BiCommentDetail />
@@ -187,14 +188,16 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
 
         @media (max-width: 768px) {
           .restaurant-name {
-            font-size: 10px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          .card .btn-sm {
+          .card .trash-btn,
+          .card .save-btn,
+          .card .comment-btn {
             padding: 0.2rem 0.5rem;
-            font-size: 10px;
+            font-size: 12px;
           }
         }
       `}</style>
@@ -276,7 +279,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
             <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
             <Button
               variant="dark bg-dark text-warning"
-              className="btn-sm"
+              className="trash-btn btn-sm"
               style={{ position: "absolute", top: "5px", right: "5px" }}
               onClick={() => handleDelete(restaurant.restaurant._id)}
             >
@@ -297,14 +300,13 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
                   </Card.Body>
                 </Card>
                 <div className="d-flex justify-content-end">
-                  <Button
-                    variant="primary"
-                    onClick={() =>
-                      handleSave(restaurant.restaurant._id, editedComment)
-                    }
-                  >
-                    Save
-                  </Button>
+                <Button
+                      className="save-btn"
+                      variant="secondary"
+                      onClick={() =>
+                        handleSave(restaurant.restaurant._id, editedComment)}>
+                      <MdSaveAlt />
+                    </Button>
                 </div>
               </>
             ) : (
@@ -314,8 +316,9 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
                     <p>{restaurant.comment}</p>
                   </Card.Body>
                 </Card>
-                <div className="comment-btn d-flex justify-content-end">
+                <div className="d-flex justify-content-end">
                     <Button
+                      className="comment-btn"
                       variant="warning"
                       onClick={() => handleEdit(restaurant.restaurant._id)}>
                       <BiCommentDetail />
@@ -339,14 +342,16 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
 
         @media (max-width: 768px) {
           .restaurant-name {
-            font-size: 10px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          .card .btn-sm {
+          .card .trash-btn,
+          .card .save-btn,
+          .card .comment-btn {
             padding: 0.2rem 0.5rem;
-            font-size: 10px;
+            font-size: 12px;
           }
         }
       `}</style>
