@@ -114,12 +114,14 @@ const Header = () => {
                         Logout
                       </Link>
                     ) : (
+                      <>
                       <Link
                         className='text-warning'
-                        onClick={() => setShowModal(true)}
-                      >
-                        Login/Sign Up
+                        onClick={() => setShowModal(true)}>
+                        Login/Sign
                       </Link>
+                      <span className="text-light ml-3"> to Get Started</span>
+                      </>
                     )}
                   </Col>
                 </Row>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { IoFastFoodOutline } from 'react-icons/io5';
+import { IoFastFoodOutline} from 'react-icons/io5';
+import { RiDeleteBin2Line } from 'react-icons/ri';
 import { Button, Card } from 'react-bootstrap';
 import {
   MOVE_RESTAURANTTOPLACESILIKE,
@@ -105,14 +106,14 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
               {selectedRestaurant === restaurant._id && (
                 <div className="menu-container">
                   <div className="menu-links">
-                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleMoveRestaurantToPlacesILike(restaurant._id)}>
                       Add to Places I Like
                     </Button>{' '}
-                    <Button variant="dark" className="text-warning" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleMoveRestaurantToPlacesIDontLike(restaurant._id)}>
                       Add to Places I Don't Like
                     </Button>{' '}
-                    <Button variant="dark" className="text-warning" onClick={() => handleDelete(restaurant._id)}>
-                      Delete{' '}
+                    <Button variant="dark" className="text-warning m-1" onClick={() => handleDelete(restaurant._id)}>
+                    <RiDeleteBin2Line />
                     </Button>
                   </div>
                 </div>
@@ -151,7 +152,6 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
         .card-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-          grid-gap: 10px;
         }
 
         .restaurant-name {
@@ -160,11 +160,17 @@ const PlaceCardsWithoutComments = ({ restaurants }) => {
 
         @media (max-width: 576px) {
           .restaurant-name {
-            font-size: 10px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
           }
+
+          .menu-links button {
+            font-size: 12px;
+            padding: 0.2rem 0.5rem;
+          }
+
         }
       `}</style>
     </div>
