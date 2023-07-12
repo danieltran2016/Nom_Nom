@@ -57,9 +57,57 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-  },
+    // searchGeolocationResolver: async (parent, args) => {
+    //   const { zip } = args; // Assuming 'zip' is passed as an argument to the resolver
+    
+    //   try {
+    //     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
+    
+    //     if (!response.ok) {
+    //       throw new Error('Failed to retrieve geolocation data.');
+    //     }
+    
+    //     const data = await response.json();
+    //     const { lat, lng } = data.results[0].geometry.location;
+    //     const location = `${lat},${lng}`;
+    
+    //     // Pass the location to the searchPlaces resolver
+    //     return searchPlaces(null, { location, ...args });
+    //   } catch (error) {
+    //     throw new Error('Failed to retrieve geolocation data.');
+    //   }
+    // },
+    
+    //  searchPlaces: async (parent, args) => {
+    //   const { location, search } = args; // Assuming 'location' and 'search' are passed as arguments to the resolver
+    
+    //   try {
+    //     const encodedLocation = encodeURIComponent(location);
+    //     const encodedSearch = encodeURIComponent(search);
+    
+    //     const response = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${encodedLocation}&query=${encodedSearch}&radius=1610&key=AIzaSyDhTdmCx9-UZnUegQ3CynW5eP68S3SFSkQ`);
+    
+    //     if (!response.ok) {
+    //       throw new Error('Failed to retrieve places data.');
+    //     }
+    
+    //     const data = await response.json(); 
+    //     const restName = data.results[0].name; 
+    //     const restAddress = data.results[0].formatted_address; 
+    //     const restRating = data.results[0].rating; 
 
-  Mutation: {
+    //     console.log("Name:",restName)
+    //     console.log("Address:",restAddress)
+    //     console.log("Rating:",restRating)
+
+    //     return restName, restAddress, restRating; 
+    //   } catch (error) { 
+    //     throw new Error('Failed to retrieve places data.'); 
+    //   } 
+    // }, 
+  }, 
+
+  Mutation: { 
     // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });

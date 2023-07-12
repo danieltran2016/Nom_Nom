@@ -97,7 +97,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
             style={{ width: "30%" }}
           >
             <Card.Header className="bg-warning text-dark p-2">
-              <h3>{restaurant.restaurant.name}</h3>
+              <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
               <Button
                 variant="dark bg-dark text-warning"
                 className="btn-sm"
@@ -145,6 +145,14 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
             </Card.Body>
           </Card>
         ))}
+        {/* CSS Styling */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .restaurant-name {
+            font-size: 16px;
+          }
+        }
+      `}</style>
       </div>
       <div className="randomizer-container m-3" style={{ width: "50%" }}>
         <h3>Let Fate Decide</h3>
@@ -252,7 +260,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
           style={{ width: "30%" }}
         >
           <Card.Header className="bg-warning text-dark p-2">
-            <h3>{restaurant.restaurant.name}</h3>
+            <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
             <Button
               variant="dark bg-dark text-warning"
               className="btn-sm"
@@ -298,6 +306,14 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
           </Card.Body>
         </Card>
       ))}
+      {/* CSS Styling */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .restaurant-name {
+            font-size: 16px;
+          }
+        }
+      `}</style>
     </div>
   );
 };

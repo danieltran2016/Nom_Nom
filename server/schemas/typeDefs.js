@@ -12,7 +12,7 @@ const typeDefs = gql`
     name: String!
     address: String!
   }
-
+  
   type PlacesToGo {
     _id: ID!
     user: User!

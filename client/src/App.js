@@ -16,10 +16,12 @@ import SideNavbar from './components/SideNavbar';
 import Home from './pages/Home';
 
 import backgroundImage from '../src/image/background.jpg';
+import { FaGithub } from 'react-icons/fa';
+
 // Construct our main GraphQL API endpoint
-const httpLink = createHttpLink({ 
-  uri: '/graphql', 
-}); 
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
@@ -56,27 +58,15 @@ function App() {
             }}
           >
             <div className="row">
-              <div className="col-3 bg-dark">
+              <div className="col-12 col-md-3 order-md-1 order-2 bg-dark">
                 <SideNavbar />
               </div>
-              <div className="col-9">
+              <div className="col-12 col-md-9 order-md-2 order-1">
                 <Routes>
-                <Route 
-                    path='/' 
-                    element={<Home />} 
-                  />          
-                  <Route 
-                    path='/PlacesToGo' 
-                    element={<PlacesToGo />} 
-                  />
-                  <Route 
-                    path='/PlacesILike' 
-                    element={<PlacesIlike />} 
-                  />
-                  <Route 
-                    path='/PlacesIDontLike' 
-                    element={<PlacesIDontlike />} 
-                  />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/PlacesToGo" element={<PlacesToGo />} />
+                  <Route path="/PlacesILike" element={<PlacesIlike />} />
+                  <Route path="/PlacesIDontLike" element={<PlacesIDontlike />} />
                   <Route path="/Search" element={<SearchPlaces />} />
                   <Route
                     path="*"
@@ -85,6 +75,23 @@ function App() {
                 </Routes>
               </div>
             </div>
+            <h3 style={{ textAlign: 'center'}}>
+              <a href="https://github.com/xybai0103" 
+                 class='text-dark'
+                 style={{ textDecoration: 'none', marginRight: '20px' }}>
+                Xueyin <FaGithub />
+              </a>
+              <a href="https://github.com/Willyum863"
+                 class='text-warning'
+                 style={{ textDecoration: 'none', marginRight: '20px'}}>
+                William <FaGithub />
+              </a>
+              <a href="https://github.com/danieltran2016"
+                 class='text-secondary'
+                 style={{ textDecoration: 'none' }}>
+                Danny <FaGithub />
+              </a>
+            </h3>
           </div>
         </>
       </Router>
