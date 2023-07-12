@@ -15,6 +15,7 @@ const Home = () => {
         <h6 className="p-2">
           Want to explore local restaurants? Our integration with Google Places lets you search for restaurants in your area effortlessly.
         </h6>
+        <h4 className="text-warning p-2">Login or SignUp to Get Started!</h4>
       </Card.Body>
     </Card>
   );
