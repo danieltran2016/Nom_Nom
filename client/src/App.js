@@ -16,6 +16,7 @@ import SideNavbar from './components/SideNavbar';
 import Home from './pages/Home';
 
 import backgroundImage from '../src/image/background.jpg';
+import { FaGithub } from 'react-icons/fa';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -74,6 +75,23 @@ function App() {
                 </Routes>
               </div>
             </div>
+            <h3 style={{ textAlign: 'center'}}>
+              <a href="https://github.com/xybai0103" 
+                 class='text-dark'
+                 style={{ textDecoration: 'none', marginRight: '20px' }}>
+                Xueyin <FaGithub />
+              </a>
+              <a href="https://github.com/Willyum863"
+                 class='text-warning'
+                 style={{ textDecoration: 'none', marginRight: '20px'}}>
+                William <FaGithub />
+              </a>
+              <a href="https://github.com/danieltran2016"
+                 class='text-secondary'
+                 style={{ textDecoration: 'none' }}>
+                Danny <FaGithub />
+              </a>
+            </h3>
           </div>
         </>
       </Router>
