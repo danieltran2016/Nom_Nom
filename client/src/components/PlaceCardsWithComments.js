@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import {
   REMOVEFROM_PLACESILIKE,
   REMOVEFROM_PLACESIDONTLIKE,
@@ -14,11 +14,10 @@ import Auth from "../utils/auth";
 const PlaceILikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesILike] = useMutation(REMOVEFROM_PLACESILIKE);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-  //Edit Comment
+  // Edit Comment
   const [updateCommentInPlacesILike] = useMutation(UPDATE_COMMENTINPLACESILIKE);
   // Track the ID of the restaurant being edited
   const [editable, setEditable] = useState(null);
-  //*should be restaurant.comment, achieved by line 53
   const [editedComment, setEditedComment] = useState(null);
 
   if (!restaurants.length) {
@@ -43,7 +42,7 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
     }
   };
 
-  //Edit Comment
+  // Edit Comment
   const handleEdit = (restaurantId) => {
     const restaurantFound = restaurants.find(
       (restaurant) => restaurant.restaurant._id === restaurantId
@@ -89,13 +88,9 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
 
   return (
     <div>
-      <div className="card-grid" style={{ display: "flex", flexWrap: "wrap" }}>
+      <div className="card-grid">
         {restaurants.map((restaurant) => (
-          <Card
-            key={restaurant.restaurant._id}
-            className="card mb-3 mx-3"
-            style={{ width: "30%" }}
-          >
+          <Card key={restaurant.restaurant._id} className="card mb-3 mx-3">
             <Card.Header className="bg-warning text-dark p-2">
               <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
               <Button
@@ -113,17 +108,22 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                 <>
                   <Card className="mb-3">
                     <Card.Body className="bg-light-emphasis p-2">
-                      <textarea value={editedComment} onChange={handleChange} />
+                      <Form.Control
+                        as="textarea"
+                        value={editedComment}
+                        onChange={handleChange}
+                      />
                     </Card.Body>
                   </Card>
                   <div className="d-flex justify-content-end">
-                    <button
+                    <Button
+                      variant="primary"
                       onClick={() =>
                         handleSave(restaurant.restaurant._id, editedComment)
                       }
                     >
                       Save
-                    </button>
+                    </Button>
                   </div>
                 </>
               ) : (
@@ -134,32 +134,18 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
                     </Card.Body>
                   </Card>
                   <div className="d-flex justify-content-end">
-                    <button
+                    <Button
+                      variant="secondary"
                       onClick={() => handleEdit(restaurant.restaurant._id)}
                     >
                       Edit
-                    </button>
+                    </Button>
                   </div>
                 </>
               )}
             </Card.Body>
           </Card>
         ))}
-        {/* CSS Styling */}
-      <style jsx>{`
-       .restaurant-name {
-        font-size: 24px;
-      }
-          
-        @media (max-width: 768px) {
-          .restaurant-name {
-              font-size: 10px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-          }
-        }
-      `}</style>
       </div>
       <div className="randomizer-container m-3" style={{ width: "50%" }}>
         <h3>Let Fate Decide</h3>
@@ -188,13 +174,37 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
           </Button>
         )}
       </div>
+      {/* CSS Styling */}
+      <style jsx>{`
+        .restaurant-name {
+          font-size: 24px;
+        }
+
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+        }
+
+        @media (max-width: 768px) {
+          .restaurant-name {
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .card .btn-sm {
+            padding: 0.2rem 0.5rem;
+            font-size: 10px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
 
 const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesIDontLike] = useMutation(REMOVEFROM_PLACESIDONTLIKE);
-  //Edit Comment
+  // Edit Comment
   const [updateCommentInPlacesIDontLike] = useMutation(
     UPDATE_COMMENTINPLACESIDONTLIKE
   );
@@ -224,7 +234,7 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
     }
   };
 
-  //Edit Comment
+  // Edit Comment
   const handleEdit = (restaurantId) => {
     const restaurantFound = restaurants.find(
       (restaurant) => restaurant.restaurant._id === restaurantId
@@ -259,13 +269,9 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   };
 
   return (
-    <div className="card-grid" style={{ display: "flex", flexWrap: "wrap" }}>
+    <div className="card-grid">
       {restaurants.map((restaurant) => (
-        <Card
-          key={restaurant.restaurant._id}
-          className="card mb-3 mx-3"
-          style={{ width: "30%" }}
-        >
+        <Card key={restaurant.restaurant._id} className="card mb-3 mx-3">
           <Card.Header className="bg-warning text-dark p-2">
             <h3 className="restaurant-name">{restaurant.restaurant.name}</h3>
             <Button
@@ -283,17 +289,22 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
               <>
                 <Card className="mb-3">
                   <Card.Body className="bg-light-emphasis p-2">
-                    <textarea value={editedComment} onChange={handleChange} />
+                    <Form.Control
+                      as="textarea"
+                      value={editedComment}
+                      onChange={handleChange}
+                    />
                   </Card.Body>
                 </Card>
                 <div className="d-flex justify-content-end">
-                  <button
+                  <Button
+                    variant="primary"
                     onClick={() =>
                       handleSave(restaurant.restaurant._id, editedComment)
                     }
                   >
                     Save
-                  </button>
+                  </Button>
                 </div>
               </>
             ) : (
@@ -304,19 +315,27 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
                   </Card.Body>
                 </Card>
                 <div className="d-flex justify-content-end">
-                  <button onClick={() => handleEdit(restaurant.restaurant._id)}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handleEdit(restaurant.restaurant._id)}
+                  >
                     Edit
-                  </button>
+                  </Button>
                 </div>
               </>
             )}
           </Card.Body>
         </Card>
       ))}
-      {/* CSS Styling */}
-      <style jsx>{`
+       {/* CSS Styling */}
+       <style jsx>{`
         .restaurant-name {
           font-size: 24px;
+        }
+
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
         }
 
         @media (max-width: 768px) {
@@ -325,6 +344,10 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+          }
+          .card .btn-sm {
+            padding: 0.2rem 0.5rem;
+            font-size: 10px;
           }
         }
       `}</style>
