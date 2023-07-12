@@ -59,3 +59,16 @@ export const GET_PLACESIDONTLIKE = gql`
     }
   }
 `;
+
+// export const API_RESPONSE = gql`
+// query SearchQuery($zip: String!, $search: String!) {
+//   searchGeolocation(zip: $zip) {
+//     location
+//     places(search: $search) {
+//       name
+//       address
+//       rating
+//     }
+//   }
+// }
+// `;

@@ -14,7 +14,7 @@ const Header = () => {
   const [formState, setFormState] = useState({
     name: '',
     zipcode: '',
-  });
+  }); 
 
   // const [restaurantName, setrestaurantName] = useState('');
   // const [restaurantAddress, setrestaurantAddress] = useState('');
