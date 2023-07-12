@@ -6,6 +6,7 @@ import {
   REMOVEFROM_PLACESILIKE,
   REMOVEFROM_PLACESIDONTLIKE,
   UPDATE_COMMENTINPLACESILIKE,
+  UPDATE_COMMENTINPLACESIDONTLIKE,
 } from "../utils/mutations";
 
 import Auth from "../utils/auth";
@@ -178,6 +179,13 @@ const PlaceILikeCardsWithComments = ({ restaurants }) => {
 
 const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
   const [removeFromPlacesIDontLike] = useMutation(REMOVEFROM_PLACESIDONTLIKE);
+  //Edit Comment
+  const [updateCommentInPlacesIDontLike] = useMutation(
+    UPDATE_COMMENTINPLACESIDONTLIKE
+  );
+  // Track the ID of the restaurant being edited
+  const [editable, setEditable] = useState(null);
+  const [editedComment, setEditedComment] = useState(null);
 
   if (!restaurants.length) {
     return <h3>No restaurants found</h3>;
@@ -198,6 +206,40 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
       window.location.reload();
     } catch (err) {
       console.error("Error removing restaurant:", err.message);
+    }
+  };
+
+  //Edit Comment
+  const handleEdit = (restaurantId) => {
+    const restaurantFound = restaurants.find(
+      (restaurant) => restaurant.restaurant._id === restaurantId
+    );
+
+    if (restaurantFound) {
+      setEditable(restaurantId);
+      setEditedComment(restaurantFound.comment);
+    }
+  };
+
+  const handleChange = (event) => {
+    setEditedComment(event.target.value);
+  };
+
+  const handleSave = async (restaurantId, comment) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const { data } = await updateCommentInPlacesIDontLike({
+        variables: { restaurantId, comment },
+      });
+      console.log("Comment edited");
+      window.location.reload();
+    } catch (err) {
+      console.error("Error editing comment:", err.message);
     }
   };
 
@@ -222,11 +264,37 @@ const PlaceIDontLikeCardsWithComments = ({ restaurants }) => {
           </Card.Header>
           <Card.Body className="bg-light p-2">
             <p>{restaurant.restaurant.address}</p>
-            <Card className="mb-3">
-              <Card.Body className="bg-light-emphasis p-2">
-                <p>{restaurant.comment}</p>
-              </Card.Body>
-            </Card>
+            {editable === restaurant.restaurant._id ? (
+              <>
+                <Card className="mb-3">
+                  <Card.Body className="bg-light-emphasis p-2">
+                    <textarea value={editedComment} onChange={handleChange} />
+                  </Card.Body>
+                </Card>
+                <div className="d-flex justify-content-end">
+                  <button
+                    onClick={() =>
+                      handleSave(restaurant.restaurant._id, editedComment)
+                    }
+                  >
+                    Save
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Card className="mb-3">
+                  <Card.Body className="bg-light-emphasis p-2">
+                    <p>{restaurant.comment}</p>
+                  </Card.Body>
+                </Card>
+                <div className="d-flex justify-content-end">
+                  <button onClick={() => handleEdit(restaurant.restaurant._id)}>
+                    Edit
+                  </button>
+                </div>
+              </>
+            )}
           </Card.Body>
         </Card>
       ))}
