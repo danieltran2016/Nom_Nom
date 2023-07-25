@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 
+import { GET_PLACESTOGO } from '../utils/queries'
+
 import Auth from '../utils/auth';
 
 const FormTemplate = ({mutation}) => {
@@ -11,7 +13,23 @@ const FormTemplate = ({mutation}) => {
   });
 
   // Set up our mutation with an option to handle errors
-  const [mutate, { error }] = useMutation(mutation);
+  const [mutate, { error }] = useMutation(mutation, {
+    //update the cache after a successful mutation
+    update: (cache, { data: { mutate } }) => {
+      try {
+        //Read tge current cache data
+        const { restaurants } = cache.readQuery({ query: GET_PLACESTOGO });
+
+        //Update the cache with the new restaurant data
+        cache.writeQuery({
+          query: GET_PLACESTOGO,
+          data: { restaurants: [mutate, ...restaurants] },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
