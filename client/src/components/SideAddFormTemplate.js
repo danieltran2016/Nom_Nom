@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 
-import { GET_PLACESTOGO } from '../utils/queries'
-
 import Auth from '../utils/auth';
 
-const FormTemplate = ({mutation}) => {
+const FormTemplate = ({mutation, query}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
@@ -17,13 +15,19 @@ const FormTemplate = ({mutation}) => {
     //update the cache after a successful mutation
     update: (cache, { data: { mutate } }) => {
       try {
-        //Read tge current cache data
-        const { restaurants } = cache.readQuery({ query: GET_PLACESTOGO });
+        //Read the current cache data
+        const { getPlacesToGo } = cache.readQuery({ query: query });
 
         //Update the cache with the new restaurant data
         cache.writeQuery({
-          query: GET_PLACESTOGO,
-          data: { restaurants: [mutate, ...restaurants] },
+          query: query,
+          data: {
+            getPlacesToGo: {
+              ...getPlacesToGo,
+              restaurants: mutate.restaurants,
+              user: mutate.user,
+            }
+          }
         });
       } catch (e) {
         console.error(e);
