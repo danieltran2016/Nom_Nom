@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 
-const FormTemplate = ({mutation, query}) => {
+const FormTemplate = ({mutation, query, queryFunction}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
@@ -16,18 +16,14 @@ const FormTemplate = ({mutation, query}) => {
     update: (cache, { data: { mutate } }) => {
       try {
         //Read the current cache data
-        const { getPlacesToGo } = cache.readQuery({ query: query });
+        const { queryFunction } = cache.readQuery({ query: query });
 
         //Update the cache with the new restaurant data
         cache.writeQuery({
           query: query,
           data: {
-            getPlacesToGo: {
-              ...getPlacesToGo,
-              restaurants: mutate.restaurants,
-              user: mutate.user,
-            }
-          }
+            query: {mutate},
+          },
         });
       } catch (e) {
         console.error(e);
