@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_PLACESTOGO = gql`
   query getPlacesToGo {
@@ -59,6 +59,10 @@ export const GET_PLACESIDONTLIKE = gql`
     }
   }
 `;
+
+// export const getPlacesToGo = GET_PLACESTOGO;
+// export const getPlacesILike = GET_PLACESILIKE;
+// export const getPlacesIDontLike = GET_PLACESIDONTLIKE;
 
 // export const API_RESPONSE = gql`
 // query SearchQuery($zip: String!, $search: String!) {

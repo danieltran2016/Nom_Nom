@@ -4,33 +4,17 @@ import { Form, Button } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 
-const FormTemplate = ({mutation, query, queryFunction}) => {
+// 1. You碗托to be able to perform a mutation, which will then result in you needing to do another query
+// If you delete from a list, or add, you'd want the HTML to prevent duplicates
+
+const FormTemplate = ({mutation, mutationReturnName, query, queryReturnName}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
   });
 
   // Set up our mutation with an option to handle errors
-  const [mutate, { error }] = useMutation(mutation, {
-    //update the cache after a successful mutation
-    update: (cache, { data: { mutate } }) => {
-      try {
-        //Read the current cache data
-        const { queryFunction } = cache.readQuery({ query: query });
-
-        //Update the cache with the new restaurant data
-        cache.writeQuery({
-          query: query,
-          data: {
-            query: {mutate},
-          },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-
+  const [mutate, { error }] = useMutation(mutation);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -43,8 +27,21 @@ const FormTemplate = ({mutation, query, queryFunction}) => {
 
     // On form submit, perform mutation and pass in form data object as arguments
     try {
-      const { data } = await mutate({
+     await mutate({
         variables: { ...formState },
+        // update: (cache, {data}) => {
+        //   console.log(data)
+        //   // const placesToGo = data[mutationReturnName].restaurants
+        //   // console.log(placesToGo)
+        //   const cacheData = cache.readQuery({ query: query });
+        //   console.log(cacheData)
+        //   // const actualData = cacheData[queryReturnName]
+        //   // console.log(actualData)
+        //   // cache.writeQuery({
+        //   //   query: query,
+        //   //   data: { [queryReturnName]:{...actualData, restaurants: placesToGo} },
+        //   // });
+        // },
       });
 
       // window.location.reload();

@@ -134,6 +134,47 @@ const resolvers = {
     },
 
     // user comes from `req.user` created in the auth middleware function
+    // addToPlacesToGo: async (parent, { name, address }, context) => {
+    //   if (context.user) {
+    //     const restaurant = {
+    //       name,
+    //       address,
+    //     };
+    //     const existingRestaurant = await Restaurant.findOne({ address });
+    //     const existingPlacesToGo = await PlacesToGo.findOne({
+    //       user: context.user._id,
+    //     });
+
+    //     if (!existingRestaurant) {
+    //       const newRestaurant = await Restaurant.create(restaurant);
+    //       if (!existingPlacesToGo) {
+    //         await PlacesToGo.create({
+    //           user: context.user._id,
+    //           restaurants: newRestaurant._id,
+    //         });
+    //       } else {
+    //         existingPlacesToGo.restaurants.push(newRestaurant._id);
+    //         existingPlacesToGo.save();
+    //       }
+    //     } else {
+    //       if (!existingPlacesToGo) {
+    //         await PlacesToGo.create({
+    //           user: context.user._id,
+    //           restaurants: existingRestaurant._id,
+    //         });
+    //       } else {
+    //         existingPlacesToGo.restaurants.push(existingRestaurant._id);
+    //         existingPlacesToGo.save();
+    //       }
+    //     }
+    //     return PlacesToGo.findOne({
+    //       user: context.user._id,
+    //     })
+    //       .populate("restaurants")
+    //       .populate("user");
+    //   }
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
     addToPlacesToGo: async (parent, { name, address }, context) => {
       if (context.user) {
         const restaurant = {
@@ -141,31 +182,21 @@ const resolvers = {
           address,
         };
         const existingRestaurant = await Restaurant.findOne({ address });
-        const existingPlacesToGo = await PlacesToGo.findOne({
-          user: context.user._id,
-        });
+        let updatedPlacesToGo;
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-          if (!existingPlacesToGo) {
-            await PlacesToGo.create({
-              user: context.user._id,
-              restaurants: newRestaurant._id,
-            });
-          } else {
-            existingPlacesToGo.restaurants.push(newRestaurant._id);
-            existingPlacesToGo.save();
-          }
+          updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
+            { user: context.user._id },
+            { $push: { restaurants: newRestaurant._id } },
+            { new: true, upsert: true } // Use 'upsert' to create if it doesn't exist
+          );
         } else {
-          if (!existingPlacesToGo) {
-            await PlacesToGo.create({
-              user: context.user._id,
-              restaurants: existingRestaurant._id,
-            });
-          } else {
-            existingPlacesToGo.restaurants.push(existingRestaurant._id);
-            existingPlacesToGo.save();
-          }
+          updatedPlacesToGo = await PlacesToGo.findOneAndUpdate(
+            { user: context.user._id },
+            { $push: { restaurants: existingRestaurant._id } },
+            { new: true, upsert: true } // Use 'upsert' to create if it doesn't exist
+          );
         }
         return PlacesToGo.findOne({
           user: context.user._id,
