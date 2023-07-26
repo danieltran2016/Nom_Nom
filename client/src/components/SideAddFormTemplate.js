@@ -12,7 +12,6 @@ const FormTemplate = ({mutation}) => {
 
   // Set up our mutation with an option to handle errors
   const [mutate, { error }] = useMutation(mutation);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -25,7 +24,7 @@ const FormTemplate = ({mutation}) => {
 
     // On form submit, perform mutation and pass in form data object as arguments
     try {
-      const { data } = await mutate({
+     await mutate({
         variables: { ...formState },
       });
 

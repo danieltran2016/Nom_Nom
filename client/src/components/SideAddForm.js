@@ -3,7 +3,6 @@ import React from 'react';
 import FormTemplate from './SideAddFormTemplate';
 import { ADDTO_PLACESTOGO, ADDTO_PLACESILIKE, ADDTO_PLACESIDONTLIKE } from '../utils/mutations';
 
-
 const PlacesToGoForm = () => {
   return (
     <FormTemplate mutation={ADDTO_PLACESTOGO} />
