@@ -4,10 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 
-// 1. You碗托to be able to perform a mutation, which will then result in you needing to do another query
-// If you delete from a list, or add, you'd want the HTML to prevent duplicates
-
-const FormTemplate = ({mutation, mutationReturnName, query, queryReturnName}) => {
+const FormTemplate = ({mutation}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
@@ -29,19 +26,6 @@ const FormTemplate = ({mutation, mutationReturnName, query, queryReturnName}) =>
     try {
      await mutate({
         variables: { ...formState },
-        // update: (cache, {data}) => {
-        //   console.log(data)
-        //   // const placesToGo = data[mutationReturnName].restaurants
-        //   // console.log(placesToGo)
-        //   const cacheData = cache.readQuery({ query: query });
-        //   console.log(cacheData)
-        //   // const actualData = cacheData[queryReturnName]
-        //   // console.log(actualData)
-        //   // cache.writeQuery({
-        //   //   query: query,
-        //   //   data: { [queryReturnName]:{...actualData, restaurants: placesToGo} },
-        //   // });
-        // },
       });
 
       // window.location.reload();
