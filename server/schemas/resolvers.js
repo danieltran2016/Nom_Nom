@@ -397,6 +397,65 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
 
+    // addToPlacesIDontLike: async (parent, { name, address }, context) => {
+    //   if (context.user) {
+    //     const restaurant = {
+    //       name,
+    //       address,
+    //     };
+
+    //     const existingRestaurant = await Restaurant.findOne({ address });
+    //     const existingPlacesIDontLike = await PlacesIDontLike.findOne({
+    //       user: context.user._id,
+    //     });
+
+    //     if (!existingRestaurant) {
+    //       const newRestaurant = await Restaurant.create(restaurant);
+    //       if (!existingPlacesIDontLike) {
+    //         await PlacesIDontLike.create({
+    //           user: context.user._id,
+    //           restaurants: { restaurant: newRestaurant._id, comment: "" },
+    //         });
+    //       } else {
+    //         existingPlacesIDontLike.restaurants.push({
+    //           restaurant: newRestaurant._id,
+    //           comment: "",
+    //         });
+    //         existingPlacesIDontLike.save();
+    //       }
+    //     } else {
+    //       const existingPlacesIDontLike = await PlacesIDontLike.findOne({
+    //         user: context.user._id,
+    //       });
+    //       if (!existingPlacesIDontLike) {
+    //         await PlacesIDontLike.create({
+    //           user: context.user._id,
+    //           restaurants: { restaurant: existingRestaurant._id, comment: "" },
+    //         });
+    //       } else {
+    //         existingPlacesIDontLike.restaurants.push({
+    //           restaurant: existingRestaurant._id,
+    //           comment: "",
+    //         });
+    //         existingPlacesIDontLike.save();
+    //       }
+    //     }
+    //     return PlacesIDontLike.findOne({
+    //       user: context.user._id,
+    //     })
+    //       .populate({
+    //         path: "restaurants",
+    //         populate: {
+    //           path: "restaurant",
+    //         },
+    //       })
+    //       .populate({
+    //         path: "restaurants.comment",
+    //       })
+    //       .populate("user");
+    //   }
+    //   throw new AuthenticationError("You need to be logged in!");
+    // },
     addToPlacesIDontLike: async (parent, { name, address }, context) => {
       if (context.user) {
         const restaurant = {
@@ -405,40 +464,28 @@ const resolvers = {
         };
 
         const existingRestaurant = await Restaurant.findOne({ address });
-        const existingPlacesIDontLike = await PlacesIDontLike.findOne({
-          user: context.user._id,
-        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
-          if (!existingPlacesIDontLike) {
-            await PlacesIDontLike.create({
-              user: context.user._id,
-              restaurants: { restaurant: newRestaurant._id, comment: "" },
-            });
-          } else {
-            existingPlacesIDontLike.restaurants.push({
-              restaurant: newRestaurant._id,
-              comment: "",
-            });
-            existingPlacesIDontLike.save();
-          }
+          await PlacesIDontLike.findOneAndUpdate(
+            { user: context.user._id },
+            { 
+              $push: {
+                restaurants: { restaurant: newRestaurant._id, comment: "" },
+              },
+            },
+            { new: true, updsert: true }
+          );
         } else {
-          const existingPlacesIDontLike = await PlacesIDontLike.findOne({
-            user: context.user._id,
-          });
-          if (!existingPlacesIDontLike) {
-            await PlacesIDontLike.create({
-              user: context.user._id,
-              restaurants: { restaurant: existingRestaurant._id, comment: "" },
-            });
-          } else {
-            existingPlacesIDontLike.restaurants.push({
-              restaurant: existingRestaurant._id,
-              comment: "",
-            });
-            existingPlacesIDontLike.save();
-          }
+          await PlacesIDontLike.findOneAndUpdate(
+            { user: context.user._id },
+            { 
+              $push: {
+                restaurants: { restaurant: existingRestaurant._id, comment: "" },
+              },
+            },
+            { new: true, updsert: true }
+          );
         }
         return PlacesIDontLike.findOne({
           user: context.user._id,
