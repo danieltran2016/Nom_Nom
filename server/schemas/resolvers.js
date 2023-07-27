@@ -139,7 +139,10 @@ const resolvers = {
           name,
           address,
         };
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
@@ -190,7 +193,10 @@ const resolvers = {
           name,
           address,
         };
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
@@ -201,7 +207,7 @@ const resolvers = {
                 restaurants: { restaurant: newRestaurant._id, comment: "" },
               },
             },
-            { new: true, updsert: true }
+            { new: true, upsert: true }
           );
         } else {
           await PlacesILike.findOneAndUpdate(
@@ -211,7 +217,7 @@ const resolvers = {
                 restaurants: { restaurant: existingRestaurant._id, comment: "" },
               },
             },
-            { new: true, updsert: true }
+            { new: true, upsert: true }
           );
         }
         return PlacesILike.findOne({
@@ -303,7 +309,10 @@ const resolvers = {
           address,
         };
 
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
@@ -314,7 +323,7 @@ const resolvers = {
                 restaurants: { restaurant: newRestaurant._id, comment: "" },
               },
             },
-            { new: true, updsert: true }
+            { new: true, upsert: true }
           );
         } else {
           await PlacesIDontLike.findOneAndUpdate(
@@ -324,7 +333,7 @@ const resolvers = {
                 restaurants: { restaurant: existingRestaurant._id, comment: "" },
               },
             },
-            { new: true, updsert: true }
+            { new: true, upsert: true }
           );
         }
         return PlacesIDontLike.findOne({

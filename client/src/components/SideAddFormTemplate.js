@@ -4,14 +4,16 @@ import { Form, Button } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 
-const FormTemplate = ({mutation}) => {
+const FormTemplate = ({mutation, query}) => {
   const [formState, setFormState] = useState({
     name: '',
     address: '',
   });
 
   // Set up our mutation with an option to handle errors
-  const [mutate, { error }] = useMutation(mutation);
+  const [mutate, { error }] = useMutation(mutation, {
+    refetchQueries: [{ query: query }],
+  });
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
