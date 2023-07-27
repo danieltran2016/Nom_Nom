@@ -139,7 +139,10 @@ const resolvers = {
           name,
           address,
         };
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
@@ -190,7 +193,10 @@ const resolvers = {
           name,
           address,
         };
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
@@ -303,7 +309,10 @@ const resolvers = {
           address,
         };
 
-        const existingRestaurant = await Restaurant.findOne({ address });
+        const existingRestaurant = await Restaurant.findOne({ 
+          name: restaurant.name,
+          address: restaurant.address 
+        });
 
         if (!existingRestaurant) {
           const newRestaurant = await Restaurant.create(restaurant);
